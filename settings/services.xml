@@ -1,0 +1,478 @@
+<?xml version="1.0"?>
+<data>
+
+	<!-- French Digital -->
+
+	<!-- Too much crap -->
+	<!--service name="Presse Citron" lang="fr">
+		<url type="rss">http://www.presse-citron.net/feed/</url>
+		<text type="div" name="class" section="p">post-content description</text>
+		<image type="div" name="class" section="img" attribute="src">post-content description</image>
+		<image_alt type="div" name="class" section="a" attribute="href">post-content description</image_alt>
+		<tags type="div" name="class" section="a">tagcloud</tags>
+		<twitter_account>@pressecitron</twitter_account>
+		<mention>#pcitron</mention>
+		<sanitize>
+			<remove type="title">\[.*?\] </remove>
+		</sanitize>
+	</service-->
+
+	<service name="Journal du Net #smartcities" lang="fr">
+		<id>jdn_smartcities</id>
+		<mention>#jdn</mention>
+		<url type="rss">http://www.journaldunet.com/smart-city/rss/</url>
+		<text type="div" name="class" section="p">entry</text>
+		<image type="p" name="class" section="a" attribute="href">app_entry_lead</image>
+		<twitter_account>@journaldunet</twitter_account>
+		<sanitize>
+			<remove type="title">\[.*?\] </remove>
+		</sanitize>
+		<hashtags>
+			<tag>smartcity</tag>
+		</hashtags>
+	</service>
+
+	<service name="Journal du Net #iot" lang="fr">
+		<id>jdn_iot</id>
+		<url type="rss">http://www.journaldunet.com/iot/rss/</url>
+		<text type="div" name="class" section="p">entry</text>
+		<image type="p" name="class" section="a" attribute="href">app_entry_lead</image>
+		<twitter_account>@journaldunet</twitter_account>
+		<mention>#jdn</mention>
+		<sanitize>
+			<remove type="title">\[.*?\] </remove>
+		</sanitize>
+		<hashtags>
+			<tag>iot</tag>
+		</hashtags>
+	</service>
+
+	<service name="Journal du Net #rh" lang="fr">
+		<id>jdn_rh</id>
+		<url type="rss">http://www.journaldunet.com/e-rh/rss/</url>
+		<text type="div" name="class" section="p">entry</text>
+		<image type="p" name="class" section="a" attribute="href">app_entry_lead</image>
+		<twitter_account>@journaldunet</twitter_account>
+		<mention>#jdn</mention>
+		<sanitize>
+			<remove type="title">\[.*?\] </remove>
+		</sanitize>
+		<hashtags>
+			<tag>rh</tag>
+		</hashtags>
+	</service>
+
+	<service name="Journal du Net #cloud" lang="fr">
+		<id>jdn_cloud</id>
+		<url type="rss">http://www.journaldunet.com/cloud-computing/rss/</url>
+		<twitter_account>@journaldunet</twitter_account>
+		<mention>#jdn</mention>
+		<text type="div" name="class" section="p">entry</text>
+		<image type="p" name="class" section="a" attribute="href">app_entry_lead</image>
+		<sanitize>
+			<remove type="title">\[.*?\] </remove>
+		</sanitize>
+		<hashtags>
+			<tag>cloud</tag>
+		</hashtags>
+	</service>
+
+	<service name="Journal du Net #bigdata" lang="fr">
+		<id>jdn_bigdata</id>
+		<url type="rss">http://www.journaldunet.com/big-data/rss/</url>
+		<twitter_account>@journaldunet</twitter_account>
+		<mention>#jdn</mention>
+		<text type="div" name="class" section="p">entry</text>
+		<image type="p" name="class" section="a" attribute="href">app_entry_lead</image>
+		<sanitize>
+			<remove type="title">\[.*?\] </remove>
+		</sanitize>
+	</service>
+
+	<service name="MacGeneration" lang="fr">
+		<id>macg</id>
+		<url type="rss">http://megaflux.macg.co/</url>
+		<twitter_account>@MacGeneration</twitter_account>
+		<mention>#macg</mention>
+		<text type="div" name="class" section="p">field-item even</text>
+		<image type="div" name="class" section="img" attribute="src">field-item even</image>
+		<!--image_alt type="div" name="class" section="img" attribute="src">field-item even</image_alt-->
+		<filters>
+			<filter type="title">refurb</filter>
+			<filter type="title">concours</filter>
+			<filter type="title">forums</filter>
+			<filter type="title">iconcept</filter>
+			<filter type="title">promo</filter>
+			<filter type="title">partenaire</filter>
+			<filter type="title">livre</filter>
+			<filter type="section" section="h2">Promo</filter>
+		</filters>
+	</service>
+
+		<service name="Siecle Digital" lang="fr">
+			<id>siecle_digital</id>
+			<url type="rss">https://siecledigital.fr/feed/</url>
+			<twitter_account>@siecledigital</twitter_account>
+			<mention>#digital</mention>
+			<text type="div" name="class" section="p">post-content description </text>
+			<image type="div" name="class" section="a" attribute="href">featured</image>
+			<sanitize>
+				<remove type="title">\[One.*?\]</remove>
+			</sanitize>
+		</service>
+
+		<service name="Sciences et Avenir" lang="fr">
+			<id>science_et_avenir</id>
+			<url type="rss">https://www.sciencesetavenir.fr/high-tech/rss.xml</url>
+			<twitter_account>@science_avenir</twitter_account>
+			<mention>#science</mention>
+			<text type="div" name="class" section="p">corps article-sea-home-a article-sea-hightech-a</text>
+			<image type="div" name="class" section="img" attribute="data-src">article-image</image>
+		</service>
+
+		<service name="Itespresso" lang="fr">
+			<id>itespresso</id>
+			<url type="rss">http://www.itespresso.fr/feed</url>
+			<twitter_account>@itespressofr</twitter_account>
+			<mention>#itespresso</mention>
+			<text type="div" name="class" section="p">entry-excerpt</text>
+			<image type="div" name="class" section="img" attribute="src">imageTitleWrapper</image>
+			<tags type="div" name="class" section="a">entry-breadcrumb</tags>
+		</service>
+
+		<service name="Korben" lang="fr">
+			<id>korben</id>
+			<url type="rss">http://korben.info/feed</url>
+			<twitter_account>@korben</twitter_account>
+			<mention>#korben</mention>
+			<text type="div" name="class" section="p">post-content</text>
+			<image type="div" name="class" section="img" attribute="src">post-thumbnail</image>
+		</service>
+
+		<service name="Nouvel Obs High Tech" lang="fr">
+			<id>nouvel_obs</id>
+			<url type="rss">http://o.nouvelobs.com/high-tech/rss.xml</url>
+			<twitter_account>@lobs</twitter_account>
+			<mention>#obs</mention>
+			<text type="div" name="class" section="p">o-article-body</text>
+			<image type="div" name="class" section="img" attribute="src">o-article-body</image>
+		</service>
+
+		<service name="Les echos business" lang="fr">
+			<id>echos_business</id>
+			<url type="rss">https://business.lesechos.fr/rss/dn.xml</url>
+			<twitter_account>@EchosBusiness</twitter_account>
+			<mention>#echos</mention>
+			<text type="div" name="class" section="p">main-content content-article</text>
+			<image type="div" name="class" section="img" attribute="srcset">picture-article</image>
+		</service>
+
+		<service name="Maddyness" lang="fr">
+			<id>maddyness</id>
+			<url type="rss">https://www.maddyness.com/feed/</url>
+			<twitter_account>@bymaddyness</twitter_account>
+			<mention>#maddyness</mention>
+			<text type="div" name="class" section="p">inherit-color-parent article-content col-md-8</text>
+			<image type="div" name="class" section="source" attribute="srcset">article-image-wrapper</image>
+			<filters>
+				<filter type="title">#mcal</filter>
+				<filter type="title">5 offres d'emploi</filter>
+			</filters>
+			<sanitize>
+				<remove type="title">#.*?:</remove>
+			</sanitize>
+		</service>
+
+		<service name="Usine Digitale" lang="fr">
+			<id>usine_digitale</id>
+			<url type="rss">http://www.usine-digitale.fr/rss</url>
+			<twitter_account>@LUsineDigitale</twitter_account>
+			<mention>#usine #digital</mention>
+			<text type="div" name="class" section="p">blocTexteType1</text>
+			<image type="figure" name="class" section="img" attribute="src">blocImageType2</image>
+			<filters>
+				<filter type="title">quoi de neuf</filter>
+			</filters>
+			<sanitize>
+				<remove type="title"> \[.*?\]</remove>
+				<remove type="title">\[.*?\]</remove>
+			</sanitize>
+		</service>
+
+		<service name="Blog du Moderateur" lang="fr">
+			<id>blog_moderateur</id>
+			<url type="rss">http://feeds.feedburner.com/captainjob</url>
+			<twitter_account>@BlogModerateur</twitter_account>
+			<mention>#blogmod</mention>
+			<text type="div" name="class" section="p">entry-content</text>
+			<image type="div" name="class" section="img" attribute="data-lazy-original">entry-content</image>
+			<filters>
+				<filter type="title">offres</filter>
+				<filter type="title">5 évenements</filter>
+				<filter type="title">L'agenda de</filter>
+				<filter type="title">top 5</filter>
+			</filters>
+			<sanitize>
+				<remove type="title"> \(.*?\)</remove>
+				<remove type="title">Interview : </remove>
+			</sanitize>
+		</service>
+
+		<service name="Les echos #hightech" lang="fr">
+			<id>echos_hightech</id>
+			<url type="web">https://www.lesechos.fr/tech-medias/hightech/index.php</url>
+			<get>
+				<container type="div" name="class">main-content content-ssrub</container>
+				<item type="article" name="class">liste-article</item>
+				<link type="a" name="href"/>
+				<title type="h2"/>
+			</get>
+
+			<twitter_account>@LesEchos</twitter_account>
+			<mention>#echos</mention>
+			<page_url type="div" name="class" section="a">main-content content-ssrub</page_url>
+			<text type="div" name="class" section="p">main-content content-article</text>
+			<image type="div" name="class" section="img" attribute="srcset">picture-article</image>
+			<selection>
+				<select type="url">https://www.lesechos.fr/tech-medias/hightech</select>
+			</selection>
+		</service>
+
+		<service name="Frenchweb" lang="fr">
+			<id>frenchweb</id>
+			<url type="rss">http://feeds.feedburner.com/frenchweb</url>
+			<twitter_account>@</twitter_account>
+			<mention>#frenchweb</mention>
+			<text type="div" name="class" section="p">page-content</text>
+			<image type="div" name="class" section="img" attribute="src">page-featured-image</image>
+			<!-- add tag support -->
+			<tags type="div" name="class" section="a">categories</tags>
+			<filters>
+				<filter type="class" name="subtitle" section="h2">partenariat</filter>
+				<filter type="title">offres</filter>
+				<filter type="title">sen#7</filter>
+				<filter type="title">[insiders]</filter>
+				<filter type="title">[emploi]</filter>
+				<filter type="title">[numbers]</filter>
+				<filter type="title">de la semaine</filter>
+				<filter type="title">ne fallait pas manquer</filter>
+			</filters>
+			<sanitize>
+				<remove type="title">\[.*?\] </remove>
+			</sanitize>
+		</service>
+
+		<service name="Fred Cavazza" lang="fr">
+			<id>fred_cavazza</id>
+			<url type="rss">https://fredcavazza.net/feed/</url>
+			<twitter_account>@fredcavazza</twitter_account>
+			<mention>#fcavazza</mention>
+			<text type="div" name="class" section="p">entry-content</text>
+			<image type="div" name="class" section="img" attribute="src">entry-content</image>
+			<tags type="span" name="class" section="a">tags-links</tags>
+		</service>
+
+		<service name="Petit web" lang="fr">
+			<id>petit_web</id>
+			<url type="rss">http://www.petitweb.fr/feed/</url>
+			<twitter_account>@petitweb</twitter_account>
+			<mention>#petitweb</mention>
+			<text type="div" name="class" section="p">entry-content</text>
+			<image type="div" name="class" section="img" attribute="data-lazy-src">thumbnail single-post-thumbnail section</image>
+			<filters>
+				<filter type="url">emploi</filter>
+			</filters>
+			<!--filters>
+				<filter type="title">revue de web</filter>
+			</filters-->
+		</service>
+
+		<service name="Motherboard Vice" lang="fr">
+			<id>motherboard_vice_fr</id>
+			<url type="rss">https://motherboard.vice.com/fr/rss</url>
+			<twitter_account>@motherboard</twitter_account>
+			<mention>#mboard</mention>
+			<text type="div" name="class" section="p">article__body</text>
+			<image type="div" name="class" section="img" attribute="src">long-form-article__lede-image</image>
+			<image_alt type="div" name="class" section="img" attribute="src">short-form-article__body__content</image_alt>
+			<tags type="div" name="class" section="a">topics topic-list</tags>
+			<!--filters>
+				<filter type="title">revue de web</filter>
+			</filters-->
+		</service>
+
+		<service name="Zdnet" lang="fr">
+			<id>zdnet</id>
+			<url type="rss">http://www.zdnet.fr/feeds/rss/actualites/</url>
+			<!--twitter_account>@zdnet</twitter_account-->
+			<mention>#zdnet</mention>
+			<text type="div" name="class" section="p">storyBody</text>
+			<image type="div" name="class" section="img" attribute="src">storyBody</image>
+			<!--filters>
+				<filter type="title">revue de web</filter>
+			</filters-->
+		</service>
+
+		<service name="Silicon.fr" lang="fr">
+			<id>silicon</id>
+			<url type="rss">http://www.silicon.fr/feed</url>
+			<!--twitter_account>@zdnet</twitter_account-->
+			<mention>#silicon</mention>
+			<text type="div" name="class" section="p">article-content</text>
+			<image type="div" name="class" section="img" attribute="src">imageTitleWrapper</image>
+			<filters>
+				<filter type="title">Télégrammes</filter>
+			</filters>
+		</service>
+
+		<!--service name="Piwee" lang="fr">
+				<url type="rss">http://piwee.net/feed/</url>
+				<twitter_account>@piweeFR</twitter_account>
+				<text type="div" name="class" section="p">post</text>
+				<image type="div" name="class" section="img" attribute="src">post</image>
+			</service-->
+
+		<!-- To incorporate
+		1 innovation par jour
+		nextimpact
+		wall street journal
+		http://www.lemondeinformatique.fr/actualites/lire-hackerone-un-service-de-bug-bounty-gratuit-pour-les-projets-open-source-67547.html
+		-->
+
+		<!-- French Others -->
+
+		<service name="Rue89 #planete" lang="fr">
+			<id>rue89_planete</id>
+			<url type="rss">http://tempsreel.nouvelobs.com/rue89/rue89-planete/rss.xml</url>
+			<twitter_account>@rue89</twitter_account>
+			<mention>#rue89</mention>
+			<text type="section" name="class" section="p">obs-content</text>
+			<image type="section" name="class" section="img" attribute="src">obs-content</image>
+			<hashtags>
+				<tag>planete</tag>
+				<tag>rue89</tag>
+			</hashtags>
+		</service>
+
+		<!-- English -->
+
+		<!--
+		https://www.ted.com/talks/rss
+	-->
+
+		<service name="The Verge" lang="en">
+			<id>the_verge</id>
+			<url type="rss">http://www.theverge.com/rss/index.xml</url>
+			<twitter_account>@verge</twitter_account>
+			<mention>#theverge</mention>
+			<text type="div" name="class" section="p">c-entry-content</text>
+			<image type="picture" name="class" section="img" attribute="src">c-picture</image>
+			<selection>
+				<select type="div" value="c-entry-group-labels c-entry-group-labels--article" section="span">Tech</select>
+				<select type="div" value="c-entry-group-labels c-entry-group-labels--article" section="span">Science</select>
+				<select type="div" value="c-entry-group-labels c-entry-group-labels--article" section="span">Reviews</select>
+			</selection>
+
+		</service>
+
+		<service name="The Hacker News" lang="en">
+			<id>hacker_news</id>
+			<url type="rss">http://thehackernews.com/feeds/posts/default</url>
+			<text type="div" name="class" section="div">articlebodyonly</text>
+			<image type="div" name="class" section="img" attribute="src">articlebodyonly</image>
+			<twitter_account>@TheHackersNews</twitter_account>
+			<mention>#hackers</mention>
+		</service>
+
+		<service name="Motherboard Vice" lang="en">
+			<id>motherboard_vice_en</id>
+			<url type="rss">https://motherboard.vice.com/en_us/rss</url>
+			<twitter_account>@motherboard</twitter_account>
+			<mention>#mboard</mention>
+			<text type="div" name="class" section="p">article__body</text>
+			<image type="div" name="class" section="img" attribute="src">long-form-article__lede-image</image>
+			<image_alt type="div" name="class" section="img" attribute="src">short-form-article__body__content</image_alt>
+			<tags type="div" name="class" section="a">topics topic-list</tags>
+			<!--filters>
+				<filter type="title">revue de web</filter>
+			</filters-->
+		</service>
+
+		<service name="The Next Web" lang="en">
+			<id>next_web</id>
+			<url type="rss">https://thenextweb.com/feed/</url>
+			<twitter_account>@TheNextWeb</twitter_account>
+			<mention>#tnw</mention>
+			<text type="div" name="class" section="p">post-body fb-quotable u-m-3</text>
+			<image type="div" name="class" section="img" attribute="data-src">post-featuredImage u-m-1_5</image>
+			<filters>
+				<filter type="title">5 key</filter>
+			</filters>
+
+		</service>
+
+		<service name="Statista" lang="fr">
+			<id>statista</id>
+			<mention>#statista</mention>
+			<url type="web">https://fr.statista.com/graphique-du-jour/</url>
+			<get>
+				<container type="div" name="class">box infoPage</container>
+				<item type="a" name="class">infoLink</item>
+				<link type="a" name="href"/>
+				<title type="span"/>
+			</get>
+			<text type="div" name="class" section="p">box infoPage</text>
+			<image type="div" name="class" section="img" attribute="src">infographic</image>
+			<sanitize>
+				<remove type="title">Infographie - </remove>
+			</sanitize>
+			<hashtags>
+				<tag>infographie</tag>
+			</hashtags>
+		</service>
+
+		<service name="MIT Techno Review" lang="en">
+			<id>mit_technology_review</id>
+			<mention>#mit</mention>
+			<url type="rss">https://www.technologyreview.com/stories.rss</url>
+			<text type="div" name="class" section="p">article-body__content</text>
+			<!--image type="div" name="class" section="img" attribute="src">infographic</image-->
+		</service>
+
+		<service name="Data Science Central" lang="en">
+			<id>dataScienceCentral</id>
+			<mention>#dsc</mention>
+			<url type="rss">http://feeds.feedburner.com/FeaturedBlogPosts-DataScienceCentral</url>
+			<text type="div" name="class" section="p">xg_user_generated</text>
+			<image type="div" name="class" section="img" attribute="src">xg_user_generated</image>
+		</service>
+
+		<service name="hook" lang="fr">
+			<id>hook</id>
+			<mention>#hook</mention>
+			<url type="json" title="subtitle">https://www.mercialfred.com/hook/ws/news.json</url>
+		</service>
+
+	<!--
+	techcrunch
+	greenmedia http://feeds.greentechmedia.com/GreentechMedia
+	engadget https://www.engadget.com/2017/05/23/google-jamboard-goes-on-sale/
+	#iotCentral http://feeds.feedburner.com/FeaturedPosts-IotCentral
+	#dataViz http://feeds.feedburner.com/FeaturedPosts-Dataviz
+	#bigdata news http://feeds.feedburner.com/BdnDailyPressReleasesDiscussions-BigDataNews
+	#and http://feeds.feedburner.com/FeaturedBlogPosts-Bigdatanews
+	-->
+
+
+		<!-- Todo : Spaces ?
+	http://thelongandshort.org/spaces/hot-desks-design-thinking-ideo
+	-->
+		<!--service name="Long and Short" lang="en">
+			<url type="rss">http://thelongandshort.org/feed.rss</url>
+			<text type="div" name="class" section="div">o-article__body</text>
+			<image type="div" name="class" section="img" attribute="src">o-article__body</image>
+			<twitter_account>@longandshortmag</twitter_account>
+			<mention>#longandshort</mention>
+		</service-->
+
+</data>
