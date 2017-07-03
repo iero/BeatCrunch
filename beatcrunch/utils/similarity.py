@@ -173,6 +173,5 @@ def find_similar(token_dict, top_n = 1): #tfidf_matrix,
 
 # Tokenize text, remove common words, and sort tokens to get most used first
 def findTags(text,lang):
-    print("Looking for tags")
     tokens = tokenizeText(text,lang)
     return freqDist(tokens)
