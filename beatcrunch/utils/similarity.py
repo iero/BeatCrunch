@@ -1,9 +1,9 @@
-# Initial David Campion - 03/2017
-# Adapted version Greg Fabre - 04/2017
+# Initial version by David Campion - 03/2017
+# Adapted by Greg Fabre - avril to july 2017
 
-import os
-import string
-import re
+import os, string, re, time
+import operator
+
 from unidecode import unidecode
 
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -17,12 +17,16 @@ from nltk.stem.snowball import EnglishStemmer #import the English stemming libra
 from nltk.tokenize import TreebankWordTokenizer #import the Treebank tokenizer
 from nltk.tokenize import WordPunctTokenizer
 from nltk.tokenize import TreebankWordTokenizer
+from nltk.tokenize import RegexpTokenizer
+#from nltk.tokenize import ToktokTokenizer
 
 from nltk.probability import FreqDist
 
 #import lib to detect language
 import utils.nltk_detect_lang as nltk_detect_lang
 import utils.nltk_common as nltk_common
+
+import utils.tok as tok
 
 #name stemmers
 stemmer_fr=FrenchStemmer()
@@ -31,7 +35,28 @@ stemmer_en=EnglishStemmer()
 # Load tokenizer
 # You can choose the most efficient, however wordpunct is working well
 #tokenizer = TreebankWordTokenizer()
-tokenizer = WordPunctTokenizer()
+#tokenizer = WordPunctTokenizer()
+#tokenizer = RegexpTokenizer(r'\w+')
+#tokenizer = ToktokTokenizer()
+tokenizer = tok.ToktokTokenizer()
+
+# Get a sorted list of repetitive words
+def freqDist(tokens):
+    dist={}
+    for t in tokens :
+        if len(t) == 1 : continue
+
+        if t in dist :
+            dist[t] += 1
+        else :
+            dist[t] = 1
+
+    out=[]
+    for (k,v) in sorted(dist.items(), key=operator.itemgetter(1), reverse=True) :
+        if v>1 : out.append(k)
+        # if v==1 : dist.pop(k)
+
+    return out
 
 # stemer function text
 def stem_tokens(tokens, stemmer):
@@ -41,10 +66,52 @@ def stem_tokens(tokens, stemmer):
     return stemmed
 
 #tokenize a text depending on its language
+# def tokenizeText(text,lang):
+#     tokens = tokenizer.tokenize(text)
+#     t = [token for token in tokens if token.lower() not in nltk_common.getStopWords(lang) + nltk_common.punctuation]
+#     return t
+
+#tokenize a text depending on its language
+def isInt(s):
+    try:
+        int(s)
+        return True
+    except ValueError:
+        return False
+
 def tokenizeText(text,lang):
+    output =[]
     tokens = tokenizer.tokenize(text)
-    t = [token for token in tokens if token.lower() not in nltk_common.getStopWords(lang) + nltk_common.punctuation]
-    return t
+    plainwords = nltk_common.getPlainWords()
+
+    lastToken=""
+    for token in tokens :
+        token = token.lower()
+        # if lastToken :
+        #     print("Test [{}]".format(lastToken+" "+token))
+        # else :
+        #     print("Test [{}]".format(token))
+
+        if lastToken and lastToken+" "+token in plainwords :
+            print("Found [{}]".format(lastToken+" "+token))
+            output.remove(lastToken)
+            output.append(lastToken+" "+token)
+            lastToken =""
+        else :
+            if len(token) == 1 :
+                lastToken =""
+                continue
+            if token in nltk_common.getStopWords(lang) :
+                lastToken =""
+                continue
+            if isInt(token) :
+                lastToken =""
+                continue
+
+            output.append(token)
+            lastToken = token
+
+    return output
 
 def stemTokens(t,lang) :
     if lang == "french" :
@@ -56,16 +123,15 @@ def stemTokens(t,lang) :
 
 def tokenize(text) :
     language = nltk_detect_lang.get_language(text)
-
     tokens = tokenizer.tokenize(text)
-    t = [token for token in tokens if token.lower() not in nltk_common.getStopWords(language) + nltk_common.punctuation]
+    #t = [token for token in tokens if token.lower() not in nltk_common.getStopWords(language) + nltk_common.punctuation]
 
     if language == "french" :
-        return stem_tokens(t, stemmer_fr)
+        return stem_tokens(tokens, stemmer_fr)
     elif language == "english" :
-        return stem_tokens(t, stemmer_en)
+        return stem_tokens(tokens, stemmer_en)
     else :
-        return stem_tokens(t, stemmer_en)
+        return stem_tokens(tokens, stemmer_en)
 
 #------
 #clean text: remove punctuation and get lower characters
@@ -105,18 +171,8 @@ def find_similar(token_dict, top_n = 1): #tfidf_matrix,
 
     return [(index, cosine_similarities[index],reverse_dict[index]) for index in related_docs_indices][0:top_n]
 
-def findTags(text,nbTags):
-    language = nltk_detect_lang.get_language(text)
-    tokens = tokenizeText(text,language)
-
-    fdist_in = FreqDist(tokens)
-    fdist = fdist_in.most_common(nbTags)
-    out=[]
-    for x in fdist :
-        pattern = re.compile('[\W_]+', re.UNICODE)
-        word = pattern.sub('', x[0])
-        word = unidecode(word).lower()
-        if word and word not in out :
-            out.append(word)
-
-    return out
+# Tokenize text, remove common words, and sort tokens to get most used first
+def findTags(text,lang):
+    print("Looking for tags")
+    tokens = tokenizeText(text,lang)
+    return freqDist(tokens)

@@ -67,39 +67,42 @@ if __name__ == "__main__":
         # Get new articles
         articles = utils.services.getNewArticles(service, settings)
 
+
         for article in articles :
             statistics.total += 1
+
+            # Test if article is crappy
             article.rate  = utils.services.rateArticle(service,article)
             if (article.rate == 0) :
                 statistics.filtered += 1
-
-            # Add similarity
-            title_dict.append(article.title)
-            sim_results = utils.similarity.find_similar(title_dict)
-
-            article.similarity=float("{0:.2f}".format(sim_results[0][1]))
-            if article.similarity == 0 :
-                article.similarity_with=""
             else :
-                article.similarity_with = sim_results[0][2]
+                # Add similarity
+                title_dict.append(article.title)
+                sim_results = utils.similarity.find_similar(title_dict)
 
-            print("+[Similarity] {0:.2f}".format(article.similarity))
-            print("+[Similarity] with {}".format(article.similarity_with))
+                article.similarity=float("{0:.2f}".format(sim_results[0][1]))
+                if article.similarity == 0 :
+                    article.similarity_with=""
+                else :
+                    article.similarity_with = sim_results[0][2]
 
-            grade_treshold=float(settings.find('settings').find('similarity_min').text)
-            if article.similarity >= grade_treshold :
-                statistics.duplicates +=1
-            else :
-                print("[Article] PASS")
-                #tweet
-                #toot
-                #time.sleep(5)
+                # print("+--[Similarity] {0:.2f}".format(article.similarity))
+
+                grade_treshold=float(settings.find('settings').find('similarity_min').text)
+                if article.similarity >= grade_treshold :
+                    statistics.duplicates +=1
+                    print("+--[Duplicate] {0:.2f} with {1}".format(article.similarity,article.similarity_with))
+                else :
+                    print("+--[New] {}".format(article.similarity))
+                    #tweet
+                    #toot
+                    #time.sleep(5)
 
             json_today[article.id] = []
             json_today[article.id].append(article.printJson())
 
     # Save today feed
-    statistics.tags_trend = utils.utils.tagsTrend(json_today)
+    statistics.tags_trend = utils.utils.tagsTrend(json_today,10)
     print(statistics.tags_trend)
 
     json_today["statistics"] = statistics.printJson()

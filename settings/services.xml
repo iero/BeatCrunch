@@ -318,10 +318,11 @@
 			<url type="rss">http://www.silicon.fr/feed</url>
 			<!--twitter_account>@zdnet</twitter_account-->
 			<mention>#silicon</mention>
-			<text type="div" name="class" section="p">article-content</text>
+			<text type="section" name="class" section="p">article-content</text>
 			<image type="div" name="class" section="img" attribute="src">imageTitleWrapper</image>
 			<filters>
-				<filter type="title">Télégrammes</filter>
+				<filter type="title">télégrammes</filter>
+				<filter type="title">silicon.fr</filter>
 			</filters>
 		</service>
 
@@ -445,6 +446,14 @@
 			<url type="rss">http://feeds.feedburner.com/FeaturedBlogPosts-DataScienceCentral</url>
 			<text type="div" name="class" section="p">xg_user_generated</text>
 			<image type="div" name="class" section="img" attribute="src">xg_user_generated</image>
+		</service>
+
+		<service name="Trend in Tech" lang="en">
+			<id>trendintech</id>
+			<mention>#trendintech</mention>
+			<url type="rss">http://trendintech.com/feed/</url>
+			<text type="div" name="class" section="p">td-post-content</text>
+			<image type="div" name="class" section="img" attribute="src">td-post-featured-image</image>
 		</service>
 
 		<service name="hook" lang="fr">

@@ -1,4 +1,4 @@
-import os, time
+import os, time, re
 import json
 
 import xml.etree.ElementTree as ET
@@ -11,6 +11,13 @@ from nltk.probability import FreqDist
 # Tweet sizes = add 1 for extra space
 tweet_size = 140
 tweet_link_size = 1+23
+
+def isInt(s):
+    try:
+        int(s)
+        return True
+    except ValueError:
+        return False
 
 def loadxml(params_file) :
     tree = ET.parse(params_file)
@@ -28,12 +35,19 @@ def printjsonTitles(json_data) :
         for t in json_data[news] :
             print(t['title'])
 
+# Sanitize text to remove crapy thing and make it readable
+#TODO : Maybe a library will do it ?
+
 def sanitizeText(text) :
-	filtered_words=["adsbygoogle","toto","Read next:"]
-	if any(x in text for x in filtered_words):
-		return ""
-	else :
-		return text.replace(r'\r','')
+    # print("input [{}]".format(text))
+    text = text.replace("\n", "")
+    text = text.replace("\r", "")
+    text = text.replace("\t", "")
+    text = re.sub(r' {2,}',' ',text)
+    # print("output [{}]".format(text))
+
+    if len(text)==1 : return ""
+    else : return text
 
 def getLastDaysTitles(settings,nbdays) :
     title_dict = []
@@ -53,14 +67,29 @@ def getLastDaysTitles(settings,nbdays) :
 
     return title_dict
 
-def findArticlefromText(json_data,text) :
+# Find Text in Titles
+def findTitlefromText(json_data,text) :
+    articles = []
     for news in json_data :
-    	for t in json_data[news] :
-            if text in t['text'] :
-                return t['title']
+        if news != "statistics" :
+            for t in json_data[news] :
+                if text in t['title'].lower() :
+                    articles.append(t['title'])
+    return articles
 
-# Get 10 mosts common tags statistics json file
-def tagsTrend(json_data) :
+
+# Find Text in Articles content
+def findArticlefromText(json_data,text) :
+    articles = []
+    for news in json_data :
+        if news != "statistics" :
+            for t in json_data[news] :
+                if text in t['text'].lower() :
+                    articles.append(t['title'])
+    return articles
+
+# Get 'number' mosts common tags statistics json file
+def tagsTrend(json_data,number) :
     taglist = []
     for item in json_data :
         if item != "statistics" :
@@ -68,10 +97,12 @@ def tagsTrend(json_data) :
                 for tag in t['tags'] :
                     taglist.append(tag)
 
+    #TODO : USE similarity.findTags instead
     fdist = FreqDist(taglist)
     out = []
-    for x in fdist.most_common(10) :
-        out.append(x[0])
+    for x in fdist.most_common(number) :
+        if len(x[0])>1 :
+            out.append(x[0])
 
     return out
 
@@ -95,3 +126,21 @@ def cleanImage_url(page,img) :
         return img
     else :
         return None
+
+# Replace Tags with #tags in given text
+def addTagsToTitle(title,tags) :
+    for w in title.split(" ") :
+        for x in tags :
+            if x[1] > 1 and x[0] == w.lower() :
+                title = title.replace(w,"#"+x[0])
+    return title
+
+def cleanClickBait(title) :
+    #TODO : remove first spaces when recording !!
+    sTitle = title.split(" ")
+    print(sTitle[0])
+    print(sTitle[1])
+    if isInt(sTitle[0]) and not isInt(sTitle[1]) :
+        #TODO : replace first only
+        title.replace(sTitle[0],"Des")
+    return title
