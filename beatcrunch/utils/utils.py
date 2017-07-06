@@ -136,6 +136,12 @@ def addTagsToTitle(title,tags) :
     return title
 
 def cleanClickBait(title) :
+    # Remove "* 5 nouveaux *"
+    # Les 5 infos tech
+    # 3 livres
+    # Facebook : 5 erreurs
+    # verbes en ez
+
     #TODO : remove first spaces when recording !!
     sTitle = title.split(" ")
     print(sTitle[0])

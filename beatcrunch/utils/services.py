@@ -17,9 +17,13 @@ headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleW
 # Remove crappy suffixes
 def sanitizeUrl(url) :
     # find if this url is the final one
-    r = requests.get(url)
-    link = r.url
-
+    try :
+        r = requests.get(url)
+        link = r.url
+    except :
+        print("+--[Error] Sanitize URL {}".format(url))
+        print("Unexpected error : {}".format( sys.exc_info()))
+        link = url
     # remove tracking crap
     link = link.rsplit('?', 1)[0]
     link = link.rsplit('#', 1)[0]
@@ -31,6 +35,8 @@ def sanitizeTitle(service, title) :
         for removedField in service.find('sanitize').findall("remove") :
             if removedField.get('type') == "title" :
                 title = re.sub(removedField.text,'',title)
+
+    # title = re.sub('[«»]','',title)
     return title
 
 def getRelatedService(services, name) :
@@ -70,16 +76,17 @@ def getNewArticles(service,settings) :
     # Parse rss feed
     if url_type == "rss" :
         feed = feedparser.parse(rss_url)
-        print("+--[New] {} rss articles to krunch ({}ms)".format(len(feed.entries),int((time.time()-starttime)*1000.0)))
+        print("+--[Got] {} rss articles (in {}ms)".format(len(feed.entries),int((time.time()-starttime)*1000.0)))
 
+        starttime = time.time()
         for post in feed.entries:
-            link = sanitizeUrl(post.link)
-            title = sanitizeTitle(service, post.title)
-
             # Add to current json
-            feedlist.append(link)
+            feedlist.append(post.link)
+
             # If new post, push it.
-            if link not in oldlist :
+            if post.link not in oldlist :
+                title = sanitizeTitle(service, post.title)
+                link = sanitizeUrl(post.link)
                 # try :
                 a = Article.Article(service,title,link,rss_lang)
                 articles.append(a)
@@ -87,6 +94,7 @@ def getNewArticles(service,settings) :
                 #     print("+--[Error {}] {} {} ".format(service,title,link))
                 #     print("Unexpected error : {}".format( sys.exc_info()))
 
+        print("+--[Nex] {} rss articles (in {}ms)".format(len(feed.entries),int((time.time()-starttime)*1000.0)))
     elif url_type == "json" :
         feed = utils.utils.loadjson(rss_url)
 
@@ -129,8 +137,10 @@ def getNewArticles(service,settings) :
                         articles.append(a)
 
     # Save RSS feed entries
+    starttime = time.time()
     with open(rss_feed, 'wb') as fp:
         pickle.dump(feedlist, fp)
+    print("+--[Savd] articles (in {}ms)".format(int((time.time()-starttime)*1000.0)))
 
     # Return new articles with names
     return articles

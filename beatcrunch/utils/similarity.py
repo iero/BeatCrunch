@@ -93,7 +93,7 @@ def tokenizeText(text,lang):
         #     print("Test [{}]".format(token))
 
         if lastToken and lastToken+" "+token in plainwords :
-            print("Found [{}]".format(lastToken+" "+token))
+            #print("Found [{}]".format(lastToken+" "+token))
             output.remove(lastToken)
             output.append(lastToken+" "+token)
             lastToken =""

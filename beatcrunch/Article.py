@@ -1,6 +1,8 @@
 import time
 import pytz
+
 from datetime import datetime
+from urllib.parse import urlparse
 
 import utils
 
@@ -12,6 +14,7 @@ class Article:
     def __init__(self, service, title, url, lang):
         startime = time.time()
 
+        self.service_name = service.find('id').text
         self.id = str(current_milli_time())
         self.service = service
         self.title = title
@@ -43,7 +46,7 @@ class Article:
         #print("+-[Article] {} ".format(self.lang))
         self.show()
         Article.nbarticles += 1
-        print("+---[Proceed] in {}  s".format(int(time.time()-startime)))
+        print("+---[Proceed] in {} s".format(int(time.time()-startime)))
 
     def getMainImage(self) :
         out_img=""
@@ -59,8 +62,20 @@ class Article:
         if (name == "class") :
             img_sec=self.soup.find(type, class_=value)
             #print(img_sec)
-        if img_sec is not None and img_sec.find(section) is not None :
-            out_img=img_sec.find(section).get(attribute)
+            if img_sec is not None and self.service.find('image').get('subtype') is not None :
+                subtype = self.service.find('image').get('subtype')
+                img_sec = img_sec.find(subtype)
+                # print(img_sec)
+
+            if img_sec is not None and img_sec.find(section) is not None :
+                out_img=img_sec.find(section).get(attribute)
+
+        # relative links
+        if out_img is not None and out_img.startswith('/') :
+            parsed_web_page = urlparse(self.url)
+            dom =  '{uri.scheme}://{uri.netloc}/'.format(uri=parsed_web_page)
+            out_img = dom+out_img
+
         return out_img
 
     def getText(self) :
@@ -148,10 +163,18 @@ class Article:
 
     def show(self) :
         print("+--[Article] {} ".format(self.title))
+        print("+---[tags] {} ".format(self.tags))
+        # Length and time to read
+        length = len(self.text.split())
+        if length < 300 :
+            tpslect = "< 1"
+        else :
+            t = int(length/300)
+            tpslect = str(t)
+        print("+---[content] {} words ({} min)".format(str(length),tpslect))
+
         print("+---[url] {} ".format(self.url))
         if self.image : print("+---[img] {} ".format(self.image))
-        print("+---[content] {} words ".format(str(len(self.text.split()))))
-        print("+---[tags] {} ".format(self.tags))
         # print("+---[content] {} words in {} ".format(str(len(self.text.split()),self.lang)))
 
         #print("+--[from] {} in {} ".format(self.service, self.lang))

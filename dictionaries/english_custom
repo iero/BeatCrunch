@@ -1,4 +1,8 @@
+1st
+2nd
+3rd
 I
+a
 able
 about
 above
@@ -52,6 +56,7 @@ altogether
 always
 amazing
 among
+an
 and
 angry
 animal
@@ -105,6 +110,7 @@ be
 beat
 beautiful
 become
+been
 before
 begin
 beginning
@@ -128,6 +134,7 @@ break
 brief
 briefly
 bright
+brighter
 brilliant
 bring
 broad
@@ -143,12 +150,14 @@ by
 calculate
 call
 calm
+can
 cancel
 capable
 capital
 car
 careful
 carefully
+cdata
 celebrate
 certain
 certainly
@@ -170,6 +179,7 @@ clear
 clearly
 close
 closely
+co
 cold
 collect
 combine
@@ -251,6 +261,7 @@ despite
 destroy
 determine
 develop
+didn
 die
 differ
 different
@@ -266,7 +277,9 @@ display
 distinct
 distribute
 divide
+do
 does
+don
 double
 doubt
 down
@@ -283,6 +296,7 @@ due
 dump
 during
 each
+earlier
 early
 earn
 easily
@@ -307,6 +321,7 @@ empty
 enable
 encourage
 encouraging
+end
 engage
 enhance
 enjoy
@@ -393,12 +408,14 @@ formal
 former
 forth
 forward
+found
 free
 frequent
 frequently
 fresh
 friendly
 from
+fromcharcode
 front
 full
 fully
@@ -428,6 +445,7 @@ grow
 guard
 guess
 guilty
+had
 handle
 hang
 happen
@@ -474,6 +492,7 @@ hungry
 hunt
 ideal
 identify
+if
 ignore
 ill
 illegal
@@ -558,11 +577,13 @@ literally
 little
 live
 living
+ll
 local
 logical
 lonely
 long
 look
+looking
 loose
 lose
 lost
@@ -572,6 +593,7 @@ low
 lower
 lucky
 mad
+made
 main
 mainly
 maintain
@@ -585,6 +607,7 @@ march
 massive
 master
 material
+maximize
 maximum
 maybe
 me
@@ -627,6 +650,7 @@ neat
 necessarily
 necessary
 need
+needed
 negative
 negotiate
 neither
@@ -668,6 +692,8 @@ open
 opening
 operate
 opposite
+or
+ordered
 ordinary
 organize
 original
@@ -766,6 +792,7 @@ rare
 rarely
 rather
 raw
+re
 reach
 react
 read
@@ -828,6 +855,7 @@ royal
 run
 sad
 safe
+said
 salt
 same
 save
@@ -851,6 +879,7 @@ separate
 serious
 seriously
 serve
+service
 set
 settle
 several
@@ -862,6 +891,7 @@ she
 shoot
 short
 shot
+should
 show
 shut
 sick
@@ -929,6 +959,7 @@ strange
 street
 strict
 strike
+string
 strip
 strong
 strongly
@@ -969,7 +1000,6 @@ terribly
 than
 thank
 that
-the
 the
 their
 them
@@ -1040,6 +1070,7 @@ us
 use
 used
 useful
+using
 usual
 usually
 valuable
@@ -1067,6 +1098,7 @@ weekly
 weigh
 weird
 well
+were
 west
 western
 what
@@ -1075,6 +1107,7 @@ when
 whenever
 where
 which
+while
 white
 who
 whoever
@@ -1084,6 +1117,7 @@ why
 wide
 widely
 wild
+will
 willing
 win
 wise

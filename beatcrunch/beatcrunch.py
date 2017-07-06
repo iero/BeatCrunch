@@ -67,6 +67,7 @@ if __name__ == "__main__":
         # Get new articles
         articles = utils.services.getNewArticles(service, settings)
 
+        print("+--[New] {} articles to crunch".format(len(articles)))
 
         for article in articles :
             statistics.total += 1
@@ -102,10 +103,11 @@ if __name__ == "__main__":
             json_today[article.id].append(article.printJson())
 
     # Save today feed
-    statistics.tags_trend = utils.utils.tagsTrend(json_today,10)
-    print(statistics.tags_trend)
+    statistics.tags_trend = utils.utils.tagsTrend(json_today,50)
 
     json_today["statistics"] = statistics.printJson()
+    print(statistics.show())
+    print(statistics.tags_trend)
 
     with open(today_json_file, 'w') as jsonfile:
         json.dump(json_today, jsonfile)
