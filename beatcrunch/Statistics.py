@@ -17,14 +17,7 @@ class Statistics:
                 self.nbwords=jsonfile['statistics']['nbwords']
                 self.nbtags=jsonfile['statistics']['nbtags']
 
-            # for s in jsonfile['statistics'] :
-            #     self.total=s['total']
-            #     self.twitted=s['twitted']
-            #     self.filtered=s['filtered']
-            #     self.duplicates=s['duplicates']
-            #     self.nbwords=s['nbwords']
-            #     self.nbtags=s['nbtags']
-
+        # Computed each time.. need to store ?
         self.top_trend=[]
 
     def printJson(self) :
@@ -35,14 +28,19 @@ class Statistics:
         	'duplicates': self.duplicates,
         	'nbwords': self.nbwords,
         	'nbtags': self.nbtags,
+        	'nbwords': self.nbwords,
         	'top_trend' : self.top_trend
         }
 
     def show(self) :
-        print('[Statistics]')
-        print(' {} articles'.format(self.total))
-        print('   {} twitted'.format(self.twitted))
-        print('   {} filtered'.format(self.filtered))
-        print('   {} duplicates'.format(self.duplicates))
-        print(' {} tags'.format(self.nbtags))
-    	# print('top_trend : {}').format(self.top_trend)
+        print('+-[Statistics]')
+        print('+-- {} articles'.format(self.total))
+        print('+-- {} tags'.format(self.nbtags))
+        print('+-- {} words'.format(self.nbwords))
+        print('+--- {} twitted'.format(self.twitted))
+        print('+--- {} filtered'.format(self.filtered))
+        print('+--- {} duplicates'.format(self.duplicates))
+
+        tags = ' '.join(self.top_trend)
+        print('+-- Trend [{}]'.format(tags))
+        print('+-[/Statistics]')

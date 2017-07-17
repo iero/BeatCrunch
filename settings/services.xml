@@ -202,6 +202,7 @@
 	<filters>
 		<filter type="title">#mcal</filter>
 		<filter type="title">5 offres d'emploi</filter>
+		<filter type="title">événements startups ne pas manquer</filter>
 	</filters>
 	<sanitize>
 		<remove type="title">#.*?:</remove>
@@ -212,7 +213,7 @@
 	<id>usine_digitale</id>
 	<url type="rss">http://www.usine-digitale.fr/rss</url>
 	<twitter_account>@LUsineDigitale</twitter_account>
-	<mention>#usine #digital</mention>
+	<mention>#udigital</mention>
 	<text type="div" name="class" section="p">blocTexteType1</text>
 	<image type="figure" name="class" section="img" attribute="src">blocImageType2</image>
 	<filters>
@@ -248,21 +249,23 @@
 
 <service name="Les echos #hightech" lang="fr">
 	<id>echos_hightech</id>
+	<twitter_account>@LesEchos</twitter_account>
+	<mention>#echos</mention>
 	<url type="web">https://www.lesechos.fr/tech-medias/hightech/index.php</url>
+	<!-- Get article list from a classic page -->
 	<get>
 		<container type="div" name="class">main-content content-ssrub</container>
 		<item type="article" name="class">liste-article</item>
-		<link type="a" name="href"/>
-		<title type="h2"/>
+		<title type="h2" name="class">style-titre</title>
+		<link type="h2" name="class" section="a" attribute="href">style-titre</link>
 	</get>
 
-	<twitter_account>@LesEchos</twitter_account>
-	<mention>#echos</mention>
+	<!-- Get article content -->
 	<page_url type="div" name="class" section="a">main-content content-ssrub</page_url>
 	<text type="div" name="class" section="p">main-content content-article</text>
-	<image type="div" name="class" section="img" attribute="srcset">picture-article</image>
+	<image type="div" name="class" section="img" attribute="srcset">ultimedia_switch</image>
 	<selection>
-		<select type="url">https://www.lesechos.fr/tech-medias/hightech</select>
+		<select type="url">hightech</select>
 	</selection>
 </service>
 
@@ -292,9 +295,9 @@
 
 <service name="Fred Cavazza" lang="fr">
 	<id>fred_cavazza</id>
+	<mention>#fcavazza</mention>
 	<url type="rss">https://fredcavazza.net/feed/</url>
 	<twitter_account>@fredcavazza</twitter_account>
-	<mention>#fcavazza</mention>
 	<text type="div" name="class" section="p">entry-content</text>
 	<image type="div" name="class" section="img" attribute="src">entry-content</image>
 	<tags type="span" name="class" section="a">tags-links</tags>
@@ -335,9 +338,9 @@
 	<mention>#zdnet</mention>
 	<text type="div" name="class" section="p">storyBody</text>
 	<image type="div" name="class" section="img" attribute="src">storyBody</image>
-	<!--filters>
-	<filter type="title">revue de web</filter>
-</filters-->
+	<filters>
+		<filter type="url">zapping-decrypte</filter>
+	</filters>
 </service>
 
 <service name="Silicon.fr" lang="fr">
@@ -396,20 +399,29 @@ https://www.ted.com/talks/rss
 	<text type="div" name="class" section="p">c-entry-content</text>
 	<image type="picture" name="class" section="img" attribute="src">c-picture</image>
 	<selection>
+		<select type="div" value="c-entry-group-labels c-entry-group-labels--article" section="span">Apps</select>
 		<select type="div" value="c-entry-group-labels c-entry-group-labels--article" section="span">Tech</select>
 		<select type="div" value="c-entry-group-labels c-entry-group-labels--article" section="span">Science</select>
 		<select type="div" value="c-entry-group-labels c-entry-group-labels--article" section="span">Reviews</select>
+		<select type="div" value="c-entry-group-labels c-entry-group-labels--article" section="span">Cars</select>
+		<filter type="url">circuitbreaker</filter>
 	</selection>
+</service>
 
+<service name="Google blog" lang="en">
+	<id>google_blog</id>
+	<mention>#google</mention>
+	<url type="rss">https://www.blog.google/rss/</url>
+	<text type="div" name="class" section="p">uni-content uni-blog-article-container</text>
 </service>
 
 <service name="The Hacker News" lang="en">
 	<id>hacker_news</id>
+	<mention>#hackers</mention>
 	<url type="rss">http://thehackernews.com/feeds/posts/default</url>
 	<text type="div" name="class" section="div">articlebodyonly</text>
 	<image type="div" name="class" section="img" attribute="src">articlebodyonly</image>
 	<twitter_account>@TheHackersNews</twitter_account>
-	<mention>#hackers</mention>
 </service>
 
 <service name="Motherboard Vice" lang="en">
@@ -443,14 +455,17 @@ https://www.ted.com/talks/rss
 	<id>statista</id>
 	<mention>#statista</mention>
 	<url type="web">https://fr.statista.com/graphique-du-jour/</url>
+
+	<!-- Get article list from a classic page -->
 	<get>
-		<container type="div" name="class">box infoPage</container>
-		<item type="a" name="class">infoLink</item>
-		<link type="a" name="href"/>
-		<title type="span"/>
+		<container type="div" name="class">flex flex--spacing30</container>
+		<item type="div" name="class">flex__item width50</item>
+		<title type="h4" name="class">h6 infographicTitle</title>
+		<link type="h4" name="class" section="a" attribute="href">h6 infographicTitle</link>
 	</get>
-	<text type="div" name="class" section="p">box infoPage</text>
-	<image type="div" name="class" section="img" attribute="src">infographic</image>
+
+	<text type="div" name="class" section="p">article__contentText</text>
+	<image type="div" name="class" section="img" attribute="src">article__graphic</image>
 	<sanitize>
 		<remove type="title">Infographie - </remove>
 	</sanitize>

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-declare -a arr=("french_custom" "english_custom" "plain_words")
+declare -a arr=("french_custom" "english_custom" "plain_words" "hashtags")
 
 input="/Users/greg/Code/BeatCrunch/dictionaries"
 output="/Users/greg/nltk_data/corpora/stopwords"

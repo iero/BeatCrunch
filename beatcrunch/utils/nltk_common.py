@@ -19,3 +19,6 @@ def getStopWords(lang) :
 # cp dictionaries/plainwords to ~/nltk_data/corpora/stopwords/
 def getPlainWords() :
     return stopwords.words("plain_words")
+
+def getTagsWords() :
+    return stopwords.words("hashtags")

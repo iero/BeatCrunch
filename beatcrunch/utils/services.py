@@ -1,13 +1,14 @@
 import os, sys, re, time
 import requests
-
-from bs4 import BeautifulSoup # parse page
 import feedparser # read rss feed
-from urllib.parse import urlparse # parse url
-
 import pickle # saving rss as links
 
+from bs4 import BeautifulSoup # parse page
+from urllib.parse import urlparse # parse url
+from difflib import SequenceMatcher # for similarity
+
 from nltk.probability import FreqDist
+import utils.nltk_common as nltk_common
 
 import utils
 from beatcrunch import Article
@@ -15,7 +16,21 @@ from beatcrunch import Article
 headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
 
 # Remove crappy suffixes
-def sanitizeUrl(url) :
+def sanitizeUrl(base,url) :
+
+    # Relative url
+    if url.startswith('/') :
+        entry_parsed = urlparse(base)
+        entry_domain = '{uri.scheme}://{uri.netloc}'.format(uri=entry_parsed)
+        url = entry_domain+url
+        #print(url)
+
+    # Transform 443 style in https style
+    if 'http://' in url and ':443' in url :
+        url = re.sub('http://','https://',url)
+        url = re.sub(':443','',url)
+        # print(url)
+
     # find if this url is the final one
     try :
         r = requests.get(url)
@@ -36,17 +51,21 @@ def sanitizeTitle(service, title) :
             if removedField.get('type') == "title" :
                 title = re.sub(removedField.text,'',title)
 
+    # Remove non alphanumeric
+    title = utils.utils.sanitizeText(title)
+
     # title = re.sub('[«»]','',title)
     return title
 
+#
 def getRelatedService(services, name) :
     for s in services.findall('service') :
         if (s.find('id').text == name) : return s
+
+    print("+--[Error] {} unknown".format(name))
     return None
 
 # Get new articles from a live feed
-#TODO : Add no RSS entry
-
 def getNewArticles(service,settings) :
     starttime = time.time()
 
@@ -68,7 +87,7 @@ def getNewArticles(service,settings) :
     else :
         oldlist = []
 
-    print("+--[Previous] {} articles loaded".format(len(oldlist)))
+    # print("+--[Previous] {} articles loaded".format(len(oldlist)))
 
     # new feed list
     feedlist=[]
@@ -76,7 +95,7 @@ def getNewArticles(service,settings) :
     # Parse rss feed
     if url_type == "rss" :
         feed = feedparser.parse(rss_url)
-        print("+--[Got] {} rss articles (in {}ms)".format(len(feed.entries),int((time.time()-starttime)*1000.0)))
+        # print("+--[Got] {} rss articles (in {}ms)".format(len(feed.entries),int((time.time()-starttime)*1000.0)))
 
         starttime = time.time()
         for post in feed.entries:
@@ -86,61 +105,65 @@ def getNewArticles(service,settings) :
             # If new post, push it.
             if post.link not in oldlist :
                 title = sanitizeTitle(service, post.title)
-                link = sanitizeUrl(post.link)
-                # try :
-                a = Article.Article(service,title,link,rss_lang)
-                articles.append(a)
-                # except :
-                #     print("+--[Error {}] {} {} ".format(service,title,link))
-                #     print("Unexpected error : {}".format( sys.exc_info()))
+                link = sanitizeUrl(rss_url,post.link)
+                try :
+                    a = Article.Article(service,title,link,rss_lang)
+                    articles.append(a)
+                except :
+                    print("+--[Error {}] {} {} ".format(service,title,link))
+                    print("Unexpected error : {}".format( sys.exc_info()))
 
-        print("+--[Nex] {} rss articles (in {}ms)".format(len(feed.entries),int((time.time()-starttime)*1000.0)))
+        # print("+--[New] {} rss articles (in {}ms)".format(len(feed.entries),int((time.time()-starttime)*1000.0)))
     elif url_type == "json" :
         feed = utils.utils.loadjson(rss_url)
 
     elif url_type == "web" :
+        soup = getArticleContent(rss_url)
+
+        # Get list of articles from container -->
         container_type = service.find('get').find('container').get('type')
         #name = service.find('get').find('container').get('name')
         container_value = service.find('get').find('container').text
 
-        item_type = service.find('get').find('item').get('type')
-        item_value = service.find('get').find('item').text
-
-        link_type = service.find('get').find('link').get('type')
-        link_name = service.find('get').find('link').get('name')
-        text_type = service.find('get').find('item').get('type')
-
-        soup = getArticleContent(rss_url)
         text_container=soup.find(container_type, class_=container_value)
+
         if text_container is not None :
-#            print(text_container)
+            # print(text_container)
+            item_type = service.find('get').find('item').get('type')
+            item_value = service.find('get').find('item').text
+
             for t in text_container.find_all(item_type, class_=item_value) :
-                print(t)
-                link = t.get("href")
-                title = t.get("title")
-                print(link)
-                print(title)
-                link = sanitizeUrl(link)
-                title = sanitizeTitle(service, title)
+                # Get title
+                title_type = service.find('get').find('title').get('type')
+                title_value = service.find('get').find('title').text
 
-                if link.startswith('/') :
-                    entry_parsed = urlparse(rss_url)
-                    entry_domain = '{uri.scheme}://{uri.netloc}'.format(uri=entry_parsed)
-                    link = entry_domain+link
-                    #print(link)
+                title = t.find(title_type, class_=title_value).text
 
-                    # Add to current json
-                    feedlist.append(link)
-                    # If new post, push it.
-                    if link not in oldlist :
+                # Get article link
+                link_type = service.find('get').find('link').get('type')
+                link_value = service.find('get').find('link').text
+                link_section = service.find('get').find('link').get('section')
+                link_attribute = service.find('get').find('link').get('attribute')
+
+                link = t.find(link_type, class_=link_value).find(link_section).get(link_attribute)
+
+                # Add to current json
+                feedlist.append(link)
+
+                # If new post, push it.
+                if link not in oldlist :
+                    link = sanitizeUrl(rss_url,link)
+                    title = sanitizeTitle(service, title)
+                    try :
                         a = Article.Article(service,title,link,rss_lang)
                         articles.append(a)
+                    except :
+                        print("+--[Error {}] {} {} ".format(service,title,link))
+                        print("Unexpected error : {}".format( sys.exc_info()))
 
     # Save RSS feed entries
-    starttime = time.time()
     with open(rss_feed, 'wb') as fp:
         pickle.dump(feedlist, fp)
-    print("+--[Savd] articles (in {}ms)".format(int((time.time()-starttime)*1000.0)))
 
     # Return new articles with names
     return articles
@@ -149,8 +172,11 @@ def getNewArticles(service,settings) :
 def getArticleContent(url) :
     web_page = requests.get(url, headers=headers, allow_redirects=True)
 
-    # Parse page
     return BeautifulSoup(web_page.content, "html.parser")
+
+def getImageData(url) :
+    response = requests.get(url, headers=headers, allow_redirects=True)
+    return response.content
 
 # Allow pages from selected category
 def allowArticleCategory(service,article) :
@@ -158,10 +184,10 @@ def allowArticleCategory(service,article) :
         for sel in service.find('selection').findall("select") :
             sel_type = sel.get('type')
             sel_value = sel.get('value')
-            sel_filter = sel.text
-
-            #print("+-[CatFilter] [{}] {}".format(sel_type.encode('utf-8'),sel_filter.encode('utf-8')))
-            if (sel_type == "url") and (sel_value in article.url) :
+            sel_filter = sel.text  # text to match
+            # print(article.url)
+            # print(sel_filter)
+            if (sel_type == "url") and (sel_filter in article.url) :
                 return True
             elif (sel_type == "div") :
                 sel_section = sel.get('section')
@@ -186,12 +212,12 @@ def detectAdArticle(service,article) :
 
             # filter based on url
             if filter_type == "url" and filter_value in article.url :
-                print("+--[Url filter] matched on "+filter_value)
+                print("+---[Url filter] matched on "+filter_value)
                 return True
 
             # based on title
             if filter_type == "title" and filter_value in article.title.lower() :
-                print("+--[Title filter] matched on "+filter_value)
+                print("+---[Title filter] matched on "+filter_value)
                 return True
 			# based on content
             if filter_type == "class" :
@@ -201,35 +227,72 @@ def detectAdArticle(service,article) :
 
                 f=article.soup.find(filter_section, class_=filter_name)
                 if f is not None and filter_value in f.get_text().lower() :
-                    print("+--[Content filter] matched on "+filter_value)
+                    print("+---[Content filter] matched on "+filter_value)
                     return True
     return False
 
-    #Filters title
-# def detectTitleFilter(service,article) :
-#     if service.find('filters') is not None :
-#         for filter in service.find('filters').findall("filter") :
-#             filter_type = filter.get('type')
-#             filter_value = filter.text
-#             filter_result = article.soup.find(filter_type, class_=filter_value)
-#             print(filter_value)
-#             print(article.title)
-#             if filter_result is not None :
-#                 print("+--[Content filter] matched on "+filter_value)
-#                 return True
-#     return False
+# Get similarity between two lists of tags (blanks are junk)
+def similar(a, b):
+    return SequenceMatcher(lambda x: x == " ", a, b).ratio()
 
-def rateArticle(service,article) :
-    print("+-[Rate] {} ".format(article.title))
+def extendedSimilar(a, b):
+    aL=a.split()
+    bL=b.split()
+    # maxSim=0
+    for i in range(1,min(len(aL),len(bL))) :
+        aX = ' '.join(aL[:i])
+        bX = ' '.join(bL[:i])
+        g = similar(aX,bX)
+        # if g > maxSim :
+        #     maxSim = g
+        if g > 0.5 :
+            print("+---- {0} [{1}] [{2}]".format(g,aX,bX))
+    return g
+
+# Detect if keywords or title from articles are already somewhere
+# 5 keywords minimum
+def detectSimArticle(service,article,sim_dict) :
+
+    tags = ' '.join(article.tags)
+    maxsim=0
+
+    for key, value in sim_dict.items():
+        # Test Key (tags) if enough
+        if len(article.tags) >= 5 :
+            s = similar(tags,key)
+            if s > maxsim :
+                maxsim = s
+                maxsimwith = key
+
+    #TODO adapt after learning
+    if maxsim > 0.4 :
+        # print("+--[Tag]      [{}]".format(tags))
+        print("+---[Sim] {0:.2f} [{1}]".format(maxsim,sim_dict[maxsimwith]))
+        print("+---[Sim]      [{}]".format(maxsimwith))
+        # print("+--[Match]     [{}]".format(maxsimwith))
+
+    #TODO mettre plus de poids sur les premiers mots
+    if maxsim > 0.4 :
+        maxsim = extendedSimilar(tags,maxsimwith)
+        print("+---[MaxSim] {0:.2f}".format(maxsim))
+    else :
+        print("+---[NoSim] {0:.2f}".format(maxsim))
+
+    if maxsim > 0 :
+        return maxsim,sim_dict[maxsimwith]
+    else :
+        return 0,""
+
+def rateArticle(service,article,sim_dict) :
+    # print("+-[Rate] {} ".format(article.title))
     if not allowArticleCategory(service,article) :
-        print("+--[Category] not allowed")
+        print("+---[Rate] Category not allowed")
         return 0
-    if detectAdArticle(service,article) :
-        print("+--[Advert] found")
+    elif detectAdArticle(service,article) :
+        print("+---[Rate] Advert found")
         return 0
-    # if detectTitleFilter(service,article) :
-    #     print("+--[Title] crap found")
-    #     return 0
+    else :
+        return 1
 
 # Get 10 mosts common tags
 def tagsTrend(articles) :
@@ -244,3 +307,15 @@ def tagsTrend(articles) :
         out.append(x[0])
 
     return out
+
+# Add MAX main tags to title
+def addTagsToTitle(article,max) :
+        nb=0
+        text=article.title
+        for w in text.split() :
+            if nb >= max : return text
+            if w.lower() in article.tags :
+                text = re.sub(w,'#'+w.lower(),text)
+            nb += 1
+
+        return text

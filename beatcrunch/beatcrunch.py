@@ -55,9 +55,10 @@ if __name__ == "__main__":
     json_today["statistics"] = []
     json_today["statistics"].append(statistics.printJson())
 
-    # Create dictionnary for similarity
-    title_dict = utils.utils.getLastDaysTitles(settings,5)
-    if debug : print("+-[Loading] {} articles for similarity".format(len(title_dict)))
+    # Create dictionnary & index for similarity
+    sim_dict = utils.utils.getLastDaysTags(settings,5)
+
+    if debug : print("+-[Loading] {} articles for similarity".format(len(sim_dict)))
 
     # Get new articles for each selected service
     for s in settings.find('settings').find("services").findall('service'):
@@ -67,47 +68,53 @@ if __name__ == "__main__":
         # Get new articles
         articles = utils.services.getNewArticles(service, settings)
 
-        print("+--[New] {} articles to crunch".format(len(articles)))
+        if debug and len(articles) > 0 :
+            print("+--[New] {} articles to crunch".format(len(articles)))
 
         for article in articles :
             statistics.total += 1
+            article.show()
 
-            # Test if article is crappy
-            article.rate  = utils.services.rateArticle(service,article)
-            if (article.rate == 0) :
+            # Test if article is interesting
+            article.rate  = utils.services.rateArticle(service,article,sim_dict)
+
+            # Detect if already published
+            article.similarity, article.similarity_with = utils.services.detectSimArticle(service,article,sim_dict)
+
+            # Add this article in comparaison table if more than 5 tags
+            if len(article.tags) >= 5 :
+                tags = ' '.join(article.tags)
+                sim_dict[tags] = article.title
+
+            if article.rate == 0 :
                 statistics.filtered += 1
+            elif article.similarity >= 0.6 :
+                statistics.duplicates += 1
             else :
-                # Add similarity
-                title_dict.append(article.title)
-                sim_results = utils.similarity.find_similar(title_dict)
+                statistics.nbtags += len(article.tags)
+                statistics.nbwords += len(article.text)
 
-                article.similarity=float("{0:.2f}".format(sim_results[0][1]))
-                if article.similarity == 0 :
-                    article.similarity_with=""
-                else :
-                    article.similarity_with = sim_results[0][2]
+                tweet_text = article.getTweet()
+                # print("+---[Tweet] {}".format(tweet_text))
+                # twitterapi = TwitterAPI(consumer_key=consumer_key, consumer_secret=consumer_secret, access_token_key=access_token_key, access_token_secret=access_token_secret)
+                # try :
+                #     r = twitterapi.request('statuses/update_with_media', {'status':tweet_text}, {'media[]':data})
+                # except:
+                #     print("+-[Tweet] Fail")
 
-                # print("+--[Similarity] {0:.2f}".format(article.similarity))
 
-                grade_treshold=float(settings.find('settings').find('similarity_min').text)
-                if article.similarity >= grade_treshold :
-                    statistics.duplicates +=1
-                    print("+--[Duplicate] {0:.2f} with {1}".format(article.similarity,article.similarity_with))
-                else :
-                    print("+--[New] {}".format(article.similarity))
-                    #tweet
-                    #toot
-                    #time.sleep(5)
+                #tweet
+                #toot
 
             json_today[article.id] = []
             json_today[article.id].append(article.printJson())
 
     # Save today feed
-    statistics.tags_trend = utils.utils.tagsTrend(json_today,50)
+    statistics.top_trend = utils.utils.tagsTrend(json_today,50)
 
     json_today["statistics"] = statistics.printJson()
-    print(statistics.show())
-    print(statistics.tags_trend)
+    statistics.show()
 
+    print("+-[done]")
     with open(today_json_file, 'w') as jsonfile:
         json.dump(json_today, jsonfile)

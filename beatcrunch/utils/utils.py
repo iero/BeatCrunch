@@ -39,6 +39,10 @@ def printjsonTitles(json_data) :
 #TODO : Maybe a library will do it ?
 
 def sanitizeText(text) :
+
+    # Remove first and last spaces
+    text = text.strip()
+
     # print("input [{}]".format(text))
     text = text.replace("\n", "")
     text = text.replace("\r", "")
@@ -66,6 +70,29 @@ def getLastDaysTitles(settings,nbdays) :
                         title_dict.append(t['title'])
 
     return title_dict
+
+# Get dictionary (and index to titles) of articles from the last 5 days with 5+ keywords
+def getLastDaysTags(settings,nbdays) :
+    similarity_dict = {}
+
+    out_dir = settings.find('settings').find('output').text
+
+    for days in range(0,nbdays) :
+        d = datetime.today() - timedelta(days=days)
+        json_file=out_dir+'/json/'+d.strftime("%Y%m%d")+".json"
+
+        if os.path.exists(json_file):
+            j = loadjson(json_file)
+            for news in j :
+                if news != "statistics" :
+                    for t in j[news] :
+                        if len(t['tags']) >= 5 :
+                            tags = ' '.join(t['tags'])
+                            # print(tags)
+                            similarity_dict[tags] = t['title']
+        # print("Loading {} : {} articles".format(json_file,len(similarity_dict)))
+
+    return similarity_dict
 
 # Find Text in Titles
 def findTitlefromText(json_data,text) :

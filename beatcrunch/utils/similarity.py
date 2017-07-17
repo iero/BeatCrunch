@@ -66,12 +66,6 @@ def stem_tokens(tokens, stemmer):
     return stemmed
 
 #tokenize a text depending on its language
-# def tokenizeText(text,lang):
-#     tokens = tokenizer.tokenize(text)
-#     t = [token for token in tokens if token.lower() not in nltk_common.getStopWords(lang) + nltk_common.punctuation]
-#     return t
-
-#tokenize a text depending on its language
 def isInt(s):
     try:
         int(s)
@@ -172,6 +166,6 @@ def find_similar(token_dict, top_n = 1): #tfidf_matrix,
     return [(index, cosine_similarities[index],reverse_dict[index]) for index in related_docs_indices][0:top_n]
 
 # Tokenize text, remove common words, and sort tokens to get most used first
-def findTags(text,lang):
+def findTags(text,lang,nb):
     tokens = tokenizeText(text,lang)
-    return freqDist(tokens)
+    return freqDist(tokens)[:nb]

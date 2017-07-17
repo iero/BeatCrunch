@@ -1,4 +1,5 @@
 import time
+import re
 import pytz
 
 from datetime import datetime
@@ -12,9 +13,11 @@ class Article:
     nbarticles = 0
 
     def __init__(self, service, title, url, lang):
-        startime = time.time()
+        # startime = time.time()
 
         self.service_name = service.find('id').text
+        self.service_mention = service.find('mention').text
+
         self.id = str(current_milli_time())
         self.service = service
         self.title = title
@@ -33,8 +36,8 @@ class Article:
         self.formatedtext=self.getFormatedText()
         self.raw=""
 
-        # Look for tags in title+text
-        self.tags = utils.similarity.findTags(self.title+". "+self.text,self.lang)
+        # Look for 10 most common tags in title+text
+        self.tags = utils.similarity.findTags(self.title+". "+self.text,self.lang,10)
         # print(self.tags)
 
         self.rate=0
@@ -44,9 +47,9 @@ class Article:
         self.liked=0
 
         #print("+-[Article] {} ".format(self.lang))
-        self.show()
+        # self.show()
         Article.nbarticles += 1
-        print("+---[Proceed] in {} s".format(int(time.time()-startime)))
+        # print("+---[Proceed] in {} s".format(int(time.time()-startime)))
 
     def getMainImage(self) :
         out_img=""
@@ -114,31 +117,10 @@ class Article:
                     out_text=out_text+"<p>"+sText+"</p>"
         return out_text
 
-    #depreciated
-    # def getTags(self) :
-    #     out_tags=[]
-    #     if self.service.find('text') is not None :
-    #         type = self.service.find('text').get('type')
-    #         name = self.service.find('text').get('name')
-    #         value = self.service.find('text').text
-    #         section = self.service.find('text').get('section')
-    #
-    #     if (name == "class") :
-    #         tags_sec=self.soup.find(type, class_=value)
-    #     if tags_sec is not None and tags_sec.find_all(section) is not None :
-    #         for t in tags_sec.find_all(section):
-    #             tag = t.get_text().lower()
-    #             tag = tag.replace("-","")
-    #             tag = tag.replace(" ","")
-    #             tag = tag.replace("...","")
-    #             print(tag)
-    #             if tag : out_tags.append(tag)
-    #     return out_tags
-
     def printJson(self) :
         return {
             'title': self.title,
-            'service': self.service.find('id').text,
+            'service': self.service_name,
             'source': self.url,
             'date' : self.date,
             'lang' : self.lang,
@@ -152,18 +134,60 @@ class Article:
             'liked' : self.liked
         }
 
-    def getTitleWithTags(self) :
-        title = self.title
-        for w in title.split(" ") :
-            for x in self.tags :
-                if x == w.lower() :
-                    title = title.replace(w,"#"+x)
+    def getTweet(self) :
+        tweet_size = 140
+        tweet_link_size = 24
 
-        return title
+        text=self.title
+        # print("[Tweet] Text : [{}]".format(text))
+        # Add '#' in front of the 3 main tags if in title
+        max=3
+        nb=0
+        # for w in text.split() :
+        if self.tags :
+            for w in self.tags :
+                if nb >= max : break
+                # print("[Tweet] Look for {} in [{}]".format(w,text))
+                # Verify if we can add a #
+                if w in text.lower() :
+                    # print("[Tweet] Found {}".format(w))
+                    for v in text.split() :
+                        # print("[Tweet] Try to Replace {} using {}".format(v,v.lower()))
+                        if w == v.lower() and len(text)+tweet_link_size+1 <= tweet_size :
+                            text = re.sub(v,'#'+w,text)
+                            # First matched tag is enough
+                            nb=max
+                nb += 1
+        # print("[Tweet] Add Tags : [{}]".format(text))
+
+        # Add source if possible
+        if len(text)+len(self.service_mention)+2+tweet_link_size <= tweet_size and self.service_mention not in text :
+            text += " "+self.service_mention
+        # print("[Tweet] Add source : [{}]".format(text))
+
+        # Add url
+        # Add main tag after url if not in title
+        if len(self.tags) >= 1 :
+            maintag = self.tags[0]
+            if " " not in maintag and maintag not in text and len(text)+len(maintag)+2+tweet_link_size <= tweet_size :
+                text += " "+self.url+" #"+maintag
+            else :
+                text += " "+self.url
+        else :
+            text += " "+self.url
+
+        print("+---[Tweet] {}".format(text))
+
+        if self.image :
+            data = utils.services.getImageData(self.image)
+            return 'statuses/update_with_media', {'status':text}, {'media[]':data}
+        else :
+            return 'statuses/update', {'status':text}
 
     def show(self) :
         print("+--[Article] {} ".format(self.title))
-        print("+---[tags] {} ".format(self.tags))
+        tags = ','.join(self.tags)
+
         # Length and time to read
         length = len(self.text.split())
         if length < 300 :
@@ -175,6 +199,5 @@ class Article:
 
         print("+---[url] {} ".format(self.url))
         if self.image : print("+---[img] {} ".format(self.image))
-        # print("+---[content] {} words in {} ".format(str(len(self.text.split()),self.lang)))
 
-        #print("+--[from] {} in {} ".format(self.service, self.lang))
+        print("+---[tags] [{}]".format(tags))
