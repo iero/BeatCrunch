@@ -23,7 +23,7 @@ def tweet(s,article) :
             t.request('statuses/update', {'status':text})
 
     except:
-        print("+---[Tweet] Fail")
+        print(u"+---[Tweet] Fail")
 
 def toot(s,article) :
     try :
@@ -45,7 +45,7 @@ def toot(s,article) :
                     os.remove("/tmp/"+img_name+img_ext)
 
                 media_id = m.media_post(img_local)
-                #print(media_id)
+                #print(umedia_id)
 
                 m.status_post(text,in_reply_to_id=None,media_ids=[media_id])
                 if os.path.exists(img_local) : os.remove(img_local)
@@ -54,4 +54,4 @@ def toot(s,article) :
         else :
             m.toot(text)
     except:
-        print("+---[Toot] Failed")
+        print(u"+---[Toot] Failed")

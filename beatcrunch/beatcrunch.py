@@ -28,7 +28,7 @@ import Article
 if __name__ == "__main__":
 
     if len(sys.argv) < 3 :
-        print("Please use # python beatcrunch.py settings.xml services.xml")
+        print(u"Please use # python beatcrunch.py settings.xml services.xml")
         sys.exit(1)
     else :
         settings = utils.utils.loadxml(sys.argv[1])
@@ -40,30 +40,30 @@ if __name__ == "__main__":
 
         if settings.find('settings').find('debug').text == "True" :
             debug=True
-            print("+-[Debug] ON")
+            print(u"+-[Debug] ON")
         else :
             debug=False
-            print("+-[Debug] OFF")
+            print(u"+-[Debug] OFF")
 
         if settings.find('settings').find('twitter').text == "True" :
             twitter=True
-            print("+-[Twitter] ON")
+            print(u"+-[Twitter] ON")
         else :
             twitter=False
-            print("+-[Twitter] OFF")
+            print(u"+-[Twitter] OFF")
 
         if settings.find('settings').find('mastodon').text == "True" :
             mastodon=True
-            print("+-[Mastodon] ON")
+            print(u"+-[Mastodon] ON")
         else :
             mastodon=False
-            print("+-[Mastodon] OFF")
+            print(u"+-[Mastodon] OFF")
 
 
     # JSON feed for today
     today_json_file=out_dir+'/json/'+time.strftime("%Y%m%d")+".json"
     json_today = utils.utils.loadjson(today_json_file)
-    if debug : print("+-[Loading] [{}]".format(today_json_file.encode('utf-8')))
+    if debug : print(u"+-[Loading] [{}]".format(today_json_file.encode('utf-8')))
 
     # Load statistics for today
     statistics = Statistics.Statistics(json_today)
@@ -73,18 +73,19 @@ if __name__ == "__main__":
     # Create dictionnary & index for similarity
     sim_dict = utils.utils.getLastDaysTags(settings,5)
 
-    if debug : print("+-[Loading] {} articles for similarity".format(len(sim_dict)))
+    if debug : print(u"+-[Loading] {} articles for similarity".format(len(sim_dict)))
 
     # Get new articles for each selected service
     for s in settings.find('settings').find("services").findall('service'):
         service = utils.services.getRelatedService(services,s.text)
 
-        if debug : print("+-[Service] [{}]".format(s.text.encode('utf-8')))
+        if debug : print(u"+-[Service] [{}]".format(s.text.encode('utf-8')))
         # Get new articles
         articles = utils.services.getNewArticles(service, settings)
 
         if debug and len(articles) > 0 :
-            print("+--[New] {} articles to crunch".format(len(articles)))
+            print(u"+--[New] {} articles to crunch".format(len(articles)))
+            print(u"+-------------------------")
 
         for article in articles :
             statistics.total += 1
@@ -119,7 +120,7 @@ if __name__ == "__main__":
                 # Prepare and send toot
                 if mastodon : utils.share.toot(settings,article)
 
-            print("+-------------------------")
+            print(u"+-------------------------")
 
             json_today[article.id] = []
             json_today[article.id].append(article.printJson())
@@ -130,6 +131,6 @@ if __name__ == "__main__":
     json_today["statistics"] = statistics.printJson()
     statistics.show()
 
-    print("+-[done]")
+    print(u"+-[done]")
     with open(today_json_file, 'w') as jsonfile:
         json.dump(json_today, jsonfile)

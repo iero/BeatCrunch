@@ -23,21 +23,21 @@ def sanitizeUrl(base,url) :
         entry_parsed = urlparse(base)
         entry_domain = '{uri.scheme}://{uri.netloc}'.format(uri=entry_parsed)
         url = entry_domain+url
-        #print(url)
+        #print(uurl)
 
     # Transform 443 style in https style
     if 'http://' in url and ':443' in url :
         url = re.sub('http://','https://',url)
         url = re.sub(':443','',url)
-        # print(url)
+        # print(uurl)
 
     # find if this url is the final one
     try :
         r = requests.get(url)
         link = r.url
     except :
-        print("+--[Error] Sanitize URL {}".format(url))
-        print("Unexpected error : {}".format( sys.exc_info()))
+        print(u"+--[Error] Sanitize URL {}".format(url))
+        print(u"Unexpected error : {}".format( sys.exc_info()))
         link = url
     # remove tracking crap
     link = link.rsplit('?', 1)[0]
@@ -70,7 +70,7 @@ def getRelatedService(services, name) :
     for s in services.findall('service') :
         if (s.find('id').text == name) : return s
 
-    print("+--[Error] {} unknown".format(name))
+    print(u"+--[Error] {} unknown".format(name))
     return None
 
 # Get new articles from a live feed
@@ -95,7 +95,7 @@ def getNewArticles(service,settings) :
     else :
         oldlist = []
 
-    # print("+--[Previous] {} articles loaded".format(len(oldlist)))
+    # print(u"+--[Previous] {} articles loaded".format(len(oldlist)))
 
     # new feed list
     feedlist=[]
@@ -103,7 +103,7 @@ def getNewArticles(service,settings) :
     # Parse rss feed
     if url_type == "rss" :
         feed = feedparser.parse(rss_url)
-        # print("+--[Got] {} rss articles (in {}ms)".format(len(feed.entries),int((time.time()-starttime)*1000.0)))
+        # print(u"+--[Got] {} rss articles (in {}ms)".format(len(feed.entries),int((time.time()-starttime)*1000.0)))
 
         starttime = time.time()
         for post in feed.entries:
@@ -118,10 +118,10 @@ def getNewArticles(service,settings) :
                     a = Article.Article(service,title,link,rss_lang)
                     articles.append(a)
                 except :
-                    print("+--[Error {}] {} {} ".format(service,title,link))
-                    print("Unexpected error : {}".format( sys.exc_info()))
+                    print(u"+--[Error {}] {} {} ".format(service,title,link))
+                    print(u"Unexpected error : {}".format( sys.exc_info()))
 
-        # print("+--[New] {} rss articles (in {}ms)".format(len(feed.entries),int((time.time()-starttime)*1000.0)))
+        # print(u"+--[New] {} rss articles (in {}ms)".format(len(feed.entries),int((time.time()-starttime)*1000.0)))
     elif url_type == "json" :
         feed = utils.utils.loadjson(rss_url)
 
@@ -136,7 +136,7 @@ def getNewArticles(service,settings) :
         text_container=soup.find(container_type, class_=container_value)
 
         if text_container is not None :
-            # print(text_container)
+            # print(utext_container)
             item_type = service.find('get').find('item').get('type')
             item_value = service.find('get').find('item').text
 
@@ -166,8 +166,8 @@ def getNewArticles(service,settings) :
                         a = Article.Article(service,title,link,rss_lang)
                         articles.append(a)
                     except :
-                        print("+--[Error {}] {} {} ".format(service,title,link))
-                        print("Unexpected error : {}".format( sys.exc_info()))
+                        print(u"+--[Error {}] {} {} ".format(service,title,link))
+                        print(u"Unexpected error : {}".format( sys.exc_info()))
 
     # Save RSS feed entries
     with open(rss_feed, 'wb') as fp:
@@ -193,15 +193,15 @@ def allowArticleCategory(service,article) :
             sel_type = sel.get('type')
             sel_value = sel.get('value')
             sel_filter = sel.text  # text to match
-            # print(article.url)
-            # print(sel_filter)
+            # print(uarticle.url)
+            # print(usel_filter)
             if (sel_type == "url") and (sel_filter in article.url) :
                 return True
             elif (sel_type == "div") :
                 sel_section = sel.get('section')
                 soup = getArticleContent(article.url)
                 text_sec=soup.find(sel_type, class_=sel_value)
-                #print(text_sec)
+                #print(utext_sec)
                 if text_sec is not None :
                     for t in text_sec.find_all(sel_section):
                         if sel_filter in t :
@@ -220,22 +220,22 @@ def detectAdArticle(service,article) :
 
             # filter based on url
             if filter_type == "url" and filter_value in article.url :
-                print("+---[Url filter] matched on "+filter_value)
+                print(u"+---[Url filter] matched on "+filter_value)
                 return True
 
             # based on title
             if filter_type == "title" and filter_value in article.title.lower() :
-                print("+---[Title filter] matched on "+filter_value)
+                print(u"+---[Title filter] matched on "+filter_value)
                 return True
 			# based on content
             if filter_type == "class" :
                 filter_name = filter.get('name')
                 filter_section = filter.get('section')
-                #print(filter_name)
+                #print(ufilter_name)
 
                 f=article.soup.find(filter_section, class_=filter_name)
                 if f is not None and filter_value in f.get_text().lower() :
-                    print("+---[Content filter] matched on "+filter_value)
+                    print(u"+---[Content filter] matched on "+filter_value)
                     return True
     return False
 
@@ -259,7 +259,7 @@ def extendedSimilar(a, b):
         # Si g est grand (sup à 0.6) entre 4 et 6 on a de bonne chances que ce soit un duplicat
         # Dans ce cas, on renvoie cette valeur.
         if 4 <= i <= 6 :
-            print("+---- {0:.2f} [{1}] [{2}]".format(g,aX,bX))
+            print(u"+---- {0:.2f} [{1}] [{2}]".format(g,aX,bX))
             if g > maxSim :
                 maxSim = g
 
@@ -268,13 +268,12 @@ def extendedSimilar(a, b):
 # Detect if keywords or title from articles are already somewhere
 # 5 keywords minimum
 def detectSimArticle(service,article,sim_dict) :
-
     tags = ' '.join(article.tags)
     maxsim=0
 
     for key, value in sim_dict.items():
         # Test Key (tags) if enough
-        if len(article.tags) >= 5 :
+        if len(article.tags) >= 4 :
             s = similar(tags,key)
             if s > maxsim :
                 maxsim = s
@@ -282,17 +281,17 @@ def detectSimArticle(service,article,sim_dict) :
 
     #TODO adapt after learning
     if maxsim > 0.4 :
-        # print("+--[Tag]      [{}]".format(tags))
-        print("+---[Sim] {0:.2f} [{1}]".format(maxsim,sim_dict[maxsimwith]))
-        print("+---[Sim]      [{}]".format(maxsimwith))
-        # print("+--[Match]     [{}]".format(maxsimwith))
+        # print(u"+--[Tag]      [{}]".format(tags))
+        print(u"+---[Sim] {0:.2f} [{1}]".format(maxsim,sim_dict[maxsimwith]))
+        print(u"+---[Sim]      [{}]".format(maxsimwith))
+        # print(u"+--[Match]     [{}]".format(maxsimwith))
 
     #TODO mettre plus de poids sur les premiers mots
     if maxsim > 0.4 :
         maxsim = extendedSimilar(tags,maxsimwith)
-        print("+---[MaxSim] {0:.2f}".format(maxsim))
+        print(u"+---[MaxSim] {0:.2f}".format(maxsim))
     else :
-        print("+---[NoSim] {0:.2f}".format(maxsim))
+        print(u"+---[NoSim] {0:.2f}".format(maxsim))
 
     if maxsim > 0 :
         return maxsim,sim_dict[maxsimwith]
@@ -300,12 +299,12 @@ def detectSimArticle(service,article,sim_dict) :
         return 0,""
 
 def rateArticle(service,article,sim_dict) :
-    # print("+-[Rate] {} ".format(article.title))
+    # print(u"+-[Rate] {} ".format(article.title))
     if not allowArticleCategory(service,article) :
-        print("+---[Rate] Category not allowed")
+        print(u"+---[Rate] Category not allowed")
         return 0
     elif detectAdArticle(service,article) :
-        print("+---[Rate] Advert found")
+        print(u"+---[Rate] Advert found")
         return 0
     else :
         return 1

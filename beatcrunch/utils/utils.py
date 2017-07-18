@@ -36,7 +36,7 @@ def loadjson(json_file) :
 def printjsonTitles(json_data) :
     for news in json_data :
         for t in json_data[news] :
-            print(t['title'])
+            print(ut['title'])
 
 # Use Bitly
 def shortenLink(s,url) :
@@ -58,12 +58,12 @@ def sanitizeText(text) :
     # Remove first and last spaces
     text = text.strip()
 
-    # print("input [{}]".format(text))
+    # print(u"input [{}]".format(text))
     text = text.replace("\n", "")
     text = text.replace("\r", "")
     text = text.replace("\t", "")
     text = re.sub(r' {2,}',' ',text)
-    # print("output [{}]".format(text))
+    # print(u"output [{}]".format(text))
 
     if len(text)==1 : return ""
     else : return text
@@ -75,7 +75,7 @@ def getLastDaysTitles(settings,nbdays) :
     for days in range(0,nbdays) :
         d = datetime.today() - timedelta(days=days)
         json_file=out_dir+'/json/'+d.strftime("%Y%m%d")+".json"
-        #print(json_file)
+        #print(ujson_file)
 
         if os.path.exists(json_file):
             j = loadjson(json_file)
@@ -98,14 +98,16 @@ def getLastDaysTags(settings,nbdays) :
 
         if os.path.exists(json_file):
             j = loadjson(json_file)
+            # print(u"{} articles".format(len(j)-1))
             for news in j :
                 if news != "statistics" :
                     for t in j[news] :
-                        if len(t['tags']) >= 5 :
+                        # print(t['tags'])
+                        if len(t['tags']) >= 4 :
                             tags = ' '.join(t['tags'])
-                            # print(tags)
+                            # print(utags)
                             similarity_dict[tags] = t['title']
-        # print("Loading {} : {} articles".format(json_file,len(similarity_dict)))
+        # print(u"Loading {} : {} articles".format(json_file,len(similarity_dict)))
 
     return similarity_dict
 
@@ -151,9 +153,9 @@ def tagsTrend(json_data,number) :
 def isTrendyTag(tag,json) :
     for service in json.find('hashtags') :
         for t in service.find('hashtags').findall("tag") :
-            print(service.get("value"))
+            print(uservice.get("value"))
             if service.get("value") == tag :
-                print("TAG : "+tag)
+                print(u"TAG : "+tag)
                 return True
 
 def cleanImage_url(page,img) :
@@ -186,8 +188,8 @@ def cleanClickBait(title) :
 
     #TODO : remove first spaces when recording !!
     sTitle = title.split(" ")
-    print(sTitle[0])
-    print(sTitle[1])
+    print(usTitle[0])
+    print(usTitle[1])
     if isInt(sTitle[0]) and not isInt(sTitle[1]) :
         #TODO : replace first only
         title.replace(sTitle[0],"Des")

@@ -82,12 +82,12 @@ def tokenizeText(text,lang):
     for token in tokens :
         token = token.lower()
         # if lastToken :
-        #     print("Test [{}]".format(lastToken+" "+token))
+        #     print(u"Test [{}]".format(lastToken+" "+token))
         # else :
-        #     print("Test [{}]".format(token))
+        #     print(u"Test [{}]".format(token))
 
         if lastToken and lastToken+" "+token in plainwords :
-            #print("Found [{}]".format(lastToken+" "+token))
+            #print(u"Found [{}]".format(lastToken+" "+token))
             output.remove(lastToken)
             output.append(lastToken+" "+token)
             lastToken =""
@@ -145,7 +145,7 @@ def find_similar(token_dict, top_n = 1): #tfidf_matrix,
     # Reverse list to put the seed in first position
     reverse_dict=[]
     for n in range(0,len(token_dict)) :
-        #print("Swap {} with {}".format(n,len(token_dict)-n-1))
+        #print(u"Swap {} with {}".format(n,len(token_dict)-n-1))
         reverse_dict.append(token_dict[len(token_dict)-n-1])
 
     index = len(token_dict)-1

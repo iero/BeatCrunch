@@ -28,19 +28,19 @@ class Article:
         self.shorturl = url
 
         self.soup = utils.services.getArticleContent(self.url)
-        # print(self.soup)
+        # print(uself.soup)
 
         self.image = self.getMainImage()
 
         self.text=self.getText()
-        # print(self.text)
+        # print(uself.text)
 
         self.formatedtext=self.getFormatedText()
         self.raw=""
 
         # Look for 10 most common tags in title+text
         self.tags = utils.similarity.findTags(self.title+". "+self.text,self.lang,10)
-        # print(self.tags)
+        # print(uself.tags)
 
         self.rate=0
         self.similarity=0
@@ -48,10 +48,10 @@ class Article:
 
         self.liked=0
 
-        #print("+-[Article] {} ".format(self.lang))
+        #print(u"+-[Article] {} ".format(self.lang))
         # self.show()
         Article.nbarticles += 1
-        # print("+---[Proceed] in {} s".format(int(time.time()-startime)))
+        # print(u"+---[Proceed] in {} s".format(int(time.time()-startime)))
 
     def getMainImage(self) :
         out_img=""
@@ -66,11 +66,11 @@ class Article:
 
         if (name == "class") :
             img_sec=self.soup.find(type, class_=value)
-            #print(img_sec)
+            #print(uimg_sec)
             if img_sec is not None and self.service.find('image').get('subtype') is not None :
                 subtype = self.service.find('image').get('subtype')
                 img_sec = img_sec.find(subtype)
-                # print(img_sec)
+                # print(uimg_sec)
 
             if img_sec is not None and img_sec.find(section) is not None :
                 out_img=img_sec.find(section).get(attribute)
@@ -95,7 +95,7 @@ class Article:
 
         if (name == "class") :
             text_sec=self.soup.find(type, class_=value)
-            # print(text_sec)
+            # print(utext_sec)
             if text_sec is not None :
                 for t in text_sec.find_all(section):
                     out_text=out_text+utils.utils.sanitizeText(t.get_text())
@@ -142,31 +142,31 @@ class Article:
         tweet_link_size = 24
 
         text=self.title
-        # print("[Tweet] Text : [{}]".format(text))
+        # print(u"[Tweet] Text : [{}]".format(text))
         # Add '#' in front of the 3 main tags if in title
         max=3
         nb=0
         if self.tags :
             for w in self.tags :
                 if nb >= max : break
-                # print("[Tweet] Look for {} in [{}]".format(w,text))
+                # print(u"[Tweet] Look for {} in [{}]".format(w,text))
                 # Verify if we can add a #
                 if w in text.lower() :
-                    # print("[Tweet] Found {}".format(w))
+                    # print(u"[Tweet] Found {}".format(w))
 
                     for v in re.split(' |; |, |\'',text) :
-                        # print("[Tweet] Try to Replace {} using {}".format(v,v.lower()))
+                        # print(u"[Tweet] Try to Replace {} using {}".format(v,v.lower()))
                         if w == v.lower() and len(text)+tweet_link_size+1 <= tweet_size :
                             text = re.sub(v,'#'+w,text)
                             # First matched tag is enough
                             nb=max
                 nb += 1
-        # print("[Tweet] Add Tags : [{}]".format(text))
+        # print(u"[Tweet] Add Tags : [{}]".format(text))
 
         # Add source if possible
         if len(text)+len(self.service_mention)+2+tweet_link_size <= tweet_size and self.service_mention not in text :
             text += " "+self.service_mention
-        # print("[Tweet] Add source : [{}]".format(text))
+        # print(u"[Tweet] Add source : [{}]".format(text))
 
         # Add url
         # Add main tag after url if not in title
@@ -179,11 +179,11 @@ class Article:
         else :
             text += " "+self.shorturl
 
-        print("+---[Tweet] {}".format(text))
+        print(u"+---[Tweet] {}".format(text))
         return text
 
     def show(self) :
-        print("+--[Article] {} ".format(self.title))
+        print(u"+--[Article] {} ".format(self.title))
         tags = ','.join(self.tags)
 
         # Length and time to read
@@ -193,9 +193,9 @@ class Article:
         else :
             t = int(length/300)
             tpslect = str(t)
-        print("+---[content] {} words ({} min)".format(str(length),tpslect))
+        print(u"+---[content] {} words ({} min)".format(str(length),tpslect))
 
-        print("+---[url] {} ".format(self.url))
-        if self.image : print("+---[img] {} ".format(self.image))
+        print(u"+---[url] {} ".format(self.url))
+        if self.image : print(u"+---[img] {} ".format(self.image))
 
-        print("+---[tags] [{}]".format(tags))
+        print(u"+---[tags] [{}]".format(tags))
