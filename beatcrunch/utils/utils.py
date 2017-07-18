@@ -8,6 +8,9 @@ from datetime import datetime, timedelta
 from urllib.parse import urlparse
 from nltk.probability import FreqDist
 
+from pyshorteners import Shortener # for bitly
+
+
 # Tweet sizes = add 1 for extra space
 tweet_size = 140
 tweet_link_size = 1+23
@@ -34,6 +37,18 @@ def printjsonTitles(json_data) :
     for news in json_data :
         for t in json_data[news] :
             print(t['title'])
+
+# Use Bitly
+def shortenLink(s,url) :
+    try :
+        for service in s.findall('service') :
+            if service.get("name") == "bitly" :
+                sh = Shortener('Bitly',bitly_token=service.find("token").text)
+                return sh.short(url)
+        # If service not found
+        return url
+    except :
+            return url
 
 # Sanitize text to remove crapy thing and make it readable
 #TODO : Maybe a library will do it ?

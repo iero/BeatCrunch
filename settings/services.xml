@@ -227,7 +227,7 @@
 
 <service name="Blog du Moderateur" lang="fr">
 	<id>blog_moderateur</id>
-	<url type="rss">http://feeds.feedburner.com/captainjob</url>
+	<url type="rss">https://www.blogdumoderateur.com/feed/</url>
 	<twitter_account>@BlogModerateur</twitter_account>
 	<mention>#blogmod</mention>
 	<text type="div" name="class" section="p">entry-content</text>
@@ -271,7 +271,7 @@
 
 <service name="Frenchweb" lang="fr">
 	<id>frenchweb</id>
-	<url type="rss">http://feeds.feedburner.com/frenchweb</url>
+	<url type="rss">http://www.frenchweb.fr/feed</url>
 	<twitter_account>@</twitter_account>
 	<mention>#frenchweb</mention>
 	<text type="div" name="class" section="p">page-content</text>
@@ -404,7 +404,7 @@ https://www.ted.com/talks/rss
 		<select type="div" value="c-entry-group-labels c-entry-group-labels--article" section="span">Science</select>
 		<select type="div" value="c-entry-group-labels c-entry-group-labels--article" section="span">Reviews</select>
 		<select type="div" value="c-entry-group-labels c-entry-group-labels--article" section="span">Cars</select>
-		<filter type="url">circuitbreaker</filter>
+		<select type="url">circuitbreaker</select>
 	</selection>
 </service>
 

@@ -21,10 +21,6 @@ from pytz import timezone
 
 import xml.etree.ElementTree as ET
 
-from TwitterAPI import TwitterAPI
-from pyshorteners import Shortener
-from mastodon import Mastodon
-
 import utils
 import Statistics
 import Article
@@ -42,8 +38,27 @@ if __name__ == "__main__":
         if not os.path.exists(out_dir): os.makedirs(out_dir)
         if not os.path.exists(out_dir+'/json'): os.makedirs(out_dir+'/json')
 
-        debug = settings.find('settings').find('debug').text
-        if debug : print("+-[Debug ON]")
+        if settings.find('settings').find('debug').text == "True" :
+            debug=True
+            print("+-[Debug] ON")
+        else :
+            debug=False
+            print("+-[Debug] OFF")
+
+        if settings.find('settings').find('twitter').text == "True" :
+            twitter=True
+            print("+-[Twitter] ON")
+        else :
+            twitter=False
+            print("+-[Twitter] OFF")
+
+        if settings.find('settings').find('mastodon').text == "True" :
+            mastodon=True
+            print("+-[Mastodon] ON")
+        else :
+            mastodon=False
+            print("+-[Mastodon] OFF")
+
 
     # JSON feed for today
     today_json_file=out_dir+'/json/'+time.strftime("%Y%m%d")+".json"
@@ -94,17 +109,17 @@ if __name__ == "__main__":
                 statistics.nbtags += len(article.tags)
                 statistics.nbwords += len(article.text)
 
-                tweet_text = article.getTweet()
-                # print("+---[Tweet] {}".format(tweet_text))
-                # twitterapi = TwitterAPI(consumer_key=consumer_key, consumer_secret=consumer_secret, access_token_key=access_token_key, access_token_secret=access_token_secret)
-                # try :
-                #     r = twitterapi.request('statuses/update_with_media', {'status':tweet_text}, {'media[]':data})
-                # except:
-                #     print("+-[Tweet] Fail")
+                # shorten url
+                article.shorturl = utils.utils.shortenLink(settings,article.url)
 
+                # Prepare and send tweet
+                if twitter :
+                    utils.share.tweet(settings,article)
 
-                #tweet
-                #toot
+                # Prepare and send toot
+                if mastodon : utils.share.toot(settings,article)
+
+            print("+-------------------------")
 
             json_today[article.id] = []
             json_today[article.id].append(article.printJson())

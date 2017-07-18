@@ -21,9 +21,11 @@ class Article:
         self.id = str(current_milli_time())
         self.service = service
         self.title = title
-        self.url = url
         self.lang = lang
         self.date = datetime.now(pytz.timezone('Europe/Paris')).isoformat(),
+
+        self.url = url
+        self.shorturl = url
 
         self.soup = utils.services.getArticleContent(self.url)
         # print(self.soup)
@@ -122,6 +124,7 @@ class Article:
             'title': self.title,
             'service': self.service_name,
             'source': self.url,
+            'shorturl': self.shorturl,
             'date' : self.date,
             'lang' : self.lang,
             'image': self.image,
@@ -143,7 +146,6 @@ class Article:
         # Add '#' in front of the 3 main tags if in title
         max=3
         nb=0
-        # for w in text.split() :
         if self.tags :
             for w in self.tags :
                 if nb >= max : break
@@ -151,7 +153,8 @@ class Article:
                 # Verify if we can add a #
                 if w in text.lower() :
                     # print("[Tweet] Found {}".format(w))
-                    for v in text.split() :
+
+                    for v in re.split(' |; |, |\'',text) :
                         # print("[Tweet] Try to Replace {} using {}".format(v,v.lower()))
                         if w == v.lower() and len(text)+tweet_link_size+1 <= tweet_size :
                             text = re.sub(v,'#'+w,text)
@@ -170,19 +173,14 @@ class Article:
         if len(self.tags) >= 1 :
             maintag = self.tags[0]
             if " " not in maintag and maintag not in text and len(text)+len(maintag)+2+tweet_link_size <= tweet_size :
-                text += " "+self.url+" #"+maintag
+                text += " "+self.shorturl+" #"+maintag
             else :
-                text += " "+self.url
+                text += " "+self.shorturl
         else :
-            text += " "+self.url
+            text += " "+self.shorturl
 
         print("+---[Tweet] {}".format(text))
-
-        if self.image :
-            data = utils.services.getImageData(self.image)
-            return 'statuses/update_with_media', {'status':text}, {'media[]':data}
-        else :
-            return 'statuses/update', {'status':text}
+        return text
 
     def show(self) :
         print("+--[Article] {} ".format(self.title))

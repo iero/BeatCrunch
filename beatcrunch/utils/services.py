@@ -54,6 +54,14 @@ def sanitizeTitle(service, title) :
     # Remove non alphanumeric
     title = utils.utils.sanitizeText(title)
 
+    #TODO : Remove emojis
+    # remoji = re.compile(u'['
+    # u'\U0001F300-\U0001F64F'
+    # u'\U0001F680-\U0001F6FF'
+    # u'\u2600-\u26FF\u2700-\u27BF]+',
+    # re.UNICODE)
+    # title = remoji.sub('',title)
+
     # title = re.sub('[«»]','',title)
     return title
 
@@ -238,16 +246,24 @@ def similar(a, b):
 def extendedSimilar(a, b):
     aL=a.split()
     bL=b.split()
-    # maxSim=0
+
+    #TODO Calcul de moyenne pondérée
+    # Plus la note mot est élevée tot, plus le poids est fort
+    maxSim=0
+
     for i in range(1,min(len(aL),len(bL))) :
         aX = ' '.join(aL[:i])
         bX = ' '.join(bL[:i])
         g = similar(aX,bX)
-        # if g > maxSim :
-        #     maxSim = g
-        if g > 0.5 :
-            print("+---- {0} [{1}] [{2}]".format(g,aX,bX))
-    return g
+
+        # Si g est grand (sup à 0.6) entre 4 et 6 on a de bonne chances que ce soit un duplicat
+        # Dans ce cas, on renvoie cette valeur.
+        if 4 <= i <= 6 :
+            print("+---- {0:.2f} [{1}] [{2}]".format(g,aX,bX))
+            if g > maxSim :
+                maxSim = g
+
+    return max(maxSim,g)
 
 # Detect if keywords or title from articles are already somewhere
 # 5 keywords minimum
