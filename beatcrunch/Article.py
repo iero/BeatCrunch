@@ -184,7 +184,6 @@ class Article:
 
     def show(self) :
         print(u"+--[Article] {} ".format(self.title.encode('utf8')))
-        tags = ','.join(self.tags)
 
         # Length and time to read
         length = len(self.text.split())
@@ -195,7 +194,10 @@ class Article:
             tpslect = str(t)
         print(u"+---[content] {} words ({} min)".format(str(length),tpslect))
 
+        # URL
         print(u"+---[url] {} ".format(self.url.encode('utf8')))
         if self.image : print(u"+---[img] {} ".format(self.image.encode('utf8')))
 
-        print(u"+---[tags] [{}]".format(tags))
+        # Tags
+        tags = ','.join(self.tags)
+        print(u"+---[tags] [{}]".format(tags.encode('utf8')))
