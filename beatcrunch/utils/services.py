@@ -282,16 +282,16 @@ def detectSimArticle(service,article,sim_dict) :
     #TODO adapt after learning
     if maxsim > 0.4 :
         # print(u"+--[Tag]      [{}]".format(tags))
-        print(u"+---[Sim] {0:.2f} [{1}]".format(maxsim,sim_dict[maxsimwith]))
-        print(u"+---[Sim]      [{}]".format(maxsimwith))
+        print(u"+---[Sim] {0:.2f} [{1}]".format(maxsim,sim_dict[maxsimwith].encode('utf8')))
+        print(u"+---[Sim]      [{}]".format(maxsimwith.encode('utf8')))
         # print(u"+--[Match]     [{}]".format(maxsimwith))
 
     #TODO mettre plus de poids sur les premiers mots
     if maxsim > 0.4 :
         maxsim = extendedSimilar(tags,maxsimwith)
-        print(u"+---[MaxSim] {0:.2f}".format(maxsim))
+        print(u"+---[MaxSim] {0:.2f}".format(maxsim.encode('utf8')))
     else :
-        print(u"+---[NoSim] {0:.2f}".format(maxsim))
+        print(u"+---[NoSim] {0:.2f}".format(maxsim.encode('utf8')))
 
     if maxsim > 0 :
         return maxsim,sim_dict[maxsimwith]
