@@ -33,14 +33,14 @@ class Statistics:
         }
 
     def show(self) :
-        print('+-[Statistics]')
-        print('+-- {} articles'.format(self.total))
-        print('+-- {} tags'.format(self.nbtags))
-        print('+-- {} words'.format(self.nbwords))
-        print('+--- {} twitted'.format(self.twitted))
-        print('+--- {} filtered'.format(self.filtered))
-        print('+--- {} duplicates'.format(self.duplicates))
+        print(u'+-[Statistics]')
+        print(u'+-- {} articles'.format(self.total))
+        print(u'+-- {} tags'.format(self.nbtags))
+        print(u'+-- {} words'.format(self.nbwords))
+        print(u'+--- {} twitted'.format(self.twitted))
+        print(u'+--- {} filtered'.format(self.filtered))
+        print(u'+--- {} duplicates'.format(self.duplicates))
 
         tags = ' '.join(self.top_trend)
-        print('+-- Trend [{}]'.format(tags))
-        print('+-[/Statistics]')
+        print(u'+-- Trend [{}]'.format(tags.encode('utf8')))
+        print(u'+-[/Statistics]')
