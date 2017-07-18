@@ -119,7 +119,7 @@ def getNewArticles(service,settings) :
                     articles.append(a)
                 except :
                     print(u"+--[Error {}] {} {} ".format(service,title,link))
-                    print(u"Unexpected error : {}".format( sys.exc_info()))
+                    print(u"Unexpected error : {}".format(sys.exc_info()))
 
         # print(u"+--[New] {} rss articles (in {}ms)".format(len(feed.entries),int((time.time()-starttime)*1000.0)))
     elif url_type == "json" :
@@ -220,12 +220,12 @@ def detectAdArticle(service,article) :
 
             # filter based on url
             if filter_type == "url" and filter_value in article.url :
-                print(u"+---[Url filter] matched on "+filter_value)
+                print(u"+---[Filter] Url matched on {} ".format(filter_value.encode('utf8')))
                 return True
 
             # based on title
             if filter_type == "title" and filter_value in article.title.lower() :
-                print(u"+---[Title filter] matched on "+filter_value)
+                print(u"+---[Filter] Title matched on {} ".format(filter_value.encode('utf8')))
                 return True
 			# based on content
             if filter_type == "class" :
@@ -235,7 +235,7 @@ def detectAdArticle(service,article) :
 
                 f=article.soup.find(filter_section, class_=filter_name)
                 if f is not None and filter_value in f.get_text().lower() :
-                    print(u"+---[Content filter] matched on "+filter_value)
+                    print(u"+---[Filter] Content matched on {} ".format(filter_value.encode('utf8')))
                     return True
     return False
 
@@ -259,7 +259,7 @@ def extendedSimilar(a, b):
         # Si g est grand (sup à 0.6) entre 4 et 6 on a de bonne chances que ce soit un duplicat
         # Dans ce cas, on renvoie cette valeur.
         if 4 <= i <= 6 :
-            print(u"+---- {0:.2f} [{1}] [{2}]".format(g,aX,bX))
+            print(u"+---- {0:.2f} [{1}] [{2}]".format(g,aX.encode('utf8'),bX.encode('utf8')))
             if g > maxSim :
                 maxSim = g
 
