@@ -289,9 +289,9 @@ def detectSimArticle(service,article,sim_dict) :
     #TODO mettre plus de poids sur les premiers mots
     if maxsim > 0.4 :
         maxsim = extendedSimilar(tags,maxsimwith)
-        print(u"+---[MaxSim] {0:.2f}".format(maxsim.encode('utf8')))
+        print(u"+---[MaxSim] {0:.2f}".format(maxsim))
     else :
-        print(u"+---[NoSim] {0:.2f}".format(maxsim.encode('utf8')))
+        print(u"+---[NoSim] {0:.2f}".format(maxsim))
 
     if maxsim > 0 :
         return maxsim,sim_dict[maxsimwith]
