@@ -45,6 +45,13 @@ if __name__ == "__main__":
             debug=False
             print(u"+-[Debug] OFF")
 
+        if settings.find('settings').find('shorten').text == "True" :
+            shorten=True
+            print(u"+-[Shorten] ON")
+        else :
+            shorten=False
+            print(u"+-[Shorten] OFF")
+
         if settings.find('settings').find('twitter').text == "True" :
             twitter=True
             print(u"+-[Twitter] ON")
@@ -111,14 +118,16 @@ if __name__ == "__main__":
                 statistics.nbwords += len(article.text)
 
                 # shorten url
-                article.shorturl = utils.utils.shortenLink(settings,article.url)
+                if shorten:
+                    article.shorturl = utils.utils.shortenLink(settings,article.url)
 
                 # Prepare and send tweet
                 if twitter :
                     utils.share.tweet(settings,article)
 
                 # Prepare and send toot
-                if mastodon : utils.share.toot(settings,article)
+                if mastodon :
+                    utils.share.toot(settings,article)
 
             print(u"+-------------------------")
 
