@@ -30,8 +30,9 @@ def toot(s,article) :
         for service in s.findall('service') :
             if service.get("name") == "mastodon" :
                 m = Mastodon(client_id = service.find("client_id").text, client_secret = service.find("client_secret").text, access_token = service.find("access_token").text, api_base_url = "https://mamot.fr")
-
+                print("Connected to mastodon")
         if article.image :
+            print("Converting image")
             disassembled = urlparse(url)
             img_name, img_ext = splitext(basename(disassembled.path))
             img_local = ("/tmp/"+img_name+img_ext)
@@ -45,7 +46,7 @@ def toot(s,article) :
                     os.remove("/tmp/"+img_name+img_ext)
 
                 media_id = m.media_post(img_local)
-                #print(umedia_id)
+                print(media_id)
 
                 m.status_post(text,in_reply_to_id=None,media_ids=[media_id])
                 if os.path.exists(img_local) : os.remove(img_local)
