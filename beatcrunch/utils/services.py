@@ -182,6 +182,7 @@ def getArticleContent(url) :
 
     return BeautifulSoup(web_page.content, "html.parser")
 
+# For twitter 
 def getImageData(url) :
     response = requests.get(url, headers=headers, allow_redirects=True)
     return response.content

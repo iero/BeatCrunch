@@ -409,10 +409,18 @@ https://www.ted.com/talks/rss
 </service>
 
 <service name="Google blog" lang="en">
-	<id>google_blog</id>
+	<id>googleBlog</id>
 	<mention>#google</mention>
 	<url type="rss">https://www.blog.google/rss/</url>
 	<text type="div" name="class" section="p">uni-content uni-blog-article-container</text>
+</service>
+
+<service name="Google X" lang="en">
+	<id>googleX</id>
+	<mention>#googleX</mention>
+	<url type="rss">https://blog.x.company/feed</url>
+	<text type="div" name="class" section="p">section-content</text>
+	<image type="div" name="class" section="img" attribute="src">section-content</image>
 </service>
 
 <service name="The Hacker News" lang="en">
@@ -498,10 +506,54 @@ https://www.ted.com/talks/rss
 	<image type="div" name="class" section="img" attribute="src">td-post-featured-image</image>
 </service>
 
+<service name="Futurism" lang="en">
+	<id>futurism</id>
+	<mention>#futurism</mention>
+	<url type="rss">https://futurism.com/feed/</url>
+	<text type="div" name="class" section="p">summary module</text>
+	<image type="div" name="class" section="img" attribute="src">summary module</image>
+</service>
+
+<service name="Forbes" lang="fr">
+	<id>forbes_fr</id>
+	<mention>#forbes</mention>
+	<url type="rss">https://www.forbes.fr/feed/</url>
+	<text type="div" name="class" section="p">entry-content post-content</text>
+	<image type="div" name="class" section="img" attribute="src">panel-body</image>
+	<selection>
+		<select type="url">technologie</select>
+		<select type="url">entrepreneurs</select>
+	</selection>
+</service>
+
 <service name="hook" lang="fr">
 	<id>hook</id>
 	<mention>#hook</mention>
 	<url type="json" title="subtitle">https://www.mercialfred.com/hook/ws/news.json</url>
+</service>
+
+<!-- in progress -->
+<service name="Startup.co" lang="en">
+	<id>startup_co</id>
+	<mention>#startup</mention>
+	<url type="web">https://www.startups.co/articles</url>
+
+	<!-- Get article list from a classic page -->
+	<get>
+		<container type="div" name="class">ArticleGrid__articleGrid__dDRd3</container>
+		<item type="div" name="class">ArticleCard__cardInner__tkVEP</item>
+		<title type="h3" name="class">ArticleCard__cardHeadline__1UwuK</title>
+		<link type="h4" name="class" section="a" attribute="href">PASFINI</link>
+	</get>
+
+	<text type="div" name="class" section="p">article__contentText</text>
+	<image type="div" name="class" section="img" attribute="src">article__graphic</image>
+	<sanitize>
+		<remove type="title">Infographie - </remove>
+	</sanitize>
+	<hashtags>
+		<tag>infographie</tag>
+	</hashtags>
 </service>
 
 <!--

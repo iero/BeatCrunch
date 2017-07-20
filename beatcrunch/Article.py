@@ -179,7 +179,6 @@ class Article:
         else :
             text += " "+self.shorturl
 
-        print(u"+---[Tweet] {}".format(text))
         return text
 
     def show(self) :
