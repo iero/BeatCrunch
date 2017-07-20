@@ -17,7 +17,7 @@ def tweet(s,article) :
             t = TwitterAPI(consumer_key=service.find("consumer_key").text, consumer_secret=service.find("consumer_secret").text, access_token_key=service.find("access_token_key").text, access_token_secret=service.find("access_token_secret").text)
 
     text = article.getTweet()
-    print(u"+---[Tweet] {}".format(text))
+    print(u"+---[Tweet] {}".format(text.encode('utf-8')))
 
 
     if article.image :
@@ -36,8 +36,7 @@ def toot(s,article) :
             m = Mastodon(client_id = service.find("client_service").text, client_secret = service.find("client_secret").text, access_token = service.find("access_token").text, api_base_url = service.find("server").text)
 
     text = article.getTweet()
-    print(u"+---[Toot] {}".format(text))
-
+    print(u"+---[Toot] {}".format(text.encode('utf-8')))
 
     if article.image :
         # print("Converting image")
