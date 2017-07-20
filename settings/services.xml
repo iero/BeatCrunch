@@ -201,7 +201,7 @@
 	<image type="div" name="class" section="source" attribute="srcset">article-image-wrapper</image>
 	<filters>
 		<filter type="title">#mcal</filter>
-		<filter type="title">offres.*emploi</filter>
+		<filter type="title">offres</filter>
 		<filter type="title">événements startups ne pas manquer</filter>
 	</filters>
 	<sanitize>
