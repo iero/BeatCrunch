@@ -514,6 +514,9 @@ https://www.ted.com/talks/rss
 	<url type="rss">https://futurism.com/feed/</url>
 	<text type="div" name="class" section="p">summary module</text>
 	<image type="div" name="class" section="img" attribute="src">summary module</image>
+	<filters>
+		<filter type="url">videos</filter>
+	</filters>
 </service>
 
 <service name="Forbes" lang="fr">
