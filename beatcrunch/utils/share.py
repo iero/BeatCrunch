@@ -1,8 +1,10 @@
 import os,sys
+
+import urllib
 import urllib.request as request
+from urllib.parse import urlparse
 
 from PIL import Image # For converting image to PNG
-from urllib.parse import urlparse
 from os.path import splitext, basename
 
 from TwitterAPI import TwitterAPI
