@@ -47,7 +47,15 @@ def toot(s,article) :
             img_local = ("/tmp/"+img_name+img_ext)
 
             # try :
-            request.urlretrieve(article.image, img_local)
+            headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
+
+            imgRequest = urllib2.Request(article.image, headers=headers)
+            imgData = urllib2.urlopen(imgRequest).read()
+            output = open(img_local,'wb')
+            output.write(imgData)
+            output.close()
+
+            # request.urlretrieve(article.image, img_local)
             if "png" not in img_ext :
                 img = Image.open(img_local)
                 img_local = ("/tmp/"+img_name+".png")
