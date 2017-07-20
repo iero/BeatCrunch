@@ -201,7 +201,7 @@
 	<image type="div" name="class" section="source" attribute="srcset">article-image-wrapper</image>
 	<filters>
 		<filter type="title">#mcal</filter>
-		<filter type="title">5 offres d'emploi</filter>
+		<filter type="title">offres.*emploi</filter>
 		<filter type="title">événements startups ne pas manquer</filter>
 	</filters>
 	<sanitize>
@@ -287,6 +287,7 @@
 		<filter type="title">[numbers]</filter>
 		<filter type="title">de la semaine</filter>
 		<filter type="title">ne fallait pas manquer</filter>
+		<filter type="title">recrutent</filter>
 	</filters>
 	<sanitize>
 		<remove type="title">\[.*?\] </remove>
