@@ -1,5 +1,6 @@
 import os,sys
-import urllib.request as request
+#import urllib.request as request
+import urllib2
 
 from PIL import Image # For converting image to PNG
 from urllib.parse import urlparse
