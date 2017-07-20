@@ -124,7 +124,7 @@ if __name__ == "__main__":
                 # Prepare and send tweet
                 if twitter :
                     if (utils.share.tweet(settings,article)) :
-                        statistics.tweeted += 1
+                        statistics.twitted += 1
 
                 # Prepare and send toot
                 if mastodon :
