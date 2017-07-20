@@ -123,11 +123,13 @@ if __name__ == "__main__":
 
                 # Prepare and send tweet
                 if twitter :
-                    utils.share.tweet(settings,article)
+                    if (utils.share.tweet(settings,article)) :
+                        statistics.tweeted += 1
 
                 # Prepare and send toot
                 if mastodon :
-                    utils.share.toot(settings,article)
+                    if (utils.share.toot(settings,article)) :
+                        statistics.tooted += 1
 
             print(u"+-------------------------")
 

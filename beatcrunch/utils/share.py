@@ -19,17 +19,17 @@ def tweet(s,article) :
         text = article.getTweet()
         print(u"+---[Tweet] {}".format(text.encode('utf-8')))
 
-
         if article.image :
             data = utils.services.getImageData(article.image)
             t.request('statuses/update_with_media', {'status':text}, {'media[]':data})
         else :
             t.request('statuses/update', {'status':text})
 
+        return True
     except:
         print(u"+---[Tweet] Fail")
-        print(u"+--[Error] Sanitize URL {}".format(url))
         print(u"Unexpected error : {}".format( sys.exc_info()))
+        return False
 
 def toot(s,article) :
     try :
@@ -64,7 +64,9 @@ def toot(s,article) :
             #     m.toot(text)
         else :
             m.toot(text)
+
+        return True
     except:
         print(u"+---[Toot] Failed")
-        print(u"+--[Error] Sanitize URL {}".format(url))
         print(u"Unexpected error : {}".format( sys.exc_info()))
+        return False
