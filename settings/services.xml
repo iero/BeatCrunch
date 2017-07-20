@@ -413,6 +413,7 @@ https://www.ted.com/talks/rss
 	<mention>#google</mention>
 	<url type="rss">https://www.blog.google/rss/</url>
 	<text type="div" name="class" section="p">uni-content uni-blog-article-container</text>
+	<image type="div" name="class" section="img" attribute="src">uni-content uni-blog-article-container</image>
 </service>
 
 <service name="Google X" lang="en">
