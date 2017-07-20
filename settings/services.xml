@@ -489,7 +489,7 @@ https://www.ted.com/talks/rss
 	<mention>#mit</mention>
 	<url type="rss">https://www.technologyreview.com/stories.rss</url>
 	<text type="div" name="class" section="p">article-body__content</text>
-	<!--image type="div" name="class" section="img" attribute="src">infographic</image-->
+	<image type="div" name="class" section="img" attribute="src">article-body__content</image-->
 </service>
 
 <service name="Data Science Central" lang="en">
