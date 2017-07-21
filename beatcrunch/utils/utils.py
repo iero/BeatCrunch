@@ -10,7 +10,6 @@ from nltk.probability import FreqDist
 
 from pyshorteners import Shortener # for bitly
 
-
 # Tweet sizes = add 1 for extra space
 tweet_size = 140
 tweet_link_size = 1+23
@@ -32,6 +31,14 @@ def loadjson(json_file) :
             return json.load(f)
     else :
         return {}
+
+def loadSetting(s,name) :
+    if s.find('settings').find(name).text == "True" :
+        print(u"+-[{}] ON".format(name.encode('utf8')))
+        return True
+    else :
+        print(u"+-[{}] OFF".format(name.encode('utf8')))
+        return False
 
 def printjsonTitles(json_data) :
     for news in json_data :
@@ -75,7 +82,6 @@ def getLastDaysTitles(settings,nbdays) :
     for days in range(0,nbdays) :
         d = datetime.today() - timedelta(days=days)
         json_file=out_dir+'/json/'+d.strftime("%Y%m%d")+".json"
-        #print(ujson_file)
 
         if os.path.exists(json_file):
             j = loadjson(json_file)

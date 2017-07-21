@@ -38,39 +38,17 @@ if __name__ == "__main__":
         if not os.path.exists(out_dir): os.makedirs(out_dir)
         if not os.path.exists(out_dir+'/json'): os.makedirs(out_dir+'/json')
 
-        if settings.find('settings').find('debug').text == "True" :
-            debug=True
-            print(u"+-[Debug] ON")
-        else :
-            debug=False
-            print(u"+-[Debug] OFF")
-
-        if settings.find('settings').find('shorten').text == "True" :
-            shorten=True
-            print(u"+-[Shorten] ON")
-        else :
-            shorten=False
-            print(u"+-[Shorten] OFF")
-
-        if settings.find('settings').find('twitter').text == "True" :
-            twitter=True
-            print(u"+-[Twitter] ON")
-        else :
-            twitter=False
-            print(u"+-[Twitter] OFF")
-
-        if settings.find('settings').find('mastodon').text == "True" :
-            mastodon=True
-            print(u"+-[Mastodon] ON")
-        else :
-            mastodon=False
-            print(u"+-[Mastodon] OFF")
-
+        # Load general settings
+        debug = utils.utils.loadSetting(settings,'debug')
+        shorten = utils.utils.loadSetting(settings,'shorten')
+        twitter = utils.utils.loadSetting(settings,'twitter')
+        mastodon = utils.utils.loadSetting(settings,'mastodon')
 
     # JSON feed for today
     today_json_file=out_dir+'/json/'+time.strftime("%Y%m%d")+".json"
     json_today = utils.utils.loadjson(today_json_file)
-    if debug : print(u"+-[Loading] [{}]".format(today_json_file.encode('utf-8')))
+    if debug :
+        print(u"+-[Loading] {} articles from [{}]".format(len(json_today),today_json_file.encode('utf-8')))
 
     # Load statistics for today
     statistics = Statistics.Statistics(json_today)
@@ -79,14 +57,13 @@ if __name__ == "__main__":
 
     # Create dictionnary & index for similarity
     sim_dict = utils.utils.getLastDaysTags(settings,5)
-
     if debug : print(u"+-[Loading] {} articles for similarity".format(len(sim_dict)))
 
     # Get new articles for each selected service
     for s in settings.find('settings').find("services").findall('service'):
         service = utils.services.getRelatedService(services,s.text)
 
-        if debug : print(u"+-[Service] [{}]".format(s.text.encode('utf-8')))
+        if debug : print(u"+-[Service] [{}]".format(service.find('id').text.encode('utf-8')))
         # Get new articles
         articles = utils.services.getNewArticles(service, settings)
 
@@ -116,6 +93,14 @@ if __name__ == "__main__":
             else :
                 statistics.nbtags += len(article.tags)
                 statistics.nbwords += len(article.text)
+
+                # Never tweet 2 times the same thing
+                # utils.utils.verifyLink(article.url)
+
+                # Verify that we will not flood (more than 3 articles)
+                if len(articles) > 3 :
+                    print(u"+--[ALERT] {} articles to push.. STOP".format(len(articles)))
+                    break
 
                 # shorten url
                 if shorten:

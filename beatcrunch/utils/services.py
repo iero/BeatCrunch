@@ -1,4 +1,6 @@
 import os, sys, re, time
+import traceback
+
 import requests
 import feedparser # read rss feed
 import pickle # saving rss as links
@@ -68,23 +70,102 @@ def sanitizeTitle(service, title) :
 #
 def getRelatedService(services, name) :
     for s in services.findall('service') :
-        if (s.find('id').text == name) : return s
+        if (s.find('id').text == name) :
+            # print(u"+--[{}] service found".format(name))
+            return s
 
     print(u"+--[Error] {} unknown".format(name))
     return None
 
+def getRSSArticles(service, rss_url, oldlist) :
+    articles = []
+    feedlist = []
+
+    rss_lang = service.get('lang')
+
+    feed = feedparser.parse(rss_url)
+    # print(u"+--[Got] {} rss articles (in {}ms)".format(len(feed.entries),int((time.time()-starttime)*1000.0)))
+
+    starttime = time.time()
+    for post in feed.entries:
+        # Add to current json
+        feedlist.append(post.link)
+
+        # If new post, push it.
+        if post.link not in oldlist :
+            title = sanitizeTitle(service, post.title)
+            link = sanitizeUrl(rss_url,post.link)
+            try :
+                a = Article.Article(service,title,link,rss_lang)
+                articles.append(a)
+            except :
+                print(u"+--[Error {}] {} {} ".format(service,title,link))
+                print(u"Unexpected error : {}".format(sys.exc_info()))
+
+    return articles, feedlist
+
+
+def getWebArticles(service,rss_url,oldlist) :
+    articles = []
+    feedlist = []
+
+    rss_lang = service.get('lang')
+    soup = getArticleContent(rss_url)
+
+    # Get list of articles from container -->
+    container_type = service.find('get').find('container').get('type')
+    #name = service.find('get').find('container').get('name')
+    container_value = service.find('get').find('container').text
+
+    text_container=soup.find(container_type, class_=container_value)
+
+    if text_container is not None :
+        # print(utext_container)
+        item_type = service.find('get').find('item').get('type')
+        item_value = service.find('get').find('item').text
+
+        for t in text_container.find_all(item_type, class_=item_value) :
+            # Get title
+            title_type = service.find('get').find('title').get('type')
+            title_value = service.find('get').find('title').text
+
+            title = t.find(title_type, class_=title_value).text
+
+            # Get article link
+            link_type = service.find('get').find('link').get('type')
+            link_value = service.find('get').find('link').text
+            link_section = service.find('get').find('link').get('section')
+            link_attribute = service.find('get').find('link').get('attribute')
+
+            link = t.find(link_type, class_=link_value).find(link_section).get(link_attribute)
+
+            # Add to current json
+            feedlist.append(link)
+
+            # If new post, push it.
+            if link not in oldlist :
+                link = sanitizeUrl(rss_url,link)
+                title = sanitizeTitle(service, title)
+                try :
+                    a = Article.Article(service,title,link,rss_lang)
+                    articles.append(a)
+                except :
+                    print(u"+--[Error {}] {} {} ".format(service,title,link))
+                    print(u"Unexpected error : {}".format( sys.exc_info()))
+
+    return articles, feedlist
+
 # Get new articles from a live feed
 def getNewArticles(service,settings) :
-    starttime = time.time()
+    # starttime = time.time()
 
     out_dir = settings.find('settings').find('output').text
     if not os.path.exists(out_dir+'/rss'): os.makedirs(out_dir+'/rss')
 
-    articles = []
-
     rss_id = service.find('id').text
     rss_lang = service.get('lang')
     rss_feed = out_dir+'/rss/'+rss_lang+'-'+rss_id+'.list'
+
     rss_url = service.find('url').text
     url_type = service.find('url').get('type')
 
@@ -92,82 +173,35 @@ def getNewArticles(service,settings) :
     if os.path.exists(rss_feed):
         with open (rss_feed, 'rb') as fp:
             oldlist = pickle.load(fp)
+        print(u"+--[Previous] {} articles loaded".format(len(oldlist)))
+        # print(u"+--[Existing feed {}] with {} articles".format(rss_feed.encode('utf-8'),len(oldlist)))
     else :
+        print(u"+--[New feed {}]".format(rss_feed.encode('utf-8')))
         oldlist = []
 
-    # print(u"+--[Previous] {} articles loaded".format(len(oldlist)))
+    # for o in oldlist :
+    #     print(o.encode('utf-8'))
 
-    # new feed list
-    feedlist=[]
+    articles = []
+    feedlist = []
 
     # Parse rss feed
-    if url_type == "rss" :
-        feed = feedparser.parse(rss_url)
-        # print(u"+--[Got] {} rss articles (in {}ms)".format(len(feed.entries),int((time.time()-starttime)*1000.0)))
+    try :
+        if url_type == "rss" :
+            articles, feedlist = getRSSArticles(service,rss_url, oldlist)
+        elif url_type == "web" :
+            articles, feedlist = getWebArticles(service,rss_url, oldlist)
+            # elif url_type == "json" :
+            #     feed = utils.utils.loadjson(rss_url)
+    except :
+        print(u"Unexpected error : {}".format( sys.exc_info()))
+        traceback.print_exc()
 
-        starttime = time.time()
-        for post in feed.entries:
-            # Add to current json
-            feedlist.append(post.link)
-
-            # If new post, push it.
-            if post.link not in oldlist :
-                title = sanitizeTitle(service, post.title)
-                link = sanitizeUrl(rss_url,post.link)
-                try :
-                    a = Article.Article(service,title,link,rss_lang)
-                    articles.append(a)
-                except :
-                    print(u"+--[Error {}] {} {} ".format(service,title,link))
-                    print(u"Unexpected error : {}".format(sys.exc_info()))
-
-        # print(u"+--[New] {} rss articles (in {}ms)".format(len(feed.entries),int((time.time()-starttime)*1000.0)))
-    elif url_type == "json" :
-        feed = utils.utils.loadjson(rss_url)
-
-    elif url_type == "web" :
-        soup = getArticleContent(rss_url)
-
-        # Get list of articles from container -->
-        container_type = service.find('get').find('container').get('type')
-        #name = service.find('get').find('container').get('name')
-        container_value = service.find('get').find('container').text
-
-        text_container=soup.find(container_type, class_=container_value)
-
-        if text_container is not None :
-            # print(utext_container)
-            item_type = service.find('get').find('item').get('type')
-            item_value = service.find('get').find('item').text
-
-            for t in text_container.find_all(item_type, class_=item_value) :
-                # Get title
-                title_type = service.find('get').find('title').get('type')
-                title_value = service.find('get').find('title').text
-
-                title = t.find(title_type, class_=title_value).text
-
-                # Get article link
-                link_type = service.find('get').find('link').get('type')
-                link_value = service.find('get').find('link').text
-                link_section = service.find('get').find('link').get('section')
-                link_attribute = service.find('get').find('link').get('attribute')
-
-                link = t.find(link_type, class_=link_value).find(link_section).get(link_attribute)
-
-                # Add to current json
-                feedlist.append(link)
-
-                # If new post, push it.
-                if link not in oldlist :
-                    link = sanitizeUrl(rss_url,link)
-                    title = sanitizeTitle(service, title)
-                    try :
-                        a = Article.Article(service,title,link,rss_lang)
-                        articles.append(a)
-                    except :
-                        print(u"+--[Error {}] {} {} ".format(service,title,link))
-                        print(u"Unexpected error : {}".format( sys.exc_info()))
+    # RSS : Verify if we don't get crap (null file or smaller)
+    if len(feedlist) < len(oldlist) :
+        for l in oldlist :
+            if l not in feedlist :
+                feedlist.append(l)
 
     # Save RSS feed entries
     with open(rss_feed, 'wb') as fp:
@@ -182,7 +216,7 @@ def getArticleContent(url) :
 
     return BeautifulSoup(web_page.content, "html.parser")
 
-# For twitter 
+# For twitter
 def getImageData(url) :
     response = requests.get(url, headers=headers, allow_redirects=True)
     return response.content
