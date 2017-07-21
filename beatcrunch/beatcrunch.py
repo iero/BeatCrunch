@@ -57,7 +57,10 @@ if __name__ == "__main__":
 
     # Create dictionnary & index for similarity
     sim_dict = utils.utils.getLastDaysTags(settings,5)
-    if debug : print(u"+-[Loading] {} articles for similarity".format(len(sim_dict)))
+    title_dict = utils.utils.getLastDaysTitles(settings,5)
+    if debug :
+        print(u"+-[Loading] {} articles for similarity based on tags".format(len(sim_dict)))
+        print(u"+-[Loading] {} articles for similarity based on titles".format(len(title_dict)))
 
     # Get new articles for each selected service
     for s in settings.find('settings').find("services").findall('service'):
@@ -78,13 +81,28 @@ if __name__ == "__main__":
             # Test if article is interesting
             article.rate  = utils.services.rateArticle(service,article,sim_dict)
 
-            # Detect if already published
-            article.similarity, article.similarity_with = utils.services.detectSimArticle(service,article,sim_dict)
+            # Detect if already published based on tags
+            tags_sim, tags_sim_with = utils.services.detectSimArticle(service,article,sim_dict)
 
             # Add this article in comparaison table if more than 5 tags
             if len(article.tags) >= 5 :
                 tags = ' '.join(article.tags)
                 sim_dict[tags] = article.title
+
+            # Find if really new based on title
+            title_sim, title_sim_with = utils.services.detectSimArticleTitle(article.title,title_dict)
+            title_dict.append(article.title)
+
+            # If a title is more than 80% common with another one..
+            # it might be the same article !
+            if title_sim > tags_sim and title_sim > 0.8 :
+                print(u"+---[Sim Title] of {0:.2f} with [{1}]".format(title_sim,title_sim_with.encode('utf8')))
+                article.similarity = title_sim
+                article.similarity_with = title_sim_with
+            else :
+                print(u"+---[Sim Tags] of {0:.2f} with [{1}]".format(tags_sim,tags_sim_with.encode('utf8')))
+                article.similarity = tags_sim
+                article.similarity_with = tags_sim_with
 
             if article.rate == 0 :
                 statistics.filtered += 1

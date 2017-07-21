@@ -61,7 +61,6 @@ def shortenLink(s,url) :
 #TODO : Maybe a library will do it ?
 
 def sanitizeText(text) :
-
     # Remove first and last spaces
     text = text.strip()
 

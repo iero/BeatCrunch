@@ -296,7 +296,8 @@ def extendedSimilar(a, b):
         # Si g est grand (sup à 0.6) entre 4 et 6 on a de bonne chances que ce soit un duplicat
         # Dans ce cas, on renvoie cette valeur.
         if 4 <= i <= 6 :
-            print(u"+---- {0:.2f} [{1}] [{2}]".format(g,aX.encode('utf8'),bX.encode('utf8')))
+            if g > 0.6 :
+                print(u"+---- {0:.2f} [{1}] [{2}]".format(g,aX.encode('utf8'),bX.encode('utf8')))
             if g > maxSim :
                 maxSim = g
 
@@ -317,21 +318,37 @@ def detectSimArticle(service,article,sim_dict) :
                 maxsimwith = key
 
     #TODO adapt after learning
-    if maxsim > 0.4 :
-        # print(u"+--[Tag]      [{}]".format(tags))
-        print(u"+---[Sim] {0:.2f} [{1}]".format(maxsim,sim_dict[maxsimwith].encode('utf8')))
-        print(u"+---[Sim]      [{}]".format(maxsimwith.encode('utf8')))
+    # if maxsim > 0.4 :
+    #     # print(u"+--[Tag]      [{}]".format(tags))
+    #     print(u"+---[Sim] {0:.2f} [{1}]".format(maxsim,sim_dict[maxsimwith].encode('utf8')))
+    #     print(u"+---[Sim]      [{}]".format(maxsimwith.encode('utf8')))
         # print(u"+--[Match]     [{}]".format(maxsimwith))
 
     #TODO mettre plus de poids sur les premiers mots
     if maxsim > 0.4 :
         maxsim = extendedSimilar(tags,maxsimwith)
-        print(u"+---[MaxSim] {0:.2f}".format(maxsim))
-    else :
-        print(u"+---[NoSim] {0:.2f}".format(maxsim))
+        # print(u"+---[MaxSim] {0:.2f}".format(maxsim))
+    # else :
+        # print(u"+---[NoSim] {0:.2f}".format(maxsim))
 
     if maxsim > 0 :
         return maxsim,sim_dict[maxsimwith]
+    else :
+        return 0,""
+
+# Detect if article is slighly the same as another already published
+def detectSimArticleTitle(title,title_dict) :
+    maxsim = 0
+    maxsimwith =""
+
+    for t in title_dict :
+        g = similar(title,t)
+        if g > maxsim :
+            maxsim = g
+            maxsimwith = t
+
+    if maxsim > 0 :
+        return maxsim,maxsimwith
     else :
         return 0,""
 
