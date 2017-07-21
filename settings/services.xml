@@ -64,7 +64,7 @@
 
 <service name="Journal du Net #cloud" lang="fr">
 	<id>jdn_cloud</id>
-	<url type="rss">http://www.journaldunet.com/cloud-computing/rss/</url>
+	<url type="rss">http://www.journaldunet.com/solutions/cloud-computing/rss/</url>
 	<twitter_account>@journaldunet</twitter_account>
 	<mention>#jdn</mention>
 	<text type="div" name="class" section="p">entry</text>
