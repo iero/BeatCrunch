@@ -100,7 +100,8 @@ def getRSSArticles(service, rss_url, oldlist) :
                 articles.append(a)
             except :
                 print(u"+--[Error {}] {} {} ".format(service,title,link))
-                print(u"Unexpected error : {}".format(sys.exc_info().encode('utf-8')))
+                print(u"Unexpected error")
+
     return articles, feedlist
 
 
@@ -150,7 +151,7 @@ def getWebArticles(service,rss_url,oldlist) :
                     articles.append(a)
                 except :
                     print(u"+--[Error {}] {} {} ".format(service,title,link))
-                    print(u"Unexpected error : {}".format(sys.exc_info().encode('utf-8')))
+                    print(u"Unexpected error")
     return articles, feedlist
 
 # Get new articles from a live feed
@@ -195,7 +196,7 @@ def getNewArticles(service,settings) :
             # elif url_type == "json" :
             #     feed = utils.utils.loadjson(rss_url)
     except :
-        print(u"Unexpected error : {}".format( sys.exc_info()))
+        print(u"Unexpected error")
         traceback.print_exc()
 
     # RSS : Verify if we don't get crap (null file or smaller)

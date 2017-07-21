@@ -30,7 +30,7 @@ def tweet(s,article) :
         return True
     except:
         print(u"+---[Tweet] Fail")
-        print(u"Unexpected error : {}".format( sys.exc_info()))
+        # print(u"Unexpected error : {}".format( sys.exc_info()))
         return False
 
 def toot(s,article) :
@@ -72,5 +72,5 @@ def toot(s,article) :
         return True
     except:
         print(u"+---[Toot] Failed")
-        print(u"Unexpected error : {}".format(sys.exc_info().encode('utf-8')))
+        # print(u"Unexpected error : {}".format(sys.exc_info().encode('utf-8')))
         return False
