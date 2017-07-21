@@ -160,6 +160,8 @@ class Article:
                             text = re.sub(v,'#'+w,text)
                             # First matched tag is enough
                             nb=max
+                            # Just replace first occurence 
+                            break
                 nb += 1
         # print(u"[Tweet] Add Tags : [{}]".format(text))
 
