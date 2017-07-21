@@ -72,5 +72,5 @@ def toot(s,article) :
         return True
     except:
         print(u"+---[Toot] Failed")
-        print(u"Unexpected error : {}".format( sys.exc_info()))
+        print(u"Unexpected error : {}".format(sys.exc_info().encode('utf-8')))
         return False

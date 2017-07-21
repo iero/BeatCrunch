@@ -100,8 +100,7 @@ def getRSSArticles(service, rss_url, oldlist) :
                 articles.append(a)
             except :
                 print(u"+--[Error {}] {} {} ".format(service,title,link))
-                print(u"Unexpected error : {}".format(sys.exc_info()))
-
+                print(u"Unexpected error : {}".format(sys.exc_info().encode('utf-8')))
     return articles, feedlist
 
 
@@ -151,8 +150,7 @@ def getWebArticles(service,rss_url,oldlist) :
                     articles.append(a)
                 except :
                     print(u"+--[Error {}] {} {} ".format(service,title,link))
-                    print(u"Unexpected error : {}".format( sys.exc_info()))
-
+                    print(u"Unexpected error : {}".format(sys.exc_info().encode('utf-8')))
     return articles, feedlist
 
 # Get new articles from a live feed
@@ -173,7 +171,10 @@ def getNewArticles(service,settings) :
     if os.path.exists(rss_feed):
         with open (rss_feed, 'rb') as fp:
             oldlist = pickle.load(fp)
-        print(u"+--[Previous] {} articles loaded".format(len(oldlist)))
+        # print(u"+--[Previous] {} articles loaded".format(len(oldlist)))
+        if len(oldlist) == 0 :
+            print(u"+--[WARNING] Feed seems down (update url ?)")
+
         # print(u"+--[Existing feed {}] with {} articles".format(rss_feed.encode('utf-8'),len(oldlist)))
     else :
         print(u"+--[New feed {}]".format(rss_feed.encode('utf-8')))

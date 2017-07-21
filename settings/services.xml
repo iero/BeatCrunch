@@ -79,7 +79,7 @@
 
 <service name="Journal du Net #bigdata" lang="fr">
 	<id>jdn_bigdata</id>
-	<url type="rss">http://www.journaldunet.com/big-data/rss/</url>
+	<url type="rss">http://www.journaldunet.com/solutions/analytics/big-data/rss/</url>
 	<twitter_account>@journaldunet</twitter_account>
 	<mention>#jdn</mention>
 	<text type="div" name="class" section="p">entry</text>
