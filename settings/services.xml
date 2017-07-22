@@ -489,7 +489,7 @@ https://www.ted.com/talks/rss
 	<mention>#mit</mention>
 	<url type="rss">https://www.technologyreview.com/stories.rss</url>
 	<text type="div" name="class" section="p">article-body__content</text>
-	<image type="div" name="class" section="img" attribute="src">article-body__content</image>
+	<image type="div" name="class" section="img" attribute="src">article-body</image>
 </service>
 
 <service name="Data Science Central" lang="en">
@@ -548,17 +548,11 @@ https://www.ted.com/talks/rss
 		<container type="div" name="class">ArticleGrid__articleGrid__dDRd3</container>
 		<item type="div" name="class">ArticleCard__cardInner__tkVEP</item>
 		<title type="h3" name="class">ArticleCard__cardHeadline__1UwuK</title>
-		<link type="h4" name="class" section="a" attribute="href">PASFINI</link>
+		<link type="div" name="class" section="a" attribute="href">ArticleCard__cardCta__MgT8H</link>
 	</get>
 
-	<text type="div" name="class" section="p">article__contentText</text>
-	<image type="div" name="class" section="img" attribute="src">article__graphic</image>
-	<sanitize>
-		<remove type="title">Infographie - </remove>
-	</sanitize>
-	<hashtags>
-		<tag>infographie</tag>
-	</hashtags>
+	<text type="div" name="class" section="p">Article__article__22AVz  </text>
+	<image type="div" name="class" section="img" attribute="src">Article__article__22AVz  </image>
 </service>
 
 <!--
