@@ -12,29 +12,40 @@ current_milli_time = lambda: int(round(time.time() * 1000))
 class Article:
     nbarticles = 0
 
-    def __init__(self, service, title, url, lang):
+    # def __init__(self, service, title, url, lang):
         # startime = time.time()
-
-        self.service_name = service.find('id').text
-        self.service_mention = service.find('mention').text
-
+    def __init__(self, *args, **kwargs):
+        # Object Creation
         self.id = str(current_milli_time())
-        self.service = service
-        self.title = title
-        self.lang = lang
         self.date = datetime.now(pytz.timezone('Europe/Paris')).isoformat(),
 
-        self.url = url
-        self.shorturl = url
+        # Mandatory
+        if kwargs.get('service') :
+            self.service = kwargs.get('service')
+        if kwargs.get('title') :
+            self.title = kwargs.get('title')
+        if kwargs.get('url') :
+            self.url = kwargs.get('url')
+        if kwargs.get('lang') :
+            self.lang = kwargs.get('lang')
 
-        self.soup = utils.services.getArticleContent(self.url)
-        # print(uself.soup)
+        # From service
+        self.service_name = self.service.find('id').text
+        self.service_mention = self.service.find('mention').text
 
-        self.image = self.getMainImage()
+        if kwargs.get('content') :
+            self.soup = utils.services.getArticleContentFromText(kwargs.get('content'))
+        else :
+            self.soup = utils.services.getArticleContentFromUrl(self.url)
+            # print(uself.soup)
 
+        if kwargs.get('image') :
+            self.image = kwargs.get('image')
+        else :
+            self.image = self.getMainImage()
+
+        self.shorturl = self.url
         self.text=self.getText()
-        # print(uself.text)
-
         self.formatedtext=self.getFormatedText()
         self.raw=""
 
@@ -64,16 +75,16 @@ class Article:
         else :
             return out_img
 
-        if (name == "class") :
+        if name == "class" :
             img_sec=self.soup.find(type, class_=value)
-            #print(uimg_sec)
-            if img_sec is not None and self.service.find('image').get('subtype') is not None :
-                subtype = self.service.find('image').get('subtype')
-                img_sec = img_sec.find(subtype)
-                # print(uimg_sec)
 
-            if img_sec is not None and img_sec.find(section) is not None :
-                out_img=img_sec.find(section).get(attribute)
+        if img_sec is not None and self.service.find('image').get('subtype') is not None :
+            subtype = self.service.find('image').get('subtype')
+            img_sec = img_sec.find(subtype)
+            # print(img_sec)
+
+        if img_sec is not None and img_sec.find(section) is not None :
+            out_img=img_sec.find(section).get(attribute)
 
         # relative links
         if out_img is not None and out_img.startswith('/') :
@@ -95,10 +106,13 @@ class Article:
 
         if (name == "class") :
             text_sec=self.soup.find(type, class_=value)
-            # print(utext_sec)
-            if text_sec is not None :
-                for t in text_sec.find_all(section):
-                    out_text=out_text+utils.utils.sanitizeText(t.get_text())
+        elif name == "None" :
+            text_sec=self.soup
+
+        if text_sec is not None :
+            for t in text_sec.find_all(section):
+                out_text=out_text+utils.utils.sanitizeText(t.get_text())
+
         return out_text
 
     def getFormatedText(self) :
@@ -108,9 +122,13 @@ class Article:
             name = self.service.find('text').get('name')
             value = self.service.find('text').text
             section = self.service.find('text').get('section')
+        else :
+            return out_text
 
-        if (name == "class") :
+        if name == "class" :
             text_sec=self.soup.find(type, class_=value)
+        elif name == "None" :
+            text_sec=self.soup
 
         if text_sec is not None :
             for t in text_sec.find_all(section):
@@ -160,7 +178,7 @@ class Article:
                             text = re.sub(v,'#'+w,text)
                             # First matched tag is enough
                             nb=max
-                            # Just replace first occurence 
+                            # Just replace first occurence
                             break
                 nb += 1
         # print(u"[Tweet] Add Tags : [{}]".format(text))

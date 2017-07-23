@@ -28,11 +28,11 @@ if __name__ == "__main__":
     feedlist = []
     try :
         if url_type == "rss" :
-            articles, feedlist = utils.services.getRSSArticles(service,rss_url, [])
+            articles, feedlist =  utils.services.getRSSArticles(service,rss_url,[])
         elif url_type == "web" :
-            articles, feedlist = utils.services.getWebArticles(service,rss_url, [])
+            articles, feedlist =  utils.services.getWebArticles(service,rss_url,[])
         elif url_type == "json" :
-            utils.services.getJSONArticles(service,rss_url, [])
+            articles, feedlist =  utils.services.getJSONArticles(service,rss_url,[])
     except :
         print(u"Unexpected error")
         traceback.print_exc()

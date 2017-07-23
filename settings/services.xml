@@ -544,11 +544,11 @@ https://www.ted.com/talks/rss
 	<url type="json">https://www.startups.co/api/content/articles?count=10</url>
 	<json>
 		<title type="title"/>
-		<url type="url"/>
+		<url type="url" in="prod-cms.startups.co" out="www.startups.co"/>
+		<content type="content"/>
+		<image type="featuredImageUrl"/>
 	</json>
-
-	<text type="div" name="class" section="p">Article__article__22AVz  </text>
-	<image type="div" name="class" section="img" attribute="src">Article__article__22AVz  </image>
+	<text name="None" section="p"/>
 </service>
 
 <!--

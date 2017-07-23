@@ -83,20 +83,44 @@ def getJSONArticles(service, jurl, oldlist) :
     articles = []
     feedlist = []
 
+    rss_lang = service.get('lang')
+
     with urllib.request.urlopen(jurl) as url:
         data = json.loads(url.read().decode())
 
     json_title = service.find('json').find('title').get('type')
     json_url = service.find('json').find('url').get('type')
+
     for news in data :
-        print(news[json_title])
-        print(news[json_url])
+        title = news[json_title]
+        url = news[json_url]
 
-        feedlist.append(news[json_url])
+        if service.find('json').find('url').get('in') is not None :
+            json_in = service.find('json').find('url').get('in')
+            json_out = service.find('json').find('url').get('out')
+            url = re.sub(json_in,json_out,url)
 
-        # for t in data[news] :
-        #     print(ut['title'])
-        # print(data)
+        feedlist.append(url)
+        if url not in oldlist :
+            title = sanitizeTitle(service, title)
+            link = sanitizeUrl(jurl,url)
+            try :
+                if service.find('json').find('content') is not None :
+                    json_content = service.find('json').find('content').get('type')
+                    # print(news[json_content])
+                    if service.find('json').find('image') is not None :
+                        json_image = service.find('json').find('image').get('type')
+                        a = Article.Article(service=service,title=title,url=link,lang=rss_lang,content=news[json_content],image=news[json_image])
+                    else :
+                        a = Article.Article(service=service,title=title,url=link,lang=rss_lang,content=news[json_content])
+                else :
+                    a = Article.Article(service=service,title=title,url=link,lang=rss_lang)
+                articles.append(a)
+            except :
+                print(u"+--[Error {}] {} {} ".format(service,title,link))
+                print(u"Unexpected error parsing JSON feed")
+
+    return articles, feedlist
 
 def getRSSArticles(service, rss_url, oldlist) :
     articles = []
@@ -117,11 +141,11 @@ def getRSSArticles(service, rss_url, oldlist) :
             title = sanitizeTitle(service, post.title)
             link = sanitizeUrl(rss_url,post.link)
             try :
-                a = Article.Article(service,title,link,rss_lang)
+                a = Article.Article(service=service,title=title,url=link,lang=rss_lang)
                 articles.append(a)
             except :
                 print(u"+--[Error {}] {} {} ".format(service,title,link))
-                print(u"Unexpected error")
+                print(u"Unexpected error parsing RSS feed")
 
     return articles, feedlist
 
@@ -169,7 +193,7 @@ def getWebArticles(service,rss_url,oldlist) :
                 link = sanitizeUrl(rss_url,link)
                 title = sanitizeTitle(service, title)
                 try :
-                    a = Article.Article(service,title,link,rss_lang)
+                    a = Article.Article(service=service,title=title,url=link,lang=rss_lang)
                     articles.append(a)
                 except :
                     print(u"+--[Error {}] {} {} ".format(service,title,link))
@@ -212,8 +236,8 @@ def getNewArticles(service,settings) :
             articles, feedlist = getRSSArticles(service,rss_url, oldlist)
         elif url_type == "web" :
             articles, feedlist = getWebArticles(service,rss_url, oldlist)
-            # elif url_type == "json" :
-            #     feed = utils.utils.loadjson(rss_url)
+        elif url_type == "json" :
+            articles, feedlist = getJSONArticles(service,rss_url, oldlist)
     except :
         print(u"Unexpected error")
         traceback.print_exc()
@@ -232,10 +256,13 @@ def getNewArticles(service,settings) :
     return articles
 
 # Get Page content and return parsed page.
-def getArticleContent(url) :
+def getArticleContentFromUrl(url) :
     web_page = requests.get(url, headers=headers, allow_redirects=True)
 
     return BeautifulSoup(web_page.content, "html.parser")
+
+def getArticleContentFromText(text) :
+    return BeautifulSoup(text, "html.parser")
 
 # For twitter
 def getImageData(url) :
