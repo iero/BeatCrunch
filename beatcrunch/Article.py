@@ -77,6 +77,10 @@ class Article:
 
         if name == "class" :
             img_sec=self.soup.find(type, class_=value)
+        elif name == "id" :
+            img_sec=self.soup.find(type, {"id": value})
+
+        # print(img_sec)
 
         if img_sec is not None and self.service.find('image').get('subtype') is not None :
             subtype = self.service.find('image').get('subtype')
@@ -106,6 +110,8 @@ class Article:
 
         if (name == "class") :
             text_sec=self.soup.find(type, class_=value)
+        elif name == "id" :
+            img_sec=self.soup.find(type, {"id": value})
         elif name == "None" :
             text_sec=self.soup
 
@@ -127,6 +133,8 @@ class Article:
 
         if name == "class" :
             text_sec=self.soup.find(type, class_=value)
+        elif name == "id" :
+            img_sec=self.soup.find(type, {"id": value})
         elif name == "None" :
             text_sec=self.soup
 

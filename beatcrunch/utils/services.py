@@ -155,8 +155,8 @@ def getWebArticles(service,rss_url,oldlist) :
     feedlist = []
 
     rss_lang = service.get('lang')
-    soup = getArticleContent(rss_url)
-    print(soup)
+    soup = getArticleContentFromUrl(rss_url)
+    # print(soup)
 
     # Get list of articles from container -->
     container_type = service.find('get').find('container').get('type')
@@ -258,7 +258,6 @@ def getNewArticles(service,settings) :
 # Get Page content and return parsed page.
 def getArticleContentFromUrl(url) :
     web_page = requests.get(url, headers=headers, allow_redirects=True)
-
     return BeautifulSoup(web_page.content, "html.parser")
 
 def getArticleContentFromText(text) :
@@ -282,7 +281,7 @@ def allowArticleCategory(service,article) :
                 return True
             elif (sel_type == "div") :
                 sel_section = sel.get('section')
-                soup = getArticleContent(article.url)
+                soup = getArticleContentFromUrl(article.url)
                 text_sec=soup.find(sel_type, class_=sel_value)
                 #print(utext_sec)
                 if text_sec is not None :
