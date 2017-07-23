@@ -1,4 +1,5 @@
 import os, sys, re, time
+import json
 import traceback
 
 import requests
@@ -7,6 +8,7 @@ import pickle # saving rss as links
 
 from bs4 import BeautifulSoup # parse page
 from urllib.parse import urlparse # parse url
+import urllib.request
 from difflib import SequenceMatcher # for similarity
 
 from nltk.probability import FreqDist
@@ -77,6 +79,25 @@ def getRelatedService(services, name) :
     print(u"+--[Error] {} unknown".format(name))
     return None
 
+def getJSONArticles(service, jurl, oldlist) :
+    articles = []
+    feedlist = []
+
+    with urllib.request.urlopen(jurl) as url:
+        data = json.loads(url.read().decode())
+
+    json_title = service.find('json').find('title').get('type')
+    json_url = service.find('json').find('url').get('type')
+    for news in data :
+        print(news[json_title])
+        print(news[json_url])
+
+        feedlist.append(news[json_url])
+
+        # for t in data[news] :
+        #     print(ut['title'])
+        # print(data)
+
 def getRSSArticles(service, rss_url, oldlist) :
     articles = []
     feedlist = []
@@ -111,6 +132,7 @@ def getWebArticles(service,rss_url,oldlist) :
 
     rss_lang = service.get('lang')
     soup = getArticleContent(rss_url)
+    print(soup)
 
     # Get list of articles from container -->
     container_type = service.find('get').find('container').get('type')
@@ -180,9 +202,6 @@ def getNewArticles(service,settings) :
     else :
         print(u"+--[New feed {}]".format(rss_feed.encode('utf-8')))
         oldlist = []
-
-    # for o in oldlist :
-    #     print(o.encode('utf-8'))
 
     articles = []
     feedlist = []

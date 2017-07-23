@@ -538,18 +538,14 @@ https://www.ted.com/talks/rss
 </service>
 
 <!-- in progress -->
-<service name="Startup.co" lang="en">
-	<id>startup_co</id>
-	<mention>#startup</mention>
-	<url type="web">https://www.startups.co/articles</url>
-
-	<!-- Get article list from a classic page -->
-	<get>
-		<container type="div" name="class">ArticleGrid__articleGrid__dDRd3</container>
-		<item type="div" name="class">ArticleCard__cardInner__tkVEP</item>
-		<title type="h3" name="class">ArticleCard__cardHeadline__1UwuK</title>
-		<link type="div" name="class" section="a" attribute="href">ArticleCard__cardCta__MgT8H</link>
-	</get>
+<service name="Startups.co" lang="en">
+	<id>startups_co</id>
+	<mention>#startups</mention>
+	<url type="json">https://www.startups.co/api/content/articles?count=10</url>
+	<json>
+		<title type="title"/>
+		<url type="url"/>
+	</json>
 
 	<text type="div" name="class" section="p">Article__article__22AVz  </text>
 	<image type="div" name="class" section="img" attribute="src">Article__article__22AVz  </image>
