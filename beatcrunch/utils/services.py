@@ -196,8 +196,8 @@ def getWebArticles(service,rss_url,oldlist) :
                     a = Article.Article(service=service,title=title,url=link,lang=rss_lang)
                     articles.append(a)
                 except :
-                    print(u"+--[Error {}] {} {} ".format(service,title,link))
-                    print(u"Unexpected error")
+                    #print(u"+--[Error {}] {} {} ".format(service,title,link))
+                    print(u"Unexpected error parsing web")
     return articles, feedlist
 
 # Get new articles from a live feed
