@@ -201,7 +201,7 @@
 	<image type="div" name="class" section="source" attribute="srcset">article-image-wrapper</image>
 	<filters>
 		<filter type="title">#mcal</filter>
-		<filter type="title">offres.*emploi</filter>
+		<filter type="title">offres</filter>
 		<filter type="title">événements startups ne pas manquer</filter>
 	</filters>
 	<sanitize>
@@ -457,6 +457,8 @@ https://www.ted.com/talks/rss
 	<image type="div" name="class" section="img" attribute="src">post-featuredImage u-m-1_5</image>
 	<filters>
 		<filter type="title">5 key</filter>
+		<filter type="title">5 ways</filter>
+		<filter type="url">offers</filter>
 	</filters>
 
 </service>
