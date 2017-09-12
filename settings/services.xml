@@ -310,7 +310,7 @@
 	<twitter_account>@petitweb</twitter_account>
 	<mention>#petitweb</mention>
 	<text type="div" name="class" section="p">entry-content</text>
-	<image type="div" name="class" section="img" attribute="data-lazy-src">thumbnail single-post-thumbnail section</image>
+	<image type="div" name="class" section="img" attribute="data-lazy-src">wp-caption alignleft</image>
 	<filters>
 		<filter type="url">emploi</filter>
 		<filter type="url">revue-de-web</filter>

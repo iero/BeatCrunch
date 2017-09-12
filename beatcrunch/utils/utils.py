@@ -26,12 +26,15 @@ def loadxml(params_file) :
     return tree.getroot()
 
 def loadjson(json_file) :
-    if os.path.exists(json_file) :
-        with open(json_file) as f:
-            return json.load(f)
-    else :
-        return {}
-
+    try :
+        if os.path.exists(json_file) :
+            with open(json_file) as f:
+                return json.load(f)
+        else :
+            return {}
+    except :
+            return {}
+        
 def loadSetting(s,name) :
     if s.find('settings').find(name).text == "True" :
         print(u"+-[{}] ON".format(name.encode('utf8')))
