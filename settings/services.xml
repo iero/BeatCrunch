@@ -22,7 +22,8 @@
 	<mention>#jdn</mention>
 	<url type="rss">http://www.journaldunet.com/smart-city/rss/</url>
 	<text type="div" name="class" section="p">entry</text>
-	<image type="p" name="class" section="a" attribute="href">app_entry_lead</image>
+	<image type="meta" name="property">og:image</image>
+	<!--image type="p" name="class" section="a" attribute="href">app_entry_lead</image-->
 	<twitter_account>@journaldunet</twitter_account>
 	<sanitize>
 		<remove type="title">\[.*?\] </remove>
@@ -36,7 +37,8 @@
 	<id>jdn_iot</id>
 	<url type="rss">http://www.journaldunet.com/iot/rss/</url>
 	<text type="div" name="class" section="p">entry</text>
-	<image type="p" name="class" section="a" attribute="href">app_entry_lead</image>
+	<image type="meta" name="property">og:image</image>
+	<!--image type="p" name="class" section="a" attribute="href">app_entry_lead</image-->
 	<twitter_account>@journaldunet</twitter_account>
 	<mention>#jdn</mention>
 	<sanitize>
@@ -51,7 +53,8 @@
 	<id>jdn_rh</id>
 	<url type="rss">http://www.journaldunet.com/e-rh/rss/</url>
 	<text type="div" name="class" section="p">entry</text>
-	<image type="p" name="class" section="a" attribute="href">app_entry_lead</image>
+	<image type="meta" name="property">og:image</image>
+	<!--image type="p" name="class" section="a" attribute="href">app_entry_lead</image-->
 	<twitter_account>@journaldunet</twitter_account>
 	<mention>#jdn</mention>
 	<sanitize>
@@ -68,7 +71,8 @@
 	<twitter_account>@journaldunet</twitter_account>
 	<mention>#jdn</mention>
 	<text type="div" name="class" section="p">entry</text>
-	<image type="p" name="class" section="a" attribute="href">app_entry_lead</image>
+	<image type="meta" name="property">og:image</image>
+	<!--image type="p" name="class" section="a" attribute="href">app_entry_lead</image-->
 	<sanitize>
 		<remove type="title">\[.*?\] </remove>
 	</sanitize>
@@ -83,7 +87,8 @@
 	<twitter_account>@journaldunet</twitter_account>
 	<mention>#jdn</mention>
 	<text type="div" name="class" section="p">entry</text>
-	<image type="p" name="class" section="a" attribute="href">app_entry_lead</image>
+	<image type="meta" name="property">og:image</image>
+	<!--image type="p" name="class" section="a" attribute="href">app_entry_lead</image-->
 	<sanitize>
 		<remove type="title">\[.*?\] </remove>
 	</sanitize>
@@ -114,7 +119,8 @@
 	<url type="rss">https://usbeketrica.com/rss</url>
 	<mention>#usbeketrica</mention>
 	<text type="section" name="class" section="p">main</text>
-	<image type="article" name="class" subtype="figure" section="img" attribute="src">default</image>
+	<image type="meta" name="property">og:image</image>
+	<!--image type="article" name="class" subtype="figure" section="img" attribute="src">default</image-->
 	<filters>
 		<filter type="title">la une du Shop cette semaine</filter>
 	</filters>
@@ -430,7 +436,8 @@ https://www.ted.com/talks/rss
 	<mention>#googleX</mention>
 	<url type="rss">https://blog.x.company/feed</url>
 	<text type="div" name="class" section="p">section-content</text>
-	<image type="div" name="class" section="img" attribute="src">section-content</image>
+	<image type="meta" name="property">og:image</image>
+	<!--image type="div" name="class" section="img" attribute="src">section-content</image-->
 </service>
 
 <service name="The Hacker News" lang="en">
