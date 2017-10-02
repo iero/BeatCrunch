@@ -21,6 +21,10 @@ headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleW
 
 # Remove crappy suffixes
 def sanitizeUrl(base,url) :
+    # print("Base :"+base)
+    # print("Url :"+url)
+
+    if url is None or url == "" : return ""
 
     # Relative url
     if url.startswith('/') :
@@ -75,8 +79,6 @@ def getRelatedService(services, name) :
         if (s.find('id').text == name) :
             # print(u"+--[{}] service found".format(name))
             return s
-
-    print(u"+--[Error] {} unknown".format(name))
     return None
 
 def getJSONArticles(service, jurl, oldlist) :
@@ -129,9 +131,8 @@ def getRSSArticles(service, rss_url, oldlist) :
     rss_lang = service.get('lang')
 
     feed = feedparser.parse(rss_url)
-    # print(u"+--[Got] {} rss articles (in {}ms)".format(len(feed.entries),int((time.time()-starttime)*1000.0)))
+    print(u"+--[Got] {} rss articles to parse".format(len(feed.entries)))
 
-    starttime = time.time()
     for post in feed.entries:
         # Add to current json
         feedlist.append(post.link)
@@ -233,11 +234,11 @@ def getNewArticles(service,settings) :
     # Parse rss feed
     try :
         if url_type == "rss" :
-            articles, feedlist = getRSSArticles(service,rss_url, oldlist)
+            articles, feedlist = getRSSArticles(service,rss_url,oldlist)
         elif url_type == "web" :
-            articles, feedlist = getWebArticles(service,rss_url, oldlist)
+            articles, feedlist = getWebArticles(service,rss_url,oldlist)
         elif url_type == "json" :
-            articles, feedlist = getJSONArticles(service,rss_url, oldlist)
+            articles, feedlist = getJSONArticles(service,rss_url,oldlist)
     except :
         print(u"Unexpected error")
         traceback.print_exc()

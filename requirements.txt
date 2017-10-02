@@ -1,0 +1,7 @@
+urllib3
+feedparser
+feedgen
+pyshorteners
+unidecode
+TwitterAPI
+Mastodon.py

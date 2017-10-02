@@ -66,7 +66,12 @@ if __name__ == "__main__":
     for s in settings.find('settings').find("services").findall('service'):
         service = utils.services.getRelatedService(services,s.text)
 
-        if debug : print(u"+-[Service] [{}]".format(service.find('id').text.encode('utf-8')))
+        if debug :
+            if service is None :
+                print(u"+-[Service] Error {} unknown service !".format(name))
+            else :
+                print(u"+-[Service] [{}]".format(service.find('id').text.encode('utf-8')))
+
         # Get new articles
         articles = utils.services.getNewArticles(service, settings)
 

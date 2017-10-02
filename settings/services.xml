@@ -126,7 +126,7 @@
 	<twitter_account>@siecledigital</twitter_account>
 	<mention>#digital</mention>
 	<text type="div" name="class" section="p">post-content description </text>
-	<image type="div" name="class" section="a" attribute="href">featured</image>
+	<image type="meta" name="property">og:image</image>
 	<sanitize>
 		<remove type="title">\[One.*?\]</remove>
 	</sanitize>
@@ -147,7 +147,8 @@
 	<twitter_account>@itespressofr</twitter_account>
 	<mention>#itespresso</mention>
 	<text type="div" name="class" section="p">entry-content</text>
-	<image type="div" name="class" section="img" attribute="src">imageTitleWrapper</image>
+	<image type="meta" name="property">og:image</image>
+	<!--image type="div" name="class" section="img" attribute="src">imageTitleWrapper</image-->
 	<tags type="div" name="class" section="a">entry-breadcrumb</tags>
 </service>
 
@@ -156,7 +157,8 @@
 	<url type="rss">https://atelier.bnpparibas/rss/</url>
 	<mention>#atelier</mention>
 	<text type="div" name="class" section="p">content</text>
-	<image type="div" name="class" section="img" attribute="src">entity entity-article entity-story</image>
+	<image type="meta" name="property">og:image</image>
+	<!--image type="div" name="class" section="img" attribute="src">entity entity-article entity-story</image-->
 </service>
 
 <service name="Korben" lang="fr">
@@ -165,7 +167,8 @@
 	<twitter_account>@korben</twitter_account>
 	<mention>#korben</mention>
 	<text type="div" name="class" section="p">post-content</text>
-	<image type="div" name="class" section="img" attribute="src">post-thumbnail</image>
+	<image type="meta" name="property">og:image</image>
+	<!--image type="div" name="class" section="img" attribute="src">post-thumbnail</image-->
 	<filters>
 		<filter type="title">edito</filter>
 	</filters>
@@ -200,7 +203,7 @@
 	<text type="div" name="class" section="p">inherit-color-parent article-content col-md-8</text>
 	<image type="div" name="class" section="source" attribute="srcset">article-image-wrapper</image>
 	<filters>
-		<filter type="title">#mcal</filter>
+		<filter type="url">#mcal</filter>
 		<filter type="title">offres</filter>
 		<filter type="title">événements startups ne pas manquer</filter>
 	</filters>
@@ -215,7 +218,8 @@
 	<twitter_account>@LUsineDigitale</twitter_account>
 	<mention>#udigital</mention>
 	<text type="div" name="class" section="p">blocTexteType1</text>
-	<image type="figure" name="class" section="img" attribute="src">blocImageType2</image>
+	<!--image type="figure" name="class" section="img" attribute="src">blocImageType2</image-->
+	<image type="meta" name="name">twitter:image</image>
 	<filters>
 		<filter type="title">quoi de neuf</filter>
 	</filters>
@@ -231,7 +235,8 @@
 	<twitter_account>@BlogModerateur</twitter_account>
 	<mention>#blogmod</mention>
 	<text type="div" name="class" section="p">entry-content</text>
-	<image type="div" name="class" section="img" attribute="src">entry-content</image>
+	<image type="meta" name="property">og:image</image>
+	<!--image type="div" name="class" section="img" attribute="src">entry-content</image-->
 	<filters>
 		<filter type="title">offres</filter>
 		<filter type="title">ils recrutent</filter>
@@ -312,6 +317,7 @@
 	<text type="div" name="class" section="p">entry-content</text>
 	<image type="div" name="class" section="img" attribute="data-lazy-src">wp-caption alignleft</image>
 	<filters>
+		<filter type="url">edito</filter>
 		<filter type="url">emploi</filter>
 		<filter type="url">revue-de-web</filter>
 		<filter type="url">indiscrets</filter>
@@ -324,8 +330,9 @@
 	<twitter_account>@motherboard</twitter_account>
 	<mention>#mboard</mention>
 	<text type="div" name="class" section="p">article__body</text>
-	<image type="div" name="class" section="img" attribute="src">long-form-article__lede-image</image>
-	<image_alt type="div" name="class" section="img" attribute="src">short-form-article__body__content</image_alt>
+	<image type="meta" name="property">og:image</image>
+	<!--image type="div" name="class" section="img" attribute="src">long-form-article__lede-image</image>
+	<image_alt type="div" name="class" section="img" attribute="src">short-form-article__body__content</image_alt-->
 	<tags type="div" name="class" section="a">topics topic-list</tags>
 	<!--filters>
 	<filter type="title">revue de web</filter>
@@ -492,6 +499,9 @@ https://www.ted.com/talks/rss
 	<url type="rss">https://www.technologyreview.com/stories.rss</url>
 	<text type="div" name="class" section="p">article-body__content</text>
 	<image type="div" name="class" section="img" attribute="src">article-body</image>
+	<filters>
+		<filter type="title">Best of</filter>
+	</filters>
 </service>
 
 <service name="Data Science Central" lang="en">
@@ -515,7 +525,8 @@ https://www.ted.com/talks/rss
 	<mention>#futurism</mention>
 	<url type="rss">https://futurism.com/feed/</url>
 	<text type="div" name="class" section="p">summary module</text>
-	<image type="div" name="class" section="img" attribute="src">summary module</image>
+	<image type="meta" name="property">og:image</image>
+	<!--image type="div" name="class" section="img" attribute="src">summary module</image-->
 	<filters>
 		<filter type="url">videos</filter>
 	</filters>

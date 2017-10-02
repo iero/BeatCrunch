@@ -33,6 +33,8 @@ class Article:
         self.service_name = self.service.find('id').text
         self.service_mention = self.service.find('mention').text
 
+        # print(u"+--[{}] {} {} {}".format(self.service_name, self.lang,self.title,self.url))
+
         if kwargs.get('content') :
             self.soup = utils.services.getArticleContentFromText(kwargs.get('content'))
         else :
@@ -68,35 +70,39 @@ class Article:
         out_img=""
         if self.service.find('image') is not None :
             type = self.service.find('image').get('type')
-            name = self.service.find('image').get('name')
             value = self.service.find('image').text
-            section = self.service.find('image').get('section')
-            attribute = self.service.find('image').get('attribute')
+            name = self.service.find('image').get('name')
+
+            if type == "meta" :
+                if name == "property" :
+                    url = self.soup.find(type, property=value)
+                elif name == "name" :
+                    url = self.soup.find(type, {"name":value})
+
+                if url is not None :
+                    out_img = url["content"]
+
+            elif type == "div" :
+                section = self.service.find('image').get('section')
+                attribute = self.service.find('image').get('attribute')
+
+                if name == "class" :
+                    img_sec=self.soup.find(type, class_=value)
+                elif name == "id" :
+                    img_sec=self.soup.find(type, {"id": value})
+
+                if img_sec is not None and self.service.find('image').get('subtype') is not None :
+                    subtype = self.service.find('image').get('subtype')
+                    img_sec = img_sec.find(subtype)
+                    # print(img_sec)
+
+                if img_sec is not None and img_sec.find(section) is not None :
+                    out_img=img_sec.find(section).get(attribute)
+
         else :
             return out_img
 
-        if name == "class" :
-            img_sec=self.soup.find(type, class_=value)
-        elif name == "id" :
-            img_sec=self.soup.find(type, {"id": value})
-
-        # print(img_sec)
-
-        if img_sec is not None and self.service.find('image').get('subtype') is not None :
-            subtype = self.service.find('image').get('subtype')
-            img_sec = img_sec.find(subtype)
-            # print(img_sec)
-
-        if img_sec is not None and img_sec.find(section) is not None :
-            out_img=img_sec.find(section).get(attribute)
-
-        # relative links
-        if out_img is not None and out_img.startswith('/') :
-            parsed_web_page = urlparse(self.url)
-            dom =  '{uri.scheme}://{uri.netloc}/'.format(uri=parsed_web_page)
-            out_img = dom+out_img
-
-        return out_img
+        return utils.services.sanitizeUrl(self.url,out_img)
 
     def getText(self) :
         out_text=""
