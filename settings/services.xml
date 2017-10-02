@@ -405,7 +405,8 @@ https://www.ted.com/talks/rss
 	<twitter_account>@verge</twitter_account>
 	<mention>#theverge</mention>
 	<text type="div" name="class" section="p">c-entry-content</text>
-	<image type="picture" name="class" section="img" attribute="src">c-picture</image>
+	<!--image type="picture" name="class" section="img" attribute="src">c-picture</image-->
+	<image type="meta" name="property">og:image</image>
 	<selection>
 		<select type="div" value="c-entry-group-labels c-entry-group-labels--article" section="span">Apps</select>
 		<select type="div" value="c-entry-group-labels c-entry-group-labels--article" section="span">Tech</select>
@@ -498,7 +499,8 @@ https://www.ted.com/talks/rss
 	<mention>#mit</mention>
 	<url type="rss">https://www.technologyreview.com/stories.rss</url>
 	<text type="div" name="class" section="p">article-body__content</text>
-	<image type="div" name="class" section="img" attribute="src">article-body</image>
+	<image type="meta" name="property">og:image</image>
+	<!--image type="div" name="class" section="img" attribute="src">article-body</image-->
 	<filters>
 		<filter type="title">Best of</filter>
 	</filters>
