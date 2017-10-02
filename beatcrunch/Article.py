@@ -170,6 +170,7 @@ class Article:
         }
 
     def getTweet(self) :
+        #TODO : pass tweet size in arg
         tweet_size = 140
         tweet_link_size = 24
 

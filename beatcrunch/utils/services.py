@@ -131,7 +131,9 @@ def getRSSArticles(service, rss_url, oldlist) :
     rss_lang = service.get('lang')
 
     feed = feedparser.parse(rss_url)
-    print(u"+--[Got] {} rss articles to parse".format(len(feed.entries)))
+    if len(feed.entries) == 0 :
+        print(u"+--[Warning] Empty list !")
+    #print(u"+--[Got] {} rss articles to parse".format(len(feed.entries)))
 
     for post in feed.entries:
         # Add to current json
