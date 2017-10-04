@@ -29,6 +29,8 @@ class Article:
         if kwargs.get('lang') :
             self.lang = kwargs.get('lang')
 
+        print(u"+--[Parsing] {}".format(self.title))
+
         # From service
         self.service_name = self.service.find('id').text
         self.service_mention = self.service.find('mention').text

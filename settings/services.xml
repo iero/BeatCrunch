@@ -163,7 +163,7 @@
 	<url type="rss">https://atelier.bnpparibas/rss/</url>
 	<mention>#atelier</mention>
 	<text type="div" name="class" section="p">content</text>
-	<image type="meta" name="property">og:image</image>
+	<image type="meta" name="name">og:image</image>
 	<!--image type="div" name="class" section="img" attribute="src">entity entity-article entity-story</image-->
 </service>
 
@@ -246,11 +246,12 @@
 	<filters>
 		<filter type="title">offres</filter>
 		<filter type="title">ils recrutent</filter>
-		<filter type="title">5 évenements</filter>
+		<filter type="title">événements</filter>
 		<filter type="title">L'agenda de</filter>
 		<filter type="title">top 5</filter>
 		<filter type="title">offre d'emploi</filter>
 		<filter type="title">qu’il ne fallait pas manquer</filter>
+		<filter type="title">à ne pas manquer</filter>
 	</filters>
 	<sanitize>
 		<remove type="title"> \(.*?\)</remove>
@@ -428,7 +429,8 @@ https://www.ted.com/talks/rss
 	<mention>#google</mention>
 	<url type="rss">https://www.blog.google/rss/</url>
 	<text type="div" name="class" section="p">uni-content uni-blog-article-container</text>
-	<image type="div" name="class" section="img" attribute="src">uni-content uni-blog-article-container</image>
+	<image type="meta" name="property">og:image</image>
+	<!--image type="div" name="class" section="img" attribute="src">uni-content uni-blog-article-container</image-->
 </service>
 
 <service name="Google X" lang="en">
