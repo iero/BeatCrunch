@@ -447,7 +447,8 @@ https://www.ted.com/talks/rss
 	<mention>#hackers</mention>
 	<url type="rss">http://thehackernews.com/feeds/posts/default</url>
 	<text type="div" name="class" section="div">articlebodyonly</text>
-	<image type="div" name="class" section="img" attribute="src">articlebodyonly</image>
+	<image type="meta" name="property">og:image</image>
+	<!--image type="div" name="class" section="img" attribute="src">articlebodyonly</image-->
 	<twitter_account>@TheHackersNews</twitter_account>
 </service>
 

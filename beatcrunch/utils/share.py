@@ -48,24 +48,24 @@ def toot(s,article) :
             img_name, img_ext = splitext(basename(disassembled.path))
             img_local = ("/tmp/"+img_name+img_ext)
 
-            # try :
+            try :
             # urllib.URLopener.version = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
 
-            request.urlretrieve(article.image, img_local)
-            if "png" not in img_ext :
-                img = Image.open(img_local)
-                img_local = ("/tmp/"+img_name+".png")
-                img.save("/tmp/"+img_name+".png",'png')
-                os.remove("/tmp/"+img_name+img_ext)
+                request.urlretrieve(article.image, img_local)
+                if "png" not in img_ext :
+                    img = Image.open(img_local)
+                    img_local = ("/tmp/"+img_name+".png")
+                    img.save("/tmp/"+img_name+".png",'png')
+                    os.remove("/tmp/"+img_name+img_ext)
 
-            media_id = m.media_post(img_local)
+                    media_id = m.media_post(img_local)
             # print(media_id)
 
-            m.status_post(text,in_reply_to_id=None,media_ids=[media_id])
-            if os.path.exists(img_local) :
-                os.remove(img_local)
-            # except :
-            #     m.toot(text)
+                m.status_post(text,in_reply_to_id=None,media_ids=[media_id])
+                if os.path.exists(img_local) :
+                    os.remove(img_local)
+            except :
+                m.toot(text)
         else :
             m.toot(text)
 
