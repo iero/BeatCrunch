@@ -129,9 +129,9 @@ def getRSSArticles(service, rss_url, oldlist) :
     feedlist = []
 
     rss_lang = service.get('lang')
-
     feed = feedparser.parse(rss_url)
     if len(feed.entries) == 0 :
+        #print(feed)
         print(u"+--[Warning] Empty list !")
     #print(u"+--[Got] {} rss articles to parse".format(len(feed.entries)))
 
@@ -309,7 +309,7 @@ def detectAdArticle(service,article) :
                 return True
 
             # based on title
-            if filter_type == "title" and filter_value in article.title.lower() :
+            if filter_type == "title" and filter_value.lower() in article.title.lower() :
                 print(u"+---[Filter] Title matched on {} ".format(filter_value.encode('utf8')))
                 return True
 			# based on content

@@ -96,7 +96,7 @@
 
 <service name="MacGeneration" lang="fr">
 	<id>macg</id>
-	<url type="rss">http://megaflux.macg.co/</url>
+	<url type="rss">https://megaflux.macg.co/</url>
 	<twitter_account>@MacGeneration</twitter_account>
 	<mention>#macg</mention>
 	<text type="div" name="class" section="p">field-item even</text>
@@ -182,11 +182,12 @@
 
 <service name="Nouvel Obs High Tech" lang="fr">
 	<id>nouvel_obs</id>
-	<url type="rss">http://o.nouvelobs.com/high-tech/rss.xml</url>
+	<url type="rss">https://o.nouvelobs.com/high-tech/rss.xml</url>
 	<twitter_account>@lobs</twitter_account>
 	<mention>#obs</mention>
 	<text type="div" name="class" section="p">o-article-body</text>
-	<image type="div" name="class" section="img" attribute="src">o-article-body</image>
+	<image type="meta" name="property">og:image</image>
+	<!--image type="div" name="class" section="img" attribute="src">o-article-body</image-->
 	<filters>
 		<filter type="url">jeux-video</filter>
 	</filters>
@@ -283,8 +284,7 @@
 
 <service name="Frenchweb" lang="fr">
 	<id>frenchweb</id>
-	<url type="rss">http://www.frenchweb.fr/feed</url>
-	<twitter_account>@</twitter_account>
+	<url type="rss">https://www.frenchweb.fr/feed</url>
 	<mention>#frenchweb</mention>
 	<text type="div" name="class" section="p">page-content</text>
 	<image type="div" name="class" section="img" attribute="src">page-featured-image</image>
@@ -512,7 +512,7 @@ https://www.ted.com/talks/rss
 	<image type="meta" name="property">og:image</image>
 	<!--image type="div" name="class" section="img" attribute="src">article-body</image-->
 	<filters>
-		<filter type="title">Best of</filter>
+		<filter type="title">The Best of</filter>
 	</filters>
 </service>
 
@@ -556,6 +556,14 @@ https://www.ted.com/talks/rss
 	</selection>
 </service>
 
+<service name="Wait But Why" lang="en">
+	<id>waitbutwhy</id>
+	<mention>#wbw</mention>
+	<url type="rss">https://waitbutwhy.com/feed</url>
+	<text type="div" name="class" section="p">entry-content</text>
+	<image type="meta" name="property">og:image</image>
+</service>
+
 <service name="hook" lang="fr">
 	<id>hook</id>
 	<mention>#hook</mention>
@@ -575,6 +583,17 @@ https://www.ted.com/talks/rss
 	</json>
 	<text name="None" section="p"/>
 </service>
+
+<!-- Youtubers -->
+<service name="Science Etonnante" lang="fr">
+	<id>science_etonnante</id>
+	<mention>#scienceEtonnante</mention>
+	<url type="rss">https://sciencetonnante.wordpress.com/feed/</url>
+	<text type="div" name="class" section="p">entry-content</text>
+	<image type="meta" name="property">og:image</image>
+	<!--image type="div" name="class" section="img" attribute="src">uni-content uni-blog-article-container</image-->
+</service>
+
 
 <!--
 techcrunch

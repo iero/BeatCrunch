@@ -29,6 +29,7 @@ if __name__ == "__main__":
     try :
         if url_type == "rss" :
             articles, feedlist =  utils.services.getRSSArticles(service,rss_url,[])
+            article.rate  = utils.services.rateArticle(service,article,sim_dict)
         elif url_type == "web" :
             articles, feedlist =  utils.services.getWebArticles(service,rss_url,[])
         elif url_type == "json" :
