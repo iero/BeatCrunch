@@ -529,7 +529,8 @@ https://www.ted.com/talks/rss
 	<mention>#trendintech</mention>
 	<url type="rss">http://trendintech.com/feed/</url>
 	<text type="div" name="class" section="p">td-post-content</text>
-	<image type="div" name="class" section="img" attribute="src">td-post-featured-image</image>
+	<image type="meta" name="property">og:image</image>
+	<!--image type="div" name="class" section="img" attribute="src">td-post-featured-image</image-->
 </service>
 
 <service name="Futurism" lang="en">
