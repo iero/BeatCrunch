@@ -39,3 +39,4 @@ if __name__ == "__main__":
 
     for a in articles :
         a.show()
+        utils.services.detectAdArticle(service,a)

@@ -199,7 +199,7 @@
 	<twitter_account>@EchosBusiness</twitter_account>
 	<mention>#lesechos</mention>
 	<text type="div" name="class" section="p">main-content content-article</text>
-	<image type="div" name="class" section="img" attribute="srcset">picture-article</image>
+	<image type="div" name="class" section="img" attribute="srcset">main-content content-article</image>
 </service>
 
 <service name="Maddyness" lang="fr">
@@ -212,7 +212,7 @@
 	<filters>
 		<filter type="url">#mcal</filter>
 		<filter type="title">offres</filter>
-		<filter type="title">événements startups ne pas manquer</filter>
+		<filter type="title">ne pas manquer</filter>
 	</filters>
 	<sanitize>
 		<remove type="title">#.*?:</remove>
@@ -496,6 +496,11 @@ https://www.ted.com/talks/rss
 
 	<text type="div" name="class" section="p">article__contentText</text>
 	<image type="div" name="class" section="img" attribute="src">article__graphic</image>
+	<filters>
+		<filter type="content">fifa</filter>
+		<filter type="content">foot</filter>
+		<filter type="content">football</filter>
+	</filters>
 	<sanitize>
 		<remove type="title">Infographie - </remove>
 	</sanitize>

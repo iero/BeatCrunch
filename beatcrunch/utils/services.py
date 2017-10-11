@@ -131,8 +131,11 @@ def getRSSArticles(service, rss_url, oldlist) :
     rss_lang = service.get('lang')
     feed = feedparser.parse(rss_url)
     if len(feed.entries) == 0 :
-        #print(feed)
         print(u"+--[Warning] Empty list !")
+        # soup = getArticleContentFromUrl(rss_url)
+        # print(soup)
+        # print(feed)
+
     #print(u"+--[Got] {} rss articles to parse".format(len(feed.entries)))
 
     for post in feed.entries:
@@ -309,19 +312,25 @@ def detectAdArticle(service,article) :
                 return True
 
             # based on title
-            if filter_type == "title" and filter_value.lower() in article.title.lower() :
+            elif filter_type == "title" and filter_value.lower() in article.title.lower() :
                 print(u"+---[Filter] Title matched on {} ".format(filter_value.encode('utf8')))
                 return True
-			# based on content
-            if filter_type == "class" :
+
+			# based on class name
+            elif filter_type == "class" :
                 filter_name = filter.get('name')
                 filter_section = filter.get('section')
                 #print(ufilter_name)
 
                 f=article.soup.find(filter_section, class_=filter_name)
                 if f is not None and filter_value in f.get_text().lower() :
-                    print(u"+---[Filter] Content matched on {} ".format(filter_value.encode('utf8')))
+                    print(u"+---[Filter] Class matched on {} ".format(filter_value.encode('utf8')))
                     return True
+
+            # based on content (words in text)
+            elif filter_type == "content" and filter_value.lower() in article.text.lower() :
+                print(u"+---[Filter] Content matched on {} ".format(filter_value.encode('utf8')))
+                return True
     return False
 
 # Get similarity between two lists of tags (blanks are junk)
