@@ -25,6 +25,7 @@ def sanitizeUrl(base,url) :
     # print("Url :"+url)
 
     if url is None or url == "" : return ""
+    elif url.startswith("data:") : return url
 
     # Relative url
     if url.startswith('/') :
@@ -81,7 +82,7 @@ def getRelatedService(services, name) :
             return s
     return None
 
-def getJSONArticles(service, jurl, oldlist) :
+def getJSONArticles(service,jurl,oldlist,max) :
     articles = []
     feedlist = []
 
@@ -94,6 +95,8 @@ def getJSONArticles(service, jurl, oldlist) :
     json_url = service.find('json').find('url').get('type')
 
     for news in data :
+        if max != 0 and len(feedlist) >= max : break
+
         title = news[json_title]
         url = news[json_url]
 
@@ -124,7 +127,7 @@ def getJSONArticles(service, jurl, oldlist) :
 
     return articles, feedlist
 
-def getRSSArticles(service, rss_url, oldlist) :
+def getRSSArticles(service, rss_url, oldlist, max) :
     articles = []
     feedlist = []
 
@@ -139,6 +142,8 @@ def getRSSArticles(service, rss_url, oldlist) :
     #print(u"+--[Got] {} rss articles to parse".format(len(feed.entries)))
 
     for post in feed.entries:
+        if max != 0 and len(feedlist) >= max : break
+
         # Add to current json
         feedlist.append(post.link)
 
@@ -156,7 +161,7 @@ def getRSSArticles(service, rss_url, oldlist) :
     return articles, feedlist
 
 
-def getWebArticles(service,rss_url,oldlist) :
+def getWebArticles(service,rss_url,oldlist,max) :
     articles = []
     feedlist = []
 
@@ -177,6 +182,8 @@ def getWebArticles(service,rss_url,oldlist) :
         item_value = service.find('get').find('item').text
 
         for t in text_container.find_all(item_type, class_=item_value) :
+            if max != 0 and len(feedlist) >= max : break
+
             # Get title
             title_type = service.find('get').find('title').get('type')
             title_value = service.find('get').find('title').text
@@ -207,7 +214,7 @@ def getWebArticles(service,rss_url,oldlist) :
     return articles, feedlist
 
 # Get new articles from a live feed
-def getNewArticles(service,settings) :
+def getNewArticles(service,settings,max) :
     # starttime = time.time()
 
     out_dir = settings.find('settings').find('output').text
@@ -239,11 +246,11 @@ def getNewArticles(service,settings) :
     # Parse rss feed
     try :
         if url_type == "rss" :
-            articles, feedlist = getRSSArticles(service,rss_url,oldlist)
+            articles, feedlist = getRSSArticles(service,rss_url,oldlist,max)
         elif url_type == "web" :
-            articles, feedlist = getWebArticles(service,rss_url,oldlist)
+            articles, feedlist = getWebArticles(service,rss_url,oldlist,max)
         elif url_type == "json" :
-            articles, feedlist = getJSONArticles(service,rss_url,oldlist)
+            articles, feedlist = getJSONArticles(service,rss_url,oldlist,max)
     except :
         print(u"Unexpected error")
         traceback.print_exc()
@@ -279,21 +286,30 @@ def allowArticleCategory(service,article) :
     if service.find('selection') is not None :
         for sel in service.find('selection').findall("select") :
             sel_type = sel.get('type')
-            sel_value = sel.get('value')
             sel_filter = sel.text  # text to match
-            # print(uarticle.url)
-            # print(usel_filter)
+            # print(sel_filter)
+            
             if (sel_type == "url") and (sel_filter in article.url) :
                 return True
+
             elif (sel_type == "div") :
+                sel_value = sel.get('value')
                 sel_section = sel.get('section')
-                soup = getArticleContentFromUrl(article.url)
-                text_sec=soup.find(sel_type, class_=sel_value)
-                #print(utext_sec)
-                if text_sec is not None :
-                    for t in text_sec.find_all(sel_section):
+
+                f=article.soup.find(sel_type, class_=sel_value)
+                #print(f)
+                if f is not None :
+                    for t in f.find_all(sel_section):
                         if sel_filter in t :
                             return True
+
+            elif sel_type == "class" :
+                sel_name = sel.get('name')
+                sel_section = sel.get('section')
+                f=article.soup.find(sel_section, class_=sel_name)
+                # print(f)
+                if f is not None and sel_filter.lower() in f.get_text().lower() :
+                    return True
         # No match, no game.
         return False
     else :
@@ -320,9 +336,10 @@ def detectAdArticle(service,article) :
             elif filter_type == "class" :
                 filter_name = filter.get('name')
                 filter_section = filter.get('section')
-                #print(ufilter_name)
+                # print(filter_name)
 
                 f=article.soup.find(filter_section, class_=filter_name)
+                # print(f)
                 if f is not None and filter_value in f.get_text().lower() :
                     print(u"+---[Filter] Class matched on {} ".format(filter_value.encode('utf8')))
                     return True
@@ -409,7 +426,7 @@ def detectSimArticleTitle(title,title_dict) :
     else :
         return 0,""
 
-def rateArticle(service,article,sim_dict) :
+def rateArticle(service,article) :
     # print(u"+-[Rate] {} ".format(article.title))
     if not allowArticleCategory(service,article) :
         print(u"+---[Rate] Category not allowed")

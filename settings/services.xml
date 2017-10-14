@@ -341,6 +341,16 @@
 	<!--image type="div" name="class" section="img" attribute="src">long-form-article__lede-image</image>
 	<image_alt type="div" name="class" section="img" attribute="src">short-form-article__body__content</image_alt-->
 	<tags type="div" name="class" section="a">topics topic-list</tags>
+
+	<selection>
+		<select type="class" name="topics topic-list" section="ul">intelligence artificielle</select>
+		<select type="class" name="topics topic-list" section="ul">hacking</select>
+		<select type="class" name="topics topic-list" section="ul">planète</select>
+		<select type="class" name="topics topic-list" section="ul">science</select>
+		<select type="class" name="topics topic-list" section="ul">espace</select>
+	</selection>
+
+
 	<!--filters>
 	<filter type="title">revue de web</filter>
 </filters-->
@@ -496,11 +506,12 @@ https://www.ted.com/talks/rss
 
 	<text type="div" name="class" section="p">article__contentText</text>
 	<image type="div" name="class" section="img" attribute="src">article__graphic</image>
-	<filters>
-		<filter type="content">fifa</filter>
-		<filter type="content">foot</filter>
-		<filter type="content">football</filter>
-	</filters>
+
+	<selection>
+		<select type="class" name="row hideMobile" section="div">internet</select>
+		<select type="class" name="row hideMobile" section="div">technologie</select>
+	</selection>
+
 	<sanitize>
 		<remove type="title">Infographie - </remove>
 	</sanitize>
