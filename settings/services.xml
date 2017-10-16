@@ -443,6 +443,10 @@ https://www.ted.com/talks/rss
 	<url type="rss">https://www.blog.google/rss/</url>
 	<text type="div" name="class" section="p">uni-content uni-blog-article-container</text>
 	<image type="meta" name="property">og:image</image>
+	<sanitize>
+			<remove type="image">7714256da16f.png</remove>
+	</sanitize>
+
 	<!--image type="div" name="class" section="img" attribute="src">uni-content uni-blog-article-container</image-->
 </service>
 
