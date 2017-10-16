@@ -23,9 +23,8 @@
 	<url type="rss">http://www.journaldunet.com/smart-city/rss/</url>
 	<text type="div" name="class" section="p">entry</text>
 	<image type="meta" name="property">og:image</image>
-	<!--image type="p" name="class" section="a" attribute="href">app_entry_lead</image-->
-	<twitter_account>@journaldunet</twitter_account>
 	<sanitize>
+		<remove type="image">10503850.jpg</remove>
 		<remove type="title">\[.*?\] </remove>
 	</sanitize>
 	<hashtags>
@@ -42,6 +41,7 @@
 	<twitter_account>@journaldunet</twitter_account>
 	<mention>#jdn</mention>
 	<sanitize>
+		<remove type="image">10503850.jpg</remove>
 		<remove type="title">\[.*?\] </remove>
 	</sanitize>
 	<hashtags>
@@ -59,6 +59,7 @@
 	<mention>#jdn</mention>
 	<sanitize>
 		<remove type="title">\[.*?\] </remove>
+		<remove type="image">10503850.jpg</remove>
 	</sanitize>
 	<hashtags>
 		<tag>rh</tag>
@@ -75,6 +76,7 @@
 	<!--image type="p" name="class" section="a" attribute="href">app_entry_lead</image-->
 	<sanitize>
 		<remove type="title">\[.*?\] </remove>
+		<remove type="image">10503850.jpg</remove>
 	</sanitize>
 	<hashtags>
 		<tag>cloud</tag>
@@ -91,6 +93,7 @@
 	<!--image type="p" name="class" section="a" attribute="href">app_entry_lead</image-->
 	<sanitize>
 		<remove type="title">\[.*?\] </remove>
+		<remove type="image">10503850.jpg</remove>
 	</sanitize>
 </service>
 
@@ -482,7 +485,8 @@ https://www.ted.com/talks/rss
 	<twitter_account>@TheNextWeb</twitter_account>
 	<mention>#tnw</mention>
 	<text type="div" name="class" section="p">post-body fb-quotable u-m-3</text>
-	<image type="div" name="class" section="img" attribute="src">post-featuredImage u-m-1_5</image>
+	<image type="meta" name="property">og:image</image>
+	<!--image type="div" name="class" section="img" attribute="src">post-featuredImage u-m-1_5</image-->
 	<filters>
 		<filter type="title">5 key</filter>
 		<filter type="title">5 ways</filter>

@@ -53,6 +53,17 @@ def sanitizeUrl(base,url) :
     link = link.rsplit('#', 1)[0]
     return link
 
+# Remove image if needed
+def sanitizeImage(service,image) :
+    # print(image)
+    if service.find('sanitize') is not None :
+        for removedField in service.find('sanitize').findall("remove") :
+            if removedField.get('type') == "image" :
+                if removedField.text in image :
+                    # print(removedField.text)
+                    return ""
+    return image
+
 # Remove words from services rules
 def sanitizeTitle(service, title) :
     if service.find('sanitize') is not None :
@@ -122,7 +133,7 @@ def getJSONArticles(service,jurl,oldlist,max) :
                     a = Article.Article(service=service,title=title,url=link,lang=rss_lang)
                 articles.append(a)
             except :
-                print(u"+--[Error {}] {} {} ".format(service,title,link))
+                print(u"+--[Error {}] {} {} ".format(service.name,title,link))
                 print(u"Unexpected error parsing JSON feed")
 
     return articles, feedlist
@@ -155,7 +166,7 @@ def getRSSArticles(service, rss_url, oldlist, max) :
                 a = Article.Article(service=service,title=title,url=link,lang=rss_lang)
                 articles.append(a)
             except :
-                print(u"+--[Error {}] {} {} ".format(service,title,link))
+                print(u"+--[Error {}] {} {} ".format(service.name,title,link))
                 print(u"Unexpected error parsing RSS feed")
 
     return articles, feedlist

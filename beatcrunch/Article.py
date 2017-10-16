@@ -102,8 +102,9 @@ class Article:
                     out_img=img_sec.find(section).get(attribute)
 
         else :
-            return out_img
+            return ""
 
+        out_img = utils.services.sanitizeImage(self.service,out_img)
         return utils.services.sanitizeUrl(self.url,out_img)
 
     def getText(self) :
