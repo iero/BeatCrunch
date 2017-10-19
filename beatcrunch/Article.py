@@ -236,5 +236,6 @@ class Article:
         if self.image : print(u"+---[img] {} ".format(self.image.encode('utf8')))
 
         # Tags
-        tags = ','.join(self.tags)
-        print(u"+---[tags] [{}]".format(tags.encode('utf8')))
+        if (len(self.tags) > 0 ) :
+            tags = ','.join(self.tags)
+            print(u"+---[tags] [{}]".format(tags.encode('utf8')))

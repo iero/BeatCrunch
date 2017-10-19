@@ -567,6 +567,16 @@ https://www.ted.com/talks/rss
 	<filters>
 		<filter type="url">videos</filter>
 	</filters>
+	<selection>
+		<select type="class" name="post-category advancedtransport-cat" section="a">Advanced Transport</select>
+		<select type="class" name="post-category advancedtransport-cat" section="a">Artificial Intelligence</select>
+		<select type="class" name="post-category advancedtransport-cat" section="a">Earth</select>
+		<select type="class" name="post-category advancedtransport-cat" section="a">Enhanced Humans</select>
+		<select type="class" name="post-category advancedtransport-cat" section="a">Future Society</select>
+		<select type="class" name="post-category advancedtransport-cat" section="a">Robots</select>
+		<select type="class" name="post-category advancedtransport-cat" section="a">Virtuality</select>
+	</selection>
+
 </service>
 
 <service name="Forbes" lang="fr">
