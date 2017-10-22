@@ -146,9 +146,10 @@ def getRSSArticles(service, rss_url, oldlist, max) :
     feed = feedparser.parse(rss_url)
     if len(feed.entries) == 0 :
         print(u"+--[Warning] Empty list !")
-        # soup = getArticleContentFromUrl(rss_url)
-        # print(soup)
-        # print(feed)
+        # Try to remove first line
+        web_page = requests.get(rss_url, headers=headers, allow_redirects=True)
+        content = web_page.content.strip()  # drop the first newline (if any)
+        feed = feedparser.parse(content)
 
     #print(u"+--[Got] {} rss articles to parse".format(len(feed.entries)))
 

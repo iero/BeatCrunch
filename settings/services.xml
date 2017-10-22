@@ -289,8 +289,9 @@
 	<id>frenchweb</id>
 	<url type="rss">https://www.frenchweb.fr/feed</url>
 	<mention>#frenchweb</mention>
-	<text type="div" name="class" section="p">page-content</text>
-	<image type="div" name="class" section="img" attribute="src">page-featured-image</image>
+	<text type="div" name="class" section="p">entry-content entry clearfix</text>
+	<image type="meta" name="property">og:image</image>
+	<!--image type="div" name="class" section="img" attribute="src">page-featured-image</image-->
 	<!-- add tag support -->
 	<tags type="div" name="class" section="a">categories</tags>
 	<filters>
