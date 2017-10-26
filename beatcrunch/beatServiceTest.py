@@ -11,12 +11,17 @@ import Article
 if __name__ == "__main__":
 
     if len(sys.argv) < 4 :
-        print("Please use # python beattest.py settings.xml services.xml service")
+        print("Please use # python beattest.py settings.xml services.xml service nb")
         sys.exit(1)
     else :
         settings = utils.utils.loadxml(sys.argv[1])
         services = utils.utils.loadxml(sys.argv[2])
         service = utils.services.getRelatedService(services,sys.argv[3])
+
+    if len(sys.argv) == 5 :
+        nb = int(sys.argv[4])
+    else :
+        nb = 5
 
     print(u"+-[Service] [{}]".format(service.find('id').text.encode('utf-8')))
 
@@ -28,11 +33,11 @@ if __name__ == "__main__":
     feedlist = []
     try :
         if url_type == "rss" :
-            articles, feedlist =  utils.services.getRSSArticles(service,rss_url,[],5)
+            articles, feedlist =  utils.services.getRSSArticles(service,rss_url,[],nb)
         elif url_type == "web" :
-            articles, feedlist =  utils.services.getWebArticles(service,rss_url,[],5)
+            articles, feedlist =  utils.services.getWebArticles(service,rss_url,[],nb)
         elif url_type == "json" :
-            articles, feedlist =  utils.services.getJSONArticles(service,rss_url,[],5)
+            articles, feedlist =  utils.services.getJSONArticles(service,rss_url,[],nb)
     except :
         print(u"Unexpected error")
         traceback.print_exc()

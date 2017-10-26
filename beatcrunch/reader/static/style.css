@@ -1,0 +1,31 @@
+@charset "UTF-8";
+/* CSS Document */
+
+*, *:before, *:after {
+  -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+}
+
+header {margin: 0 0 0 0;}
+body { margin: 0; font-family: Montserrat, Arial, "Lucida Grande", sans-serif; }
+
+.content, footer, header { position: relative; margin: .5em; }
+.article, footer, header { border: 1px solid  #ccc; padding: 1.25em; }
+
+.nav { border: 1px solid  #ccc; }
+.article-short { margin: .5em; border: 1px solid #d9d9d9; padding: .5em; overflow: auto; min-height:; position:relative;}
+.article-short a { text-decoration: none; color: #3f3f3f; }
+.article-short img { border: 0; position: relative; float:left; top: 0; left: 0; right:0.5em; max-width:200px; max-height:100px;  margin: 0 0.5em 0 0;}
+.date { color: #a6a6a6; text-decoration-style: solid; font-size: 0.7rem; position: absolute; bottom: 0.5em; right: 0.5em; }
+
+.article { position:fixed ;margin-bottom: .5em; color: #3f3f3f; overflow: auto;}
+.article img { border: 0; position: relative; float:left; top: 0; left: 0; right:0.5em; max-width:50%;  margin: 0 1em 1em 0;}
+.tags {position:absolute; float:right; bottom: 0; right: 0; margin: 0 0.5em 0 0;}
+
+.tag { font-weight:bold; }
+
+
+/* MEDIA QUERIES */
+@media screen and (min-width: 47.5em ) {
+    .nav { position: absolute; top: 0; left: 0; width: 28.75em; }
+    .article { margin-left: 29.5em; }
+}

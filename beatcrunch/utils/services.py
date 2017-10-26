@@ -328,6 +328,7 @@ def allowArticleCategory(service,article) :
         # No selection category for this source
         return True
 
+# Remove pages based on filters
 def detectAdArticle(service,article) :
     if service.find('filters') is not None :
         for filter in service.find('filters').findall("filter") :
@@ -348,10 +349,10 @@ def detectAdArticle(service,article) :
             elif filter_type == "class" :
                 filter_name = filter.get('name')
                 filter_section = filter.get('section')
-                # print(filter_name)
+                #print(filter_name)
 
                 f=article.soup.find(filter_section, class_=filter_name)
-                # print(f)
+                #print(f)
                 if f is not None and filter_value in f.get_text().lower() :
                     print(u"+---[Filter] Class matched on {} ".format(filter_value.encode('utf8')))
                     return True
@@ -360,6 +361,7 @@ def detectAdArticle(service,article) :
             elif filter_type == "content" and filter_value.lower() in article.text.lower() :
                 print(u"+---[Filter] Content matched on {} ".format(filter_value.encode('utf8')))
                 return True
+
     return False
 
 # Get similarity between two lists of tags (blanks are junk)

@@ -97,6 +97,18 @@
 	</sanitize>
 </service>
 
+<service name="La Revue du Digital" lang="fr">
+	<id>revuedudigital</id>
+	<url type="rss">http://www.larevuedudigital.com/feed/</url>
+	<mention>#revuedudigital</mention>
+	<text type="div" name="class" section="p">entry-content</text>
+	<image type="meta" name="property">og:image</image>
+	<filters>
+		<filter type="class" name="mepr-unauthorized-message" section="div">abonnement</filter>
+	</filters>
+</service>
+
+
 <service name="MacGeneration" lang="fr">
 	<id>macg</id>
 	<url type="rss">https://megaflux.macg.co/</url>
@@ -113,7 +125,6 @@
 		<filter type="title">promo</filter>
 		<filter type="title">partenaire</filter>
 		<filter type="title">livre</filter>
-		<filter type="section" section="h2">Promo</filter>
 	</filters>
 </service>
 
@@ -202,7 +213,8 @@
 	<twitter_account>@EchosBusiness</twitter_account>
 	<mention>#lesechos</mention>
 	<text type="div" name="class" section="p">main-content content-article</text>
-	<image type="div" name="class" section="img" attribute="srcset">main-content content-article</image>
+	<image type="meta" name="property">og:image</image>
+	<!--image type="div" name="class" section="img" attribute="srcset">main-content content-article</image-->
 </service>
 
 <service name="Maddyness" lang="fr">

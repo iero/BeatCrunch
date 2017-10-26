@@ -1,0 +1,69 @@
+
+		<!--header>
+			<h1>BeatCrunch</h1>
+		</header-->
+
+{% extends "layout.html" %}
+{% block body %}
+<script type="text/javascript">
+	var t = '';
+	function gText(e) {
+    	t = (document.all) ? document.selection.createRange().text : document.getSelection();
+	    document.getElementById('input').value = t;
+	}
+
+	document.onmouseup = gText;
+	if (!document.all) document.captureEvents(Event.MOUSEUP);
+</script>
+
+	<div class="content">
+		<div class="nav">
+			{% for article in order %}
+				{% if article != "statistics" %}
+					{% for t in articles[article] %}
+						{% if t['rate'] != 0 %}
+							<div class="article-short">
+								<!--img src="{{t['image']}}"/-->
+								<a href="{{url_for('show_post', post_id=article)}}">{{t['title']}}</a>
+								<div class="date">{{t['date']|datetime}}</div>
+							</div>
+						{% endif %}
+					{% endfor %}
+				{% endif %}
+			{% endfor %}
+		</div>
+
+		<div class="article">
+			{% if id is defined %}
+				{% for t in articles[id] %}
+					<h1>{{t['title']}}</h1>
+					<img src="{{t['image']}}"/>
+					{{text|safe}}
+					<p>Source : <a href="{{t['source']}}">{{t['service']}}</a></p>
+					<p>{{t['text_size']}} words</p>
+					<div class="tags">
+						<p>Tags :</p>
+						<ul>
+							{% for tag in t['tags'] %}
+								<li>{{tag}}</li>
+							{% endfor %}
+						</ul>
+					</div>
+				{% endfor %}
+
+				<input type='text' id='input' />
+			{% else %}
+				<p> {{articles['statistics']}}
+				{% for t in articles['statistics'] %}
+					<p>{{t['total']}} articles</p>
+				{% endfor %}
+			{% endif %}
+
+
+		</div>
+	</div>
+
+<script type=text/javascript src="{{
+  url_for('static', filename='jquery.js') }}"></script>
+
+{% endblock %}

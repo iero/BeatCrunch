@@ -126,6 +126,8 @@ class Article:
 
         if text_sec is not None :
             for t in text_sec.find_all(section):
+                if len(out_text)>1 and out_text.strip()[-1] == '.' :
+                    out_text = out_text + " "
                 out_text=out_text+utils.utils.sanitizeText(t.get_text())
 
         return out_text
