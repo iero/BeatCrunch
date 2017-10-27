@@ -153,6 +153,8 @@ class Article:
             for t in text_sec.find_all(section):
                 sText=utils.utils.sanitizeText(t.get_text())
                 if sText :
+                    if len(out_text)>1 and out_text.strip()[-1] == '.' :
+                        out_text = out_text + " "
                     out_text=out_text+"<p>"+sText+"</p>"
         return out_text
 
@@ -171,6 +173,7 @@ class Article:
             'similarity_with' : self.similarity_with,
             'text' : self.text,
             'text_size' : str(len(self.text.split())),
+            'text_formated' : self.formatedtext,
             'liked' : self.liked
         }
 

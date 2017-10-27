@@ -13,6 +13,8 @@ from flask import Markup
 
 import urllib.request, json 
 
+global feed
+
 app = Flask(__name__)
 
 @app.route("/", methods=['GET', 'POST'])
@@ -58,6 +60,6 @@ def render_news(feed):
 	return render_template("home.html", articles=feed, order=order)
 
 if __name__ == "__main__":
-	global feed
+
 	feed = get_news()
 	app.run(port=5000, debug=True)
