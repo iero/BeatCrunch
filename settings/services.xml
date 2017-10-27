@@ -105,9 +105,18 @@
 	<image type="meta" name="property">og:image</image>
 	<filters>
 		<filter type="class" name="mepr-unauthorized-message" section="div">abonnement</filter>
+		<filter type="class" name="mepr-price-box-button" section="h3">consultable gratuitement</filter>
 	</filters>
 </service>
 
+
+<service name="Agile Scientific" lang="en">
+	<id>agilescientific</id>
+	<url type="rss">https://agilescientific.com/blog?format=rss</url>
+	<mention>#agilescientific</mention>
+	<text type="div" name="class" section="p">body entry-content</text>
+	<image type="meta" name="property">og:image</image>
+</service>
 
 <service name="MacGeneration" lang="fr">
 	<id>macg</id>
