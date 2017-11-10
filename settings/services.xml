@@ -17,83 +17,27 @@
 </sanitize>
 </service-->
 
-<service name="Journal du Net #smartcities" lang="fr">
-	<id>jdn_smartcities</id>
+<service name="Journal du Net" lang="fr">
+	<id>jdn</id>
 	<mention>#jdn</mention>
-	<url type="rss">http://www.journaldunet.com/smart-city/rss/</url>
+	<url type="rss">http://www.journaldunet.com/rss/</url>
 	<text type="div" name="class" section="p">entry</text>
 	<image type="meta" name="property">og:image</image>
+	<filters>
+		<filter type="url">livres-blanc</filter>
+		<filter type="url">retail</filter>
+		<filter type="url">publishers</filter>
+		<filter type="url">seo-referencement</filter>
+		<filter type="url">events</filter>
+		<filter type="url">marketing</filter>
+		<filter type="url">patrimoine</filter>
+		<filter type="url">emplois</filter>
+		<filter type="url">jobs</filter>
+		<filter type="url">management</filter>
+	</filters>
 	<sanitize>
 		<remove type="image">10503850.jpg</remove>
 		<remove type="title">\[.*?\] </remove>
-	</sanitize>
-	<hashtags>
-		<tag>smartcity</tag>
-	</hashtags>
-</service>
-
-<service name="Journal du Net #iot" lang="fr">
-	<id>jdn_iot</id>
-	<url type="rss">http://www.journaldunet.com/iot/rss/</url>
-	<text type="div" name="class" section="p">entry</text>
-	<image type="meta" name="property">og:image</image>
-	<!--image type="p" name="class" section="a" attribute="href">app_entry_lead</image-->
-	<twitter_account>@journaldunet</twitter_account>
-	<mention>#jdn</mention>
-	<sanitize>
-		<remove type="image">10503850.jpg</remove>
-		<remove type="title">\[.*?\] </remove>
-	</sanitize>
-	<hashtags>
-		<tag>iot</tag>
-	</hashtags>
-</service>
-
-<service name="Journal du Net #rh" lang="fr">
-	<id>jdn_rh</id>
-	<url type="rss">http://www.journaldunet.com/e-rh/rss/</url>
-	<text type="div" name="class" section="p">entry</text>
-	<image type="meta" name="property">og:image</image>
-	<!--image type="p" name="class" section="a" attribute="href">app_entry_lead</image-->
-	<twitter_account>@journaldunet</twitter_account>
-	<mention>#jdn</mention>
-	<sanitize>
-		<remove type="title">\[.*?\] </remove>
-		<remove type="image">10503850.jpg</remove>
-	</sanitize>
-	<hashtags>
-		<tag>rh</tag>
-	</hashtags>
-</service>
-
-<service name="Journal du Net #cloud" lang="fr">
-	<id>jdn_cloud</id>
-	<url type="rss">http://www.journaldunet.com/solutions/cloud-computing/rss/</url>
-	<twitter_account>@journaldunet</twitter_account>
-	<mention>#jdn</mention>
-	<text type="div" name="class" section="p">entry</text>
-	<image type="meta" name="property">og:image</image>
-	<!--image type="p" name="class" section="a" attribute="href">app_entry_lead</image-->
-	<sanitize>
-		<remove type="title">\[.*?\] </remove>
-		<remove type="image">10503850.jpg</remove>
-	</sanitize>
-	<hashtags>
-		<tag>cloud</tag>
-	</hashtags>
-</service>
-
-<service name="Journal du Net #bigdata" lang="fr">
-	<id>jdn_bigdata</id>
-	<url type="rss">http://www.journaldunet.com/solutions/analytics/big-data/rss/</url>
-	<twitter_account>@journaldunet</twitter_account>
-	<mention>#jdn</mention>
-	<text type="div" name="class" section="p">entry</text>
-	<image type="meta" name="property">og:image</image>
-	<!--image type="p" name="class" section="a" attribute="href">app_entry_lead</image-->
-	<sanitize>
-		<remove type="title">\[.*?\] </remove>
-		<remove type="image">10503850.jpg</remove>
 	</sanitize>
 </service>
 
