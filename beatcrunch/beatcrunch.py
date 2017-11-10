@@ -68,7 +68,7 @@ if __name__ == "__main__":
 
         if debug :
             if service is None :
-                print(u"+-[Service] Error {} unknown service !".format(name))
+                print(u"+-[Service] Error {} unknown service !".format(s.text))
             else :
                 print(u"+-[Service] [{}]".format(service.find('id').text.encode('utf-8')))
 

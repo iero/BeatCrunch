@@ -109,6 +109,13 @@
 	</filters>
 </service>
 
+<!--service name="Hackernoon" lang="en">
+	<id>hackernoon</id>
+	<url type="rss">https://hackernoon.com/feed</url>
+	<mention>#hackernoon</mention>
+	<text type="div" name="class" section="p">entry-content</text>
+	<image type="img" name="class" section="a" attribute="src">progressiveMedia-image js-progressiveMedia-image</image>
+</service-->
 
 <service name="Agile Scientific" lang="en">
 	<id>agilescientific</id>
@@ -331,6 +338,20 @@
 	</sanitize>
 </service>
 
+<service name="Numerama" lang="fr">
+	<id>numerama</id>
+	<url type="rss">http://www.numerama.com/feed/</url>
+	<mention>#numerama</mention>
+	<text type="div" name="class" section="p">wrap post</text>
+	<image type="meta" name="property">og:image</image>
+	<selection>
+		<select type="url">tech</select>
+		<select type="class" name="tags-list" section="ul">deep learning</select>
+		<select type="class" name="tags-list" section="ul">intelligence artificielle</select>
+	</selection>
+
+</service>
+
 <service name="Fred Cavazza" lang="fr">
 	<id>fred_cavazza</id>
 	<mention>#fcavazza</mention>
@@ -491,6 +512,43 @@ https://www.ted.com/talks/rss
 	<twitter_account>@TheHackersNews</twitter_account>
 </service>
 
+<!-- Super compliqué de faire des filtres de contenu. Rien n'est classé
+	Bon candidat pour un ML de reconnaissance de texte intéressant -->
+
+<service name="Wired com" lang="en">
+	<id>wired_com</id>
+	<mention>#wired</mention>
+	<url type="rss">https://www.wired.com/feed</url>
+	<text type="main" name="class" section="p">article-main-component__content</text>
+	<image type="meta" name="property">og:image</image>
+	<selection>
+		<select type="div" value="tags-component " section="li">internet</select>
+		<select type="div" value="tags-component " section="li">email</select>
+		<select type="div" value="tags-component " section="li">twitter</select>
+		<select type="div" value="tags-component " section="li">hacks</select>
+		<select type="div" value="tags-component " section="li">security</select>
+		<select type="div" value="tags-component " section="li">apple</select>
+		<select type="div" value="tags-component " section="li">google</select>
+	</selection>
+</service>
+
+<service name="Wired co uk" lang="en">
+	<id>wired_co_uk</id>
+	<mention>#wired</mention>
+	<url type="rss">http://www.wired.co.uk/rss/article</url>
+	<text type="div" name="class" section="p">a-body__content</text>
+	<image type="meta" name="property">og:image</image>
+	<selection>
+		<select type="div" value="a-related-tags " section="li">artificial intelligence</select>
+		<select type="div" value="a-related-tags " section="li">technology</select>
+		<select type="div" value="a-related-tags " section="li">security</select>
+		<select type="div" value="a-related-tags " section="li">hacking</select>
+	</selection>
+
+
+</service>
+
+
 <service name="Motherboard Vice" lang="en">
 	<id>motherboard_vice_en</id>
 	<url type="rss">https://motherboard.vice.com/en_us/rss</url>
@@ -578,6 +636,18 @@ https://www.ted.com/talks/rss
 	<image type="meta" name="property">og:image</image>
 	<!--image type="div" name="class" section="img" attribute="src">td-post-featured-image</image-->
 </service>
+
+<service name="Digital Trends" lang="en">
+	<id>digitaltrends</id>
+	<mention>#digitaltrends</mention>
+	<url type="rss">https://www.digitaltrends.com/feed/</url>
+	<text type="div" name="class" section="p">td-post-content</text>
+	<image type="meta" name="property">og:image</image>
+	<selection>
+		<select type="url">cool-tech</select>
+	</selection>
+</service>
+
 
 <service name="Futurism" lang="en">
 	<id>futurism</id>

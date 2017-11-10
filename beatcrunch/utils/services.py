@@ -300,7 +300,7 @@ def allowArticleCategory(service,article) :
             sel_type = sel.get('type')
             sel_filter = sel.text  # text to match
             # print(sel_filter)
-            
+
             if (sel_type == "url") and (sel_filter in article.url) :
                 return True
 
@@ -309,10 +309,10 @@ def allowArticleCategory(service,article) :
                 sel_section = sel.get('section')
 
                 f=article.soup.find(sel_type, class_=sel_value)
-                #print(f)
+                # print(f)
                 if f is not None :
                     for t in f.find_all(sel_section):
-                        if sel_filter in t :
+                        if t is not None and sel_filter.lower() in t.get_text().lower() :
                             return True
 
             elif sel_type == "class" :

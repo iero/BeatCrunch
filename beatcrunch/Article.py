@@ -119,6 +119,7 @@ class Article:
 
         if (name == "class") :
             text_sec=self.soup.find(type, class_=value)
+            # print(text_sec)
         elif name == "id" :
             img_sec=self.soup.find(type, {"id": value})
         elif name == "None" :
@@ -179,7 +180,7 @@ class Article:
 
     def getTweet(self) :
         #TODO : pass tweet size in arg
-        tweet_size = 140
+        tweet_size = 280
         tweet_link_size = 24
 
         text=self.title

@@ -25,8 +25,11 @@ def default():
 @app.route('/post/<string:post_id>')
 def show_post(post_id):
 	for t in feed[post_id] :
-		# print(t['title'])
-		text = "<p>"+t['text']+"</p>"
+		if 'text_formated' in t :
+			print("ok")
+			text = t['text_formated']
+		else :
+			text = "<p>"+t['text']+"</p>"
 		tags = t['tags']
 
 
