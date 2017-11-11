@@ -34,6 +34,8 @@
 		<filter type="url">emplois</filter>
 		<filter type="url">jobs</filter>
 		<filter type="url">management</filter>
+		<filter type="url">economie</filter>
+		<filter type="url">magazine</filter>
 	</filters>
 	<sanitize>
 		<remove type="image">10503850.jpg</remove>
