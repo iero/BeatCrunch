@@ -1,21 +1,7 @@
 <?xml version="1.0"?>
 <data>
 
-	<!-- French Digital -->
-
-	<!-- Too much crap -->
-	<!--service name="Presse Citron" lang="fr">
-	<url type="rss">http://www.presse-citron.net/feed/</url>
-	<text type="div" name="class" section="p">post-content description</text>
-	<image type="div" name="class" section="img" attribute="src">post-content description</image>
-	<image_alt type="div" name="class" section="a" attribute="href">post-content description</image_alt>
-	<tags type="div" name="class" section="a">tagcloud</tags>
-	<twitter_account>@pressecitron</twitter_account>
-	<mention>#pcitron</mention>
-	<sanitize>
-	<remove type="title">\[.*?\] </remove>
-</sanitize>
-</service-->
+<!-- French Digital -->
 
 <service name="Journal du Net" lang="fr">
 	<id>jdn</id>
@@ -74,7 +60,6 @@
 <service name="MacGeneration" lang="fr">
 	<id>macg</id>
 	<url type="rss">https://megaflux.macg.co/</url>
-	<twitter_account>@MacGeneration</twitter_account>
 	<mention>#macg</mention>
 	<text type="div" name="class" section="p">field-item even</text>
 	<image type="div" name="class" section="img" attribute="src">field-item even</image>
@@ -105,7 +90,6 @@
 <service name="Siecle Digital" lang="fr">
 	<id>siecle_digital</id>
 	<url type="rss">https://siecledigital.fr/feed/</url>
-	<twitter_account>@siecledigital</twitter_account>
 	<mention>#digital</mention>
 	<text type="div" name="class" section="p">post-content description </text>
 	<image type="meta" name="property">og:image</image>
@@ -117,7 +101,6 @@
 <service name="Sciences et Avenir" lang="fr">
 	<id>science_et_avenir</id>
 	<url type="rss">https://www.sciencesetavenir.fr/high-tech/rss.xml</url>
-	<twitter_account>@science_avenir</twitter_account>
 	<mention>#science</mention>
 	<text type="div" name="class" section="p">corps article-sea-home-a article-sea-hightech-a</text>
 	<image type="div" name="class" section="img" attribute="data-src">article-image</image>
@@ -126,7 +109,6 @@
 <service name="Itespresso" lang="fr">
 	<id>itespresso</id>
 	<url type="rss">http://www.itespresso.fr/feed</url>
-	<twitter_account>@itespressofr</twitter_account>
 	<mention>#itespresso</mention>
 	<text type="div" name="class" section="p">entry-content</text>
 	<image type="meta" name="property">og:image</image>
@@ -146,7 +128,6 @@
 <service name="Korben" lang="fr">
 	<id>korben</id>
 	<url type="rss">http://korben.info/feed</url>
-	<twitter_account>@korben</twitter_account>
 	<mention>#korben</mention>
 	<text type="div" name="class" section="p">post-content</text>
 	<image type="meta" name="property">og:image</image>
@@ -159,11 +140,9 @@
 <service name="Nouvel Obs High Tech" lang="fr">
 	<id>nouvel_obs</id>
 	<url type="rss">https://o.nouvelobs.com/high-tech/rss.xml</url>
-	<twitter_account>@lobs</twitter_account>
 	<mention>#obs</mention>
 	<text type="div" name="class" section="p">o-article-body</text>
 	<image type="meta" name="property">og:image</image>
-	<!--image type="div" name="class" section="img" attribute="src">o-article-body</image-->
 	<filters>
 		<filter type="url">jeux-video</filter>
 	</filters>
@@ -172,17 +151,14 @@
 <service name="Les echos business" lang="fr">
 	<id>echos_business</id>
 	<url type="rss">https://business.lesechos.fr/rss/dn.xml</url>
-	<twitter_account>@EchosBusiness</twitter_account>
 	<mention>#lesechos</mention>
 	<text type="div" name="class" section="p">main-content content-article</text>
 	<image type="meta" name="property">og:image</image>
-	<!--image type="div" name="class" section="img" attribute="srcset">main-content content-article</image-->
 </service>
 
 <service name="Maddyness" lang="fr">
 	<id>maddyness</id>
 	<url type="rss">https://www.maddyness.com/feed/</url>
-	<twitter_account>@bymaddyness</twitter_account>
 	<mention>#maddyness</mention>
 	<text type="div" name="class" section="p">inherit-color-parent article-content col-md-8</text>
 	<image type="div" name="class" section="source" attribute="srcset">article-image-wrapper</image>
@@ -199,10 +175,8 @@
 <service name="Usine Digitale" lang="fr">
 	<id>usine_digitale</id>
 	<url type="rss">http://www.usine-digitale.fr/rss</url>
-	<twitter_account>@LUsineDigitale</twitter_account>
 	<mention>#udigital</mention>
 	<text type="div" name="class" section="p">blocTexteType1</text>
-	<!--image type="figure" name="class" section="img" attribute="src">blocImageType2</image-->
 	<image type="meta" name="name">twitter:image</image>
 	<filters>
 		<filter type="title">quoi de neuf</filter>
@@ -216,11 +190,9 @@
 <service name="Blog du Moderateur" lang="fr">
 	<id>blog_moderateur</id>
 	<url type="rss">https://www.blogdumoderateur.com/feed/</url>
-	<twitter_account>@BlogModerateur</twitter_account>
 	<mention>#blogmod</mention>
 	<text type="div" name="class" section="p">entry-content</text>
 	<image type="meta" name="property">og:image</image>
-	<!--image type="div" name="class" section="img" attribute="src">entry-content</image-->
 	<filters>
 		<filter type="title">offres</filter>
 		<filter type="title">ils recrutent</filter>
@@ -237,9 +209,8 @@
 	</sanitize>
 </service>
 
-<service name="Les echos #hightech" lang="fr">
+<service name="Les echos hightech" lang="fr">
 	<id>echos_hightech</id>
-	<twitter_account>@LesEchos</twitter_account>
 	<mention>#lesechos</mention>
 	<url type="web">https://www.lesechos.fr/tech-medias/hightech/index.php</url>
 	<!-- Get article list from a classic page -->
@@ -249,7 +220,6 @@
 		<title type="h2" name="class">style-titre</title>
 		<link type="h2" name="class" section="a" attribute="href">style-titre</link>
 	</get>
-
 	<!-- Get article content -->
 	<page_url type="div" name="class" section="a">main-content content-ssrub</page_url>
 	<text type="div" name="class" section="p">main-content content-article</text>
@@ -265,7 +235,6 @@
 	<mention>#frenchweb</mention>
 	<text type="div" name="class" section="p">entry-content entry clearfix</text>
 	<image type="meta" name="property">og:image</image>
-	<!--image type="div" name="class" section="img" attribute="src">page-featured-image</image-->
 	<!-- add tag support -->
 	<tags type="div" name="class" section="a">categories</tags>
 	<filters>
@@ -295,14 +264,12 @@
 		<select type="class" name="tags-list" section="ul">deep learning</select>
 		<select type="class" name="tags-list" section="ul">intelligence artificielle</select>
 	</selection>
-
 </service>
 
 <service name="Fred Cavazza" lang="fr">
 	<id>fred_cavazza</id>
 	<mention>#fcavazza</mention>
 	<url type="rss">https://fredcavazza.net/feed/</url>
-	<twitter_account>@fredcavazza</twitter_account>
 	<text type="div" name="class" section="p">entry-content</text>
 	<image type="div" name="class" section="img" attribute="src">entry-content</image>
 	<tags type="span" name="class" section="a">tags-links</tags>
@@ -311,7 +278,6 @@
 <service name="Petit web" lang="fr">
 	<id>petit_web</id>
 	<url type="rss">http://www.petitweb.fr/feed/</url>
-	<twitter_account>@petitweb</twitter_account>
 	<mention>#petitweb</mention>
 	<text type="div" name="class" section="p">entry-content</text>
 	<image type="div" name="class" section="img" attribute="data-lazy-src">wp-caption alignleft</image>
@@ -326,14 +292,10 @@
 <service name="Motherboard Vice" lang="fr">
 	<id>motherboard_vice_fr</id>
 	<url type="rss">https://motherboard.vice.com/fr/rss</url>
-	<twitter_account>@motherboard</twitter_account>
 	<mention>#mboard</mention>
 	<text type="div" name="class" section="p">article__body</text>
 	<image type="meta" name="property">og:image</image>
-	<!--image type="div" name="class" section="img" attribute="src">long-form-article__lede-image</image>
-	<image_alt type="div" name="class" section="img" attribute="src">short-form-article__body__content</image_alt-->
 	<tags type="div" name="class" section="a">topics topic-list</tags>
-
 	<selection>
 		<select type="class" name="topics topic-list" section="ul">intelligence artificielle</select>
 		<select type="class" name="topics topic-list" section="ul">hacking</select>
@@ -341,17 +303,11 @@
 		<select type="class" name="topics topic-list" section="ul">science</select>
 		<select type="class" name="topics topic-list" section="ul">espace</select>
 	</selection>
-
-
-	<!--filters>
-	<filter type="title">revue de web</filter>
-</filters-->
 </service>
 
 <service name="Zdnet" lang="fr">
 	<id>zdnet</id>
 	<url type="rss">http://www.zdnet.fr/feeds/rss/actualites/</url>
-	<!--twitter_account>@zdnet</twitter_account-->
 	<mention>#zdnet</mention>
 	<text type="div" name="class" section="p">storyBody</text>
 	<image type="div" name="class" section="img" attribute="src">storyBody</image>
@@ -363,7 +319,6 @@
 <service name="Silicon.fr" lang="fr">
 	<id>silicon</id>
 	<url type="rss">http://www.silicon.fr/feed</url>
-	<!--twitter_account>@zdnet</twitter_account-->
 	<mention>#silicon</mention>
 	<text type="section" name="class" section="p">article-content</text>
 	<image type="div" name="class" section="img" attribute="src">imageTitleWrapper</image>
@@ -373,26 +328,11 @@
 	</filters>
 </service>
 
-<!--service name="Piwee" lang="fr">
-<url type="rss">http://piwee.net/feed/</url>
-<twitter_account>@piweeFR</twitter_account>
-<text type="div" name="class" section="p">post</text>
-<image type="div" name="class" section="img" attribute="src">post</image>
-</service-->
-
-<!-- To incorporate
-1 innovation par jour
-nextimpact
-wall street journal
-http://www.lemondeinformatique.fr/actualites/lire-hackerone-un-service-de-bug-bounty-gratuit-pour-les-projets-open-source-67547.html
--->
-
 <!-- French Others -->
 
 <service name="Rue89 #planete" lang="fr">
 	<id>rue89_planete</id>
 	<url type="rss">http://tempsreel.nouvelobs.com/rue89/rue89-planete/rss.xml</url>
-	<twitter_account>@rue89</twitter_account>
 	<mention>#rue89</mention>
 	<text type="section" name="class" section="p">obs-content</text>
 	<image type="section" name="class" section="img" attribute="src">obs-content</image>
@@ -404,17 +344,11 @@ http://www.lemondeinformatique.fr/actualites/lire-hackerone-un-service-de-bug-bo
 
 <!-- English -->
 
-<!--
-https://www.ted.com/talks/rss
--->
-
 <service name="The Verge" lang="en">
 	<id>the_verge</id>
 	<url type="rss">http://www.theverge.com/rss/index.xml</url>
-	<twitter_account>@verge</twitter_account>
 	<mention>#theverge</mention>
 	<text type="div" name="class" section="p">c-entry-content</text>
-	<!--image type="picture" name="class" section="img" attribute="src">c-picture</image-->
 	<image type="meta" name="property">og:image</image>
 	<selection>
 		<select type="div" value="c-entry-group-labels c-entry-group-labels--article" section="span">Apps</select>
@@ -435,8 +369,6 @@ https://www.ted.com/talks/rss
 	<sanitize>
 			<remove type="image">7714256da16f.png</remove>
 	</sanitize>
-
-	<!--image type="div" name="class" section="img" attribute="src">uni-content uni-blog-article-container</image-->
 </service>
 
 <service name="Google X" lang="en">
@@ -445,7 +377,6 @@ https://www.ted.com/talks/rss
 	<url type="rss">https://blog.x.company/feed</url>
 	<text type="div" name="class" section="p">section-content</text>
 	<image type="meta" name="property">og:image</image>
-	<!--image type="div" name="class" section="img" attribute="src">section-content</image-->
 </service>
 
 <service name="The Hacker News" lang="en">
@@ -454,11 +385,9 @@ https://www.ted.com/talks/rss
 	<url type="rss">http://thehackernews.com/feeds/posts/default</url>
 	<text type="div" name="class" section="div">articlebodyonly</text>
 	<image type="meta" name="property">og:image</image>
-	<!--image type="div" name="class" section="img" attribute="src">articlebodyonly</image-->
-	<twitter_account>@TheHackersNews</twitter_account>
 </service>
 
-<!-- Super compliqué de faire des filtres de contenu. Rien n'est classé
+<!-- Super compliqué de faire des filtres de contenu de Wired.com. Rien n'est classé
 	Bon candidat pour un ML de reconnaissance de texte intéressant -->
 
 <service name="Wired com" lang="en">
@@ -478,6 +407,14 @@ https://www.ted.com/talks/rss
 	</selection>
 </service>
 
+<service name="New York Times Technology" lang="en">
+	<id>nyt_techno</id>
+	<mention>#nyt</mention>
+	<url type="rss">http://rss.nytimes.com/services/xml/rss/nyt/Technology.xml</url>
+	<text type="article" name="id" section="p">story</text>
+	<image type="meta" name="property">og:image</image>
+</service>
+
 <service name="Wired co uk" lang="en">
 	<id>wired_co_uk</id>
 	<mention>#wired</mention>
@@ -490,33 +427,24 @@ https://www.ted.com/talks/rss
 		<select type="div" value="a-related-tags " section="li">security</select>
 		<select type="div" value="a-related-tags " section="li">hacking</select>
 	</selection>
-
-
 </service>
-
 
 <service name="Motherboard Vice" lang="en">
 	<id>motherboard_vice_en</id>
 	<url type="rss">https://motherboard.vice.com/en_us/rss</url>
-	<twitter_account>@motherboard</twitter_account>
 	<mention>#mboard</mention>
 	<text type="div" name="class" section="p">article__body</text>
 	<image type="div" name="class" section="img" attribute="src">long-form-article__lede-image</image>
 	<image_alt type="div" name="class" section="img" attribute="src">short-form-article__body__content</image_alt>
 	<tags type="div" name="class" section="a">topics topic-list</tags>
-	<!--filters>
-	<filter type="title">revue de web</filter>
-</filters-->
 </service>
 
 <service name="The Next Web" lang="en">
 	<id>next_web</id>
 	<url type="rss">https://thenextweb.com/feed/</url>
-	<twitter_account>@TheNextWeb</twitter_account>
 	<mention>#tnw</mention>
 	<text type="div" name="class" section="p">post-body fb-quotable u-m-3</text>
 	<image type="meta" name="property">og:image</image>
-	<!--image type="div" name="class" section="img" attribute="src">post-featuredImage u-m-1_5</image-->
 	<filters>
 		<filter type="title">5 key</filter>
 		<filter type="title">5 ways</filter>
@@ -545,7 +473,6 @@ https://www.ted.com/talks/rss
 		<select type="class" name="row hideMobile" section="div">internet</select>
 		<select type="class" name="row hideMobile" section="div">technologie</select>
 	</selection>
-
 	<sanitize>
 		<remove type="title">Infographie - </remove>
 	</sanitize>
@@ -560,7 +487,6 @@ https://www.ted.com/talks/rss
 	<url type="rss">https://www.technologyreview.com/stories.rss</url>
 	<text type="div" name="class" section="p">article-body__content</text>
 	<image type="meta" name="property">og:image</image>
-	<!--image type="div" name="class" section="img" attribute="src">article-body</image-->
 	<filters>
 		<filter type="title">The Best of</filter>
 	</filters>
@@ -580,7 +506,6 @@ https://www.ted.com/talks/rss
 	<url type="rss">http://trendintech.com/feed/</url>
 	<text type="div" name="class" section="p">td-post-content</text>
 	<image type="meta" name="property">og:image</image>
-	<!--image type="div" name="class" section="img" attribute="src">td-post-featured-image</image-->
 </service>
 
 <service name="Digital Trends" lang="en">
@@ -594,14 +519,12 @@ https://www.ted.com/talks/rss
 	</selection>
 </service>
 
-
 <service name="Futurism" lang="en">
 	<id>futurism</id>
 	<mention>#futurism</mention>
 	<url type="rss">https://futurism.com/feed/</url>
 	<text type="div" name="class" section="p">summary module</text>
 	<image type="meta" name="property">og:image</image>
-	<!--image type="div" name="class" section="img" attribute="src">summary module</image-->
 	<filters>
 		<filter type="url">videos</filter>
 	</filters>
@@ -664,11 +587,11 @@ https://www.ted.com/talks/rss
 	<url type="rss">https://sciencetonnante.wordpress.com/feed/</url>
 	<text type="div" name="class" section="p">entry-content</text>
 	<image type="meta" name="property">og:image</image>
-	<!--image type="div" name="class" section="img" attribute="src">uni-content uni-blog-article-container</image-->
 </service>
 
+<!-- Sources :
 
-<!--
+https://www.ted.com/talks/rss
 techcrunch
 greenmedia http://feeds.greentechmedia.com/GreentechMedia
 engadget https://www.engadget.com/2017/05/23/google-jamboard-goes-on-sale/
@@ -676,6 +599,7 @@ engadget https://www.engadget.com/2017/05/23/google-jamboard-goes-on-sale/
 #dataViz http://feeds.feedburner.com/FeaturedPosts-Dataviz
 #bigdata news http://feeds.feedburner.com/BdnDailyPressReleasesDiscussions-BigDataNews
 #and http://feeds.feedburner.com/FeaturedBlogPosts-Bigdatanews
+
 -->
 
 
@@ -686,8 +610,33 @@ http://thelongandshort.org/spaces/hot-desks-design-thinking-ideo
 <url type="rss">http://thelongandshort.org/feed.rss</url>
 <text type="div" name="class" section="div">o-article__body</text>
 <image type="div" name="class" section="img" attribute="src">o-article__body</image>
-<twitter_account>@longandshortmag</twitter_account>
 <mention>#longandshort</mention>
 </service-->
+
+	<!-- Too much crap -->
+	<!--service name="Presse Citron" lang="fr">
+	<url type="rss">http://www.presse-citron.net/feed/</url>
+	<text type="div" name="class" section="p">post-content description</text>
+	<image type="div" name="class" section="img" attribute="src">post-content description</image>
+	<image_alt type="div" name="class" section="a" attribute="href">post-content description</image_alt>
+	<tags type="div" name="class" section="a">tagcloud</tags>
+	<mention>#pcitron</mention>
+	<sanitize>
+		<remove type="title">\[.*?\] </remove>
+	</sanitize>
+	</service-->
+
+<!--service name="Piwee" lang="fr">
+<url type="rss">http://piwee.net/feed/</url>
+<text type="div" name="class" section="p">post</text>
+<image type="div" name="class" section="img" attribute="src">post</image>
+</service-->
+
+<!-- To incorporate
+1 innovation par jour
+nextimpact
+wall street journal
+http://www.lemondeinformatique.fr/actualites/lire-hackerone-un-service-de-bug-bounty-gratuit-pour-les-projets-open-source-67547.html
+-->
 
 </data>

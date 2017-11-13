@@ -156,7 +156,8 @@ def getRSSArticles(service, rss_url, oldlist, max) :
 	#print(u"+--[Got] {} rss articles to parse".format(len(feed.entries)))
 
 	# New feed - don't try to analyse everything
-	if len(oldlist) == 0 :
+	# except if max is set (test mode)
+	if len(oldlist) == 0 and max == 0 :
 		for post in feed.entries:
 			feedlist.append(post.link)
 

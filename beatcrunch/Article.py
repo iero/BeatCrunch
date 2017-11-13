@@ -121,7 +121,7 @@ class Article:
             text_sec=self.soup.find(type, class_=value)
             # print(text_sec)
         elif name == "id" :
-            img_sec=self.soup.find(type, {"id": value})
+            text_sec=self.soup.find(type, {"id": value})
         elif name == "None" :
             text_sec=self.soup
 
@@ -132,6 +132,8 @@ class Article:
                 out_text=out_text+utils.utils.sanitizeText(t.get_text())
 
         return out_text
+
+    # TODO: Get images and not only text.
 
     def getFormatedText(self) :
         out_text=""
@@ -146,7 +148,7 @@ class Article:
         if name == "class" :
             text_sec=self.soup.find(type, class_=value)
         elif name == "id" :
-            img_sec=self.soup.find(type, {"id": value})
+            text_sec=self.soup.find(type, {"id": value})
         elif name == "None" :
             text_sec=self.soup
 
