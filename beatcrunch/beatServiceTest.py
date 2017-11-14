@@ -10,16 +10,15 @@ import Article
 
 if __name__ == "__main__":
 
-    if len(sys.argv) < 4 :
-        print("Please use # python beattest.py settings.xml services.xml service nb")
+    if len(sys.argv) < 3 :
+        print("Please use # python beattest.py services.xml service nb")
         sys.exit(1)
     else :
-        settings = utils.utils.loadxml(sys.argv[1])
-        services = utils.utils.loadxml(sys.argv[2])
-        service = utils.services.getRelatedService(services,sys.argv[3])
+        services = utils.utils.loadxml(sys.argv[1])
+        service = utils.services.getRelatedService(services,sys.argv[2])
 
-    if len(sys.argv) == 5 :
-        nb = int(sys.argv[4])
+    if len(sys.argv) == 4 :
+        nb = int(sys.argv[3])
     else :
         nb = 5
 

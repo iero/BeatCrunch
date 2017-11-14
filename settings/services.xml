@@ -139,7 +139,7 @@
 
 <service name="Nouvel Obs High Tech" lang="fr">
 	<id>nouvel_obs</id>
-	<url type="rss">https://o.nouvelobs.com/high-tech/rss.xml</url>
+	<url type="rss">http://o.nouvelobs.com/high-tech/rss.xml</url>
 	<mention>#obs</mention>
 	<text type="div" name="class" section="p">o-article-body</text>
 	<image type="meta" name="property">og:image</image>
@@ -289,7 +289,7 @@
 	</filters>
 </service>
 
-<service name="Motherboard Vice" lang="fr">
+<service name="Motherboard Vice FR" lang="fr">
 	<id>motherboard_vice_fr</id>
 	<url type="rss">https://motherboard.vice.com/fr/rss</url>
 	<mention>#mboard</mention>
@@ -330,7 +330,8 @@
 
 <!-- French Others -->
 
-<service name="Rue89 #planete" lang="fr">
+<!-- old articles -->
+<!--service name="Rue89 #planete" lang="fr">
 	<id>rue89_planete</id>
 	<url type="rss">http://tempsreel.nouvelobs.com/rue89/rue89-planete/rss.xml</url>
 	<mention>#rue89</mention>
@@ -340,7 +341,7 @@
 		<tag>planete</tag>
 		<tag>rue89</tag>
 	</hashtags>
-</service>
+</service-->
 
 <!-- English -->
 
@@ -429,13 +430,12 @@
 	</selection>
 </service>
 
-<service name="Motherboard Vice" lang="en">
+<service name="Motherboard Vice US" lang="en">
 	<id>motherboard_vice_en</id>
 	<url type="rss">https://motherboard.vice.com/en_us/rss</url>
 	<mention>#mboard</mention>
 	<text type="div" name="class" section="p">article__body</text>
-	<image type="div" name="class" section="img" attribute="src">long-form-article__lede-image</image>
-	<image_alt type="div" name="class" section="img" attribute="src">short-form-article__body__content</image_alt>
+	<image type="meta" name="property">og:image</image>
 	<tags type="div" name="class" section="a">topics topic-list</tags>
 </service>
 
@@ -485,20 +485,22 @@
 	<id>mit_technology_review</id>
 	<mention>#mit</mention>
 	<url type="rss">https://www.technologyreview.com/stories.rss</url>
-	<text type="div" name="class" section="p">article-body__content</text>
+	<!--text type="div" name="class" section="p">article-body__content</text-->
+	<text type="div" name="class" section="p">article-body</text>
 	<image type="meta" name="property">og:image</image>
 	<filters>
 		<filter type="title">The Best of</filter>
 	</filters>
 </service>
 
-<service name="Data Science Central" lang="en">
+<!-- problem with text -->
+<!--service name="Data Science Central" lang="en">
 	<id>dataScienceCentral</id>
 	<mention>#dsc</mention>
 	<url type="rss">http://feeds.feedburner.com/FeaturedBlogPosts-DataScienceCentral</url>
 	<text type="div" name="class" section="p">xg_user_generated</text>
-	<image type="div" name="class" section="img" attribute="src">xg_user_generated</image>
-</service>
+	<image type="meta" name="property">og:image</image>
+</service-->
 
 <service name="Trend in Tech" lang="en">
 	<id>trendintech</id>
@@ -512,7 +514,7 @@
 	<id>digitaltrends</id>
 	<mention>#digitaltrends</mention>
 	<url type="rss">https://www.digitaltrends.com/feed/</url>
-	<text type="div" name="class" section="p">td-post-content</text>
+	<text type="article" name="itemprop" section="p">articleBody</text>
 	<image type="meta" name="property">og:image</image>
 	<selection>
 		<select type="url">cool-tech</select>
@@ -552,19 +554,21 @@
 	</selection>
 </service>
 
-<service name="Wait But Why" lang="en">
+<!-- Too long.. hang the system -->
+<!--service name="Wait But Why" lang="en">
 	<id>waitbutwhy</id>
 	<mention>#wbw</mention>
 	<url type="rss">https://waitbutwhy.com/feed</url>
 	<text type="div" name="class" section="p">entry-content</text>
 	<image type="meta" name="property">og:image</image>
-</service>
+</service-->
 
-<service name="hook" lang="fr">
+<!-- not interesting anymore -->
+<!--service name="hook" lang="fr">
 	<id>hook</id>
 	<mention>#hook</mention>
 	<url type="json" title="subtitle">https://www.mercialfred.com/hook/ws/news.json</url>
-</service>
+</service-->
 
 <!-- in progress -->
 <service name="Startups.co" lang="en">
