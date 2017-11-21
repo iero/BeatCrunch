@@ -149,12 +149,22 @@ def getRSSArticles(service, rss_url, oldlist, max) :
 	feed = feedparser.parse(rss_url)
 
 	# Empty feed
-	if len(feed.entries) == 0 :
-		print(u"+--[Warning] Empty list !")
-		# Try to remove first line
-		web_page = requests.get(rss_url, headers=headers, allow_redirects=True)
-		content = web_page.content.strip()  # drop the first newline (if any)
-		feed = feedparser.parse(content)
+	try:
+		if len(feed.entries) == 0 :
+			print(u"+--[Warning] Empty list !")
+			# Try to remove first line
+			web_page = requests.get(rss_url, headers=headers, allow_redirects=True)
+			content = web_page.content.strip()  # drop the first newline (if any)
+			feed = feedparser.parse(content)
+	except requests.exceptions.Timeout:
+		# Timeout problem
+		print(u"+--[Warning] Timeout getting feed !")
+	except requests.exceptions.TooManyRedirects:
+		# Bad URL
+		print(u"+--[Warning] Too many redirect getting feed !")
+	except requests.exceptions.RequestException as e:
+		# Not working
+		print(u"+--[Warning] Problem getting feed !")
 
 	#print(u"+--[Got] {} rss articles to parse".format(len(feed.entries)))
 
