@@ -88,7 +88,10 @@ def sanitizeTitle(service, title) :
 #
 def getRelatedService(services, name) :
 	for s in services.findall('service') :
-		if (s.find('id').text == name) :
+		# if s.find('id') is None :
+		# 	print("[Warning]"+s.get('name'))
+		# else :
+		if s.find('id').text == name :
 			# print(u"+--[{}] service found".format(name))
 			return s
 	return None
@@ -305,6 +308,7 @@ def getImageData(url) :
 	return response.content
 
 # Allow pages from selected category
+# Need <selection><select/></selection> block in config file
 def allowArticleCategory(service,article) :
 	if service.find('selection') is not None :
 		for sel in service.find('selection').findall("select") :
@@ -349,31 +353,32 @@ def detectAdArticle(service,article) :
 			# filter based on url
 			if filter_type == "url" and filter_value in article.url :
 				print(u"+---[Filter] Url matched on {} ".format(filter_value.encode('utf8')))
-				return True
+				return "url:"+filter_value
 
 			# based on title
 			elif filter_type == "title" and filter_value.lower() in article.title.lower() :
 				print(u"+---[Filter] Title matched on {} ".format(filter_value.encode('utf8')))
-				return True
+				return "title:"+filter_value
 
 			# based on class name
 			elif filter_type == "class" :
 				filter_name = filter.get('name')
 				filter_section = filter.get('section')
-				#print(filter_name)
+				# print(filter_section)
+				# print(filter_name)
 
 				f=article.soup.find(filter_section, class_=filter_name)
-				#print(f)
-				if f is not None and filter_value in f.get_text().lower() :
+				# print(f)
+				if f is not None and filter_value.lower() in f.get_text().lower() :
 					print(u"+---[Filter] Class matched on {} ".format(filter_value.encode('utf8')))
-					return True
+					return "class:"+filter_value
 
 			# based on content (words in text)
 			elif filter_type == "content" and filter_value.lower() in article.text.lower() :
 				print(u"+---[Filter] Content matched on {} ".format(filter_value.encode('utf8')))
-				return True
+				return "content:"+filter_value
 
-	return False
+	return ""
 
 # Get similarity between two lists of tags (blanks are junk)
 def similar(a, b):
@@ -453,14 +458,19 @@ def detectSimArticleTitle(title,title_dict) :
 
 def rateArticle(service,article) :
 	# print(u"+-[Rate] {} ".format(article.title))
+
+	# Check <selection/>
 	if not allowArticleCategory(service,article) :
 		print(u"+---[Rate] Category not allowed")
-		return 0
-	elif detectAdArticle(service,article) :
+		return "category"
+
+	# Check <filters/>
+	ad=detectAdArticle(service,article)
+	if len(ad) != 0 :
 		print(u"+---[Rate] Advert found")
-		return 0
-	else :
-		return 1
+		return "advert:"+ad
+
+	return "ok"
 
 # Get 10 mosts common tags
 def tagsTrend(articles) :

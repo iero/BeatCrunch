@@ -72,7 +72,7 @@ def test_dataset(d2v_model, json_files, stopwords):
 						if len(past_vectors) > 0 :
 							sim_vectors = cosine_similarity([new_vector],past_vectors)
 							for idx, val in enumerate(sim_vectors[0]) :
-								if val > 0.6 :
+								if val > 0.6:
 									print("Found something as {0}".format(t['title']))
 									print("{0} {1:.2f} {2}".format(idx,val,past_titles[idx]))
 									print(" ")

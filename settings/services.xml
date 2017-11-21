@@ -239,6 +239,7 @@
 	<tags type="div" name="class" section="a">categories</tags>
 	<filters>
 		<filter type="class" name="subtitle" section="h2">partenariat</filter>
+		<filter type="class" name="entry-sub-title" section="h2">partenariat</filter>
 		<filter type="title">offres</filter>
 		<filter type="title">sen#7</filter>
 		<filter type="title">[insiders]</filter>
@@ -247,6 +248,7 @@
 		<filter type="title">de la semaine</filter>
 		<filter type="title">ne fallait pas manquer</filter>
 		<filter type="title">recrutent</filter>
+		<filter type="title">livre blanc</filter>
 	</filters>
 	<sanitize>
 		<remove type="title">\[.*?\] </remove>
@@ -449,6 +451,7 @@
 		<filter type="title">5 key</filter>
 		<filter type="title">5 ways</filter>
 		<filter type="url">offers</filter>
+		<filter type="class" name="post-in-content-tags" section="div">TNW NYC</filter>
 	</filters>
 
 </service>
