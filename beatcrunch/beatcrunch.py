@@ -109,7 +109,7 @@ if __name__ == "__main__":
                 article.similarity = tags_sim
                 article.similarity_with = tags_sim_with
 
-            if article.rate == "category" or "advert" :
+            if article.rate.startswith("category") or article.rate.startswith("advert") :
                 statistics.filtered += 1
             elif article.similarity >= 0.6 :
                 statistics.duplicates += 1
