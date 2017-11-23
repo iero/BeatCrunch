@@ -266,6 +266,10 @@
 		<select type="class" name="tags-list" section="ul">deep learning</select>
 		<select type="class" name="tags-list" section="ul">intelligence artificielle</select>
 	</selection>
+	<filters>
+		<filter type="title">le bon plan du jour</filter>
+		<filter type="class" name="tags-list" section="ul">bons plans</filter>
+	</filters>
 </service>
 
 <service name="Fred Cavazza" lang="fr">
@@ -315,6 +319,8 @@
 	<image type="div" name="class" section="img" attribute="src">storyBody</image>
 	<filters>
 		<filter type="url">zapping-decrypte</filter>
+		<filter type="url">marketing</filter>
+		<filter type="title">boite à liens</filter>filter>
 	</filters>
 </service>
 
