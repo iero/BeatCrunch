@@ -86,58 +86,63 @@ def toot(s,article) :
 		return False
 
 def publishWordPress(settings,article) :
-	# try:
-	for s in settings.findall('service') :
-		if s.get("name") == "wordpress" :
-			wp = Client(s.find("server").text+'/xmlrpc.php', s.find("username").text, s.find("password").text)
-			url = s.find("server").text
+	try:
+		for s in settings.findall('service') :
+			if s.get("name") == "wordpress" :
+				wp = Client(s.find("server").text+'/xmlrpc.php', s.find("username").text, s.find("password").text)
+				url = s.find("server").text
 
-	# taxes = wp.call(taxonomies.GetTaxonomies())
-	# print("+ Taxonomies")
-	# for t in taxes :
-	# 	print("+- {}".format(t))
+		# taxes = wp.call(taxonomies.GetTaxonomies())
+		# print("+ Taxonomies")
+		# for t in taxes :
+		# 	print("+- {}".format(t))
 
-	# Load existing tags
-	aTags=[]
-	availTags = wp.call(taxonomies.GetTerms('post_tag'))
-	for c in availTags :
-		# print("+- [{}]".format(c))
-		aTags.append(str(c))
+		# Load existing tags
+		aTags=[]
+		availTags = wp.call(taxonomies.GetTerms('post_tag'))
+		for c in availTags :
+			# print("+- [{}]".format(c))
+			aTags.append(str(c))
 
-	# Add tags if new :
-	for tag in article.tags :
-		if tag not in aTags :
-			k = tag.replace(" ", "%20")
-			requests.get(url+'/add.php?tag='+k)
-			print("Add tag {}".format(k))
-			print(url+'/add.php?tag='+k)
+		# Add tags if new :
+		addedTags = []
+		for tag in article.tags :
+			if tag not in aTags :
+				k = tag.replace(" ", "%20")
+				requests.get(url+'/add.php?tag='+k)
+				addedTags.append(k)
+				# print("Add tag {}".format(k))
+				# print(url+'/add.php?tag='+k)
+		print("Added tag {}".format(','.join(addedTags)))
 
-	# Load existing categories
-	aCat=[]
-	availCat = wp.call(taxonomies.GetTerms('category'))
-	for c in availCat :
-		# print("+- [{}]".format(c))
-		aCat.append(str(c))
+		# Load existing categories
+		aCat=[]
+		availCat = wp.call(taxonomies.GetTerms('category'))
+		for c in availCat :
+			# print("+- [{}]".format(c))
+			aCat.append(str(c))
 
-	# Add category if new
-	#service = utils.services.getRelatedService(services,article.service)
-	sName = article.service.get('name')
-	if sName not in aCat :
-		k = sName.replace(" ", "%20")
-		requests.get(url+'/add.php?category='+k)
+		# Add category if new
+		#service = utils.services.getRelatedService(services,article.service)
+		sName = article.service.get('name')
+		if sName not in aCat :
+			k = sName.replace(" ", "%20")
+			requests.get(url+'/add.php?category='+k)
+			print("Added catedory {}".format(k))
 
-	post = WordPressPost()
-	post.title = article.title
-	post.content = '<img src="'+article.image+'"/>'+article.formatedtext
-	post.post_status = 'publish'
-	post.terms_names = {
-        'post_tag': article.tags,
-        'category': [sName],
-	}
 
-	wp.call(NewPost(post))
+		post = WordPressPost()
+		post.title = article.title
+		post.content = '<img src="'+article.image+'"/>'+article.formatedtext
+		post.post_status = 'publish'
+		post.terms_names = {
+	        'post_tag': article.tags,
+	        'category': [sName],
+		}
 
-	return True
-	# except:
-	# 	print(u"+---[Wordpress post] Failed")
-	# 	return False
+		wp.call(NewPost(post))
+
+		return True
+	except:
+		print(u"+---[Wordpress post] Failed")
+		return False
