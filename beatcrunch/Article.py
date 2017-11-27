@@ -3,17 +3,19 @@ import re
 import pytz
 
 from datetime import datetime
-from urllib.parse import urlparse
 
 import utils
 
 current_milli_time = lambda: int(round(time.time() * 1000))
 
+#Todo :
+# Compter nombre de liens vers l'externe dans le texte
+
+# Stocker vecteur fait depuis le dernier modèle
+
 class Article:
 	nbarticles = 0
 
-	# def __init__(self, service, title, url, lang):
-		# startime = time.time()
 	def __init__(self, *args, **kwargs):
 		# Object Creation
 		self.id = str(current_milli_time())
@@ -153,12 +155,16 @@ class Article:
 			text_sec=self.soup.find(type, {name: value})
 
 		if text_sec is not None :
+			firstParag = False
 			for t in text_sec.find_all(section):
 				sText=utils.utils.sanitizeText(t.get_text())
 				if sText :
 					if len(out_text)>1 and out_text.strip()[-1] == '.' :
 						out_text = out_text + " "
 					out_text=out_text+"<p>"+sText+"</p>"
+					if not firstParag :
+						out_text += "<!--more-->"
+						firstParag = True
 		return out_text
 
 	def printJson(self) :

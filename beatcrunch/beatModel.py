@@ -48,58 +48,6 @@ def nlp_clean(data,stopwords):
 	cleanList = [word for word in dlist if word not in stopwords]
 	return cleanList
 
-def test_dataset(d2v_model, json_files, stopwords):
-
-	past_vectors = []
-	past_titles = []
-
-	now = current_milli_time()
-
-	for jfile in json_files:
-		print("Testing model using {0} file".format(jfile))
-		j = utils.utils.loadjson(jfile)
-		for news in j :
-			if news != "statistics" :
-				#print(news)
-				for t in j[news] :
-					if t['lang'] == 'fr' :
-						# Create uniq title label
-						# print("Test with {0} {1}".format(news,t['title']))
-						new_vector = d2v_model.infer_vector(nlp_clean(t['text'],get_stopwords()), steps=1000, alpha=0.0025)
-						sims = d2v_model.docvecs.most_similar(positive=[new_vector], topn=10)
-
-						# Test last vectors similarity
-						if len(past_vectors) > 0 :
-							sim_vectors = cosine_similarity([new_vector],past_vectors)
-							for idx, val in enumerate(sim_vectors[0]) :
-								if val > 0.6:
-									print("Found something as {0}".format(t['title']))
-									print("{0} {1:.2f} {2}".format(idx,val,past_titles[idx]))
-									print(" ")
-
-						past_titles.append(t['title'])
-						past_vectors.append(new_vector)
-
-
-						# for s in sims :
-						# 	title = s[0].split(" - ")
-						# 	oldness = now - int(title[0])
-
-						# 	# if oldness > 2629800000 : continue # un mois
-						# 	if oldness > 604800000 : continue # une semaine
-						# 	# For output
-						# 	if s[1] >= 0.55 :
-						# 		print("Test with {0} {1}".format(news,t['title']))
-						# 		td = time.strftime('%d/%m/%Y %H:%M', time.localtime(int(title[0])/1000))
-						# 		print("{0} [{1:.2f}] {2}".format(td, s[1], title[1]))
-						# 		break
-
-
-						# print(' ')
-							# For excel
-							# td = time.strftime('%d/%m/%Y', time.localtime(int(title[0])/1000))
-							# print("{0};{1:.2f}".format(td, s[1]))
-
 def build_dataset(json_files, stopwords):
 	docLabels = []
 	data = []
@@ -138,6 +86,57 @@ def train_model(json_files,stopwords) :
 	#saving the created model
 	model.save(os.path.join('../trained/doc2vec.w2v'))
 	print('model saved')
+
+def test_dataset(d2v_model, json_files, stopwords):
+
+	past_vectors = []
+	past_titles = []
+
+	now = current_milli_time()
+
+	for jfile in json_files:
+		print("Testing model using {0} file".format(jfile))
+		j = utils.utils.loadjson(jfile)
+		for news in j :
+			if news != "statistics" :
+				#print(news)
+				for t in j[news] :
+					if t['lang'] == 'fr' :
+						# Create uniq title label
+						# print("Test with {0} {1}".format(news,t['title']))
+						new_vector = d2v_model.infer_vector(nlp_clean(t['text'],get_stopwords()), steps=1000, alpha=0.0025)
+						sims = d2v_model.docvecs.most_similar(positive=[new_vector], topn=10)
+
+						# Test last vectors similarity
+						if len(past_vectors) > 0 :
+							sim_vectors = cosine_similarity([new_vector],past_vectors)
+							for idx, val in enumerate(sim_vectors[0]) :
+								if val > 0.6:
+									print("Found something as {0}".format(t['title']))
+									print("{0} {1:.2f} {2}".format(idx,val,past_titles[idx]))
+									print(" ")
+
+						past_titles.append(t['title'])
+						past_vectors.append(new_vector)
+
+						# for s in sims :
+						# 	title = s[0].split(" - ")
+						# 	oldness = now - int(title[0])
+
+						# 	# if oldness > 2629800000 : continue # un mois
+						# 	if oldness > 604800000 : continue # une semaine
+						# 	# For output
+						# 	if s[1] >= 0.55 :
+						# 		print("Test with {0} {1}".format(news,t['title']))
+						# 		td = time.strftime('%d/%m/%Y %H:%M', time.localtime(int(title[0])/1000))
+						# 		print("{0} [{1:.2f}] {2}".format(td, s[1], title[1]))
+						# 		break
+
+
+						# print(' ')
+							# For excel
+							# td = time.strftime('%d/%m/%Y', time.localtime(int(title[0])/1000))
+							# print("{0};{1:.2f}".format(td, s[1]))
 
 
 if __name__ == "__main__":

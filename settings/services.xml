@@ -72,6 +72,7 @@
 		<filter type="title">promo</filter>
 		<filter type="title">partenaire</filter>
 		<filter type="title">livre</filter>
+		<filter type="title">ioccasion</filter>
 	</filters>
 </service>
 
@@ -134,6 +135,8 @@
 	<!--image type="div" name="class" section="img" attribute="src">post-thumbnail</image-->
 	<filters>
 		<filter type="title">edito</filter>
+		<filter type="title">promo</filter>
+		<filter type="url">kbn</filter>
 	</filters>
 </service>
 
@@ -262,13 +265,14 @@
 	<text type="div" name="class" section="p">wrap post</text>
 	<image type="meta" name="property">og:image</image>
 	<selection>
-		<select type="url">tech</select>
+		<select type="url">/tech/</select>
 		<select type="class" name="tags-list" section="ul">deep learning</select>
 		<select type="class" name="tags-list" section="ul">intelligence artificielle</select>
 	</selection>
 	<filters>
 		<filter type="title">le bon plan du jour</filter>
 		<filter type="class" name="tags-list" section="ul">bons plans</filter>
+		<filter type="class" name="sponsoring-branding-top" section="div">article</filter>
 	</filters>
 </service>
 

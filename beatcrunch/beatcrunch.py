@@ -43,6 +43,7 @@ if __name__ == "__main__":
         shorten = utils.utils.loadSetting(settings,'shorten')
         twitter = utils.utils.loadSetting(settings,'twitter')
         mastodon = utils.utils.loadSetting(settings,'mastodon')
+        wordpress = utils.utils.loadSetting(settings,'wordpress')
 
     # JSON feed for today
     today_json_file=out_dir+'/json/'+time.strftime("%Y%m%d")+".json"
@@ -138,6 +139,9 @@ if __name__ == "__main__":
                 if mastodon :
                     if (utils.share.toot(settings,article)) :
                         statistics.tooted += 1
+
+                if wordpress :
+                    utils.share.publishWordPress(settings,article)
 
             print(u"+-------------------------")
 

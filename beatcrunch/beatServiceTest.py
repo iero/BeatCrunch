@@ -10,17 +10,17 @@ import Article
 
 if __name__ == "__main__":
 
-	if len(sys.argv) < 3 :
-		print("Please use # python beattest.py services.xml service nb")
+	if len(sys.argv) < 4 :
+		print("Please use # python beattest.py services.xml service nb [settings]")
 		sys.exit(1)
 	else :
 		services = utils.utils.loadxml(sys.argv[1])
 		service = utils.services.getRelatedService(services,sys.argv[2])
-
-	if len(sys.argv) == 4 :
 		nb = int(sys.argv[3])
-	else :
-		nb = 5
+
+
+	if len(sys.argv) == 5 :
+		settings = utils.utils.loadxml(sys.argv[4])
 
 	if service is not None :
 		print(u"+-[Service] [{}]".format(service.find('id').text.encode('utf-8')))
@@ -49,3 +49,6 @@ if __name__ == "__main__":
 		a.show()
 		utils.services.detectAdArticle(service,a)
 		utils.services.rateArticle(service,a)
+
+		if len(sys.argv) == 5 :
+			utils.share.publishWordPress(settings, service, a)
