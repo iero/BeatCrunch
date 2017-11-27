@@ -47,6 +47,7 @@ if __name__ == "__main__":
 
 	for a in articles :
 		a.show()
+		print(a.title)
 		utils.services.detectAdArticle(service,a)
 		utils.services.rateArticle(service,a)
 

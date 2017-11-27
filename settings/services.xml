@@ -255,6 +255,7 @@
 	</filters>
 	<sanitize>
 		<remove type="title">\[.*?\] </remove>
+		<remove type="title">\[.*?\]</remove>
 	</sanitize>
 </service>
 
