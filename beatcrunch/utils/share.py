@@ -67,8 +67,8 @@ def toot(s,article) :
 					img.save("/tmp/"+img_name+".png",'png')
 					os.remove("/tmp/"+img_name+img_ext)
 
-					media_id = m.media_post(img_local)
-			# print(media_id)
+				media_id = m.media_post(img_local)
+				# print(media_id)
 
 				m.status_post(text,in_reply_to_id=None,media_ids=[media_id])
 				if os.path.exists(img_local) :

@@ -7,3 +7,4 @@ TwitterAPI
 Mastodon.py
 Flask
 python-wordpress-xmlrpc
+gensim
