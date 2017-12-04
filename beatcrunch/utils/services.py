@@ -513,5 +513,5 @@ def detectSimilar(model, article, last) :
 	if 1 > maxsim > 0.6 :
 		print("+---[ModSim] [{0:.2f}] with {1}".format(maxsim, title))
 		return True
-	else
+	else :
 		return False
