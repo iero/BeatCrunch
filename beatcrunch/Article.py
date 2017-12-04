@@ -164,7 +164,7 @@ class Article:
 				# print(t)
 				sText=utils.textutils.sanitizeText(self.service,str(t))
 				# print(sText)
-				if sText :
+				if t.get_text() or 'img' in sText :
 					if len(out_text)>1 and out_text.strip()[-1] == '.' :
 						out_text = out_text + " "
 					# out_text=out_text+"<p>"+sText+"</p>"
