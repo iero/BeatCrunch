@@ -157,21 +157,25 @@ class Article:
 			text_sec=self.soup.find(type, {name: value})
 
 		if text_sec is not None :
-			firstParag = False
+			firstParag = True
 			if ',' in section :
 				section = section.split(',')
 			for t in text_sec.find_all(section):
-				# print(t)
 				sText=utils.textutils.sanitizeText(self.service,str(t))
-				# print(sText)
-				if t.get_text() or 'img' in sText :
+				sText_noImg=utils.textutils.sanitizeText(self.service,t.get_text())
+
+				if sText_noImg or 'img' in sText :
 					if len(out_text)>1 and out_text.strip()[-1] == '.' :
 						out_text = out_text + " "
-					# out_text=out_text+"<p>"+sText+"</p>"
-					out_text=out_text+sText
-					if not firstParag and len(out_text)>=100 :
-						out_text += "<!--more-->"
-						firstParag = True
+
+					if firstParag :
+						out_text = out_text+"<p>"+sText_noImg+"</p>"
+						if len(out_text) >= 100 :
+							out_text += "<!--more-->"
+							firstParag = False
+					else :
+						out_text += sText
+
 		return out_text
 
 	def printJson(self) :

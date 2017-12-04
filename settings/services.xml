@@ -7,7 +7,7 @@
 	<id>jdn</id>
 	<mention>#jdn</mention>
 	<url type="rss">http://www.journaldunet.com/rss/</url>
-	<text type="div" name="class" section="p">entry</text>
+	<text type="div" name="class" section="p,img,ul,li">entry</text>
 	<image type="meta" name="property">og:image</image>
 	<filters>
 		<filter type="url">livres-blanc</filter>
@@ -33,7 +33,7 @@
 	<id>revuedudigital</id>
 	<url type="rss">http://www.larevuedudigital.com/feed/</url>
 	<mention>#revuedudigital</mention>
-	<text type="div" name="class" section="p">entry-content</text>
+	<text type="div" name="class" section="p,img,ul,li">entry-content</text>
 	<image type="meta" name="property">og:image</image>
 	<filters>
 		<filter type="class" name="mepr-unauthorized-message" section="div">abonnement</filter>
@@ -45,7 +45,7 @@
 	<id>hackernoon</id>
 	<url type="rss">https://hackernoon.com/feed</url>
 	<mention>#hackernoon</mention>
-	<text type="div" name="class" section="p">entry-content</text>
+	<text type="div" name="class" section="p,img,ul,li">entry-content</text>
 	<image type="img" name="class" section="a" attribute="src">progressiveMedia-image js-progressiveMedia-image</image>
 </service-->
 
@@ -53,7 +53,7 @@
 	<id>agilescientific</id>
 	<url type="rss">https://agilescientific.com/blog?format=rss</url>
 	<mention>#agilescientific</mention>
-	<text type="div" name="class" section="p">body entry-content</text>
+	<text type="div" name="class" section="p,img,ul,li">body entry-content</text>
 	<image type="meta" name="property">og:image</image>
 </service>
 
@@ -61,7 +61,7 @@
 	<id>macg</id>
 	<url type="rss">https://megaflux.macg.co/</url>
 	<mention>#macg</mention>
-	<text type="div" name="class" section="p,img">field-item even</text>
+	<text type="div" name="class" section="p,img,ul,li">field-item even</text>
 	<image type="div" name="class" section="img" attribute="src">field-item even</image>
 	<!--image_alt type="div" name="class" section="img" attribute="src">field-item even</image_alt-->
 	<filters>
@@ -80,7 +80,7 @@
 	<id>usbeketrica</id>
 	<url type="rss">https://usbeketrica.com/rss</url>
 	<mention>#usbeketrica</mention>
-	<text type="section" name="class" section="p">main</text>
+	<text type="section" name="class" section="p,img,ul,li">main</text>
 	<image type="meta" name="property">og:image</image>
 	<!--image type="article" name="class" subtype="figure" section="img" attribute="src">default</image-->
 	<filters>
@@ -92,7 +92,7 @@
 	<id>siecle_digital</id>
 	<url type="rss">https://siecledigital.fr/feed/</url>
 	<mention>#digital</mention>
-	<text type="div" name="class" section="p">post-content description </text>
+	<text type="div" name="class" section="p,img,ul,li">post-content description </text>
 	<image type="meta" name="property">og:image</image>
 	<sanitize>
 		<remove type="title">\[One.*?\]</remove>
@@ -103,7 +103,7 @@
 	<id>science_et_avenir</id>
 	<url type="rss">https://www.sciencesetavenir.fr/high-tech/rss.xml</url>
 	<mention>#science</mention>
-	<text type="div" name="class" section="p">corps article-sea-home-a article-sea-hightech-a</text>
+	<text type="div" name="class" section="p,img,ul,li">corps article-sea-home-a article-sea-hightech-a</text>
 	<image type="div" name="class" section="img" attribute="data-src">article-image</image>
 </service>
 
@@ -111,7 +111,7 @@
 	<id>itespresso</id>
 	<url type="rss">http://www.itespresso.fr/feed</url>
 	<mention>#itespresso</mention>
-	<text type="div" name="class" section="p">entry-content</text>
+	<text type="div" name="class" section="p,img,ul,li">entry-content</text>
 	<image type="meta" name="property">og:image</image>
 	<!--image type="div" name="class" section="img" attribute="src">imageTitleWrapper</image-->
 	<tags type="div" name="class" section="a">entry-breadcrumb</tags>
@@ -121,7 +121,7 @@
 	<id>atelier_bnp</id>
 	<url type="rss">https://atelier.bnpparibas/rss/</url>
 	<mention>#atelier</mention>
-	<text type="div" name="class" section="p">content</text>
+	<text type="div" name="class" section="p,img,ul,li">content</text>
 	<image type="meta" name="name">og:image</image>
 	<!--image type="div" name="class" section="img" attribute="src">entity entity-article entity-story</image-->
 </service>
@@ -130,7 +130,7 @@
 	<id>korben</id>
 	<url type="rss">http://korben.info/feed</url>
 	<mention>#korben</mention>
-	<text type="div" name="class" section="p">post-content</text>
+	<text type="div" name="class" section="p,img,ul,li">post-content</text>
 	<image type="meta" name="property">og:image</image>
 	<!--image type="div" name="class" section="img" attribute="src">post-thumbnail</image-->
 	<filters>
@@ -138,13 +138,16 @@
 		<filter type="title">promo</filter>
 		<filter type="url">kbn</filter>
 	</filters>
+	<sanitize>
+		<remove type="text">margin-top</remove>
+	</sanitize>
 </service>
 
 <service name="Nouvel Obs High Tech" lang="fr">
 	<id>nouvel_obs</id>
 	<url type="rss">http://o.nouvelobs.com/high-tech/rss.xml</url>
 	<mention>#obs</mention>
-	<text type="div" name="class" section="p">o-article-body</text>
+	<text type="div" name="class" section="p,img,ul,li">o-article-body</text>
 	<image type="meta" name="property">og:image</image>
 	<filters>
 		<filter type="url">jeux-video</filter>
@@ -155,7 +158,7 @@
 	<id>echos_business</id>
 	<url type="rss">https://business.lesechos.fr/rss/dn.xml</url>
 	<mention>#lesechos</mention>
-	<text type="div" name="class" section="p">main-content content-article</text>
+	<text type="div" name="class" section="p,img,ul,li">main-content content-article</text>
 	<image type="meta" name="property">og:image</image>
 </service>
 
@@ -163,7 +166,7 @@
 	<id>maddyness</id>
 	<url type="rss">https://www.maddyness.com/feed/</url>
 	<mention>#maddyness</mention>
-	<text type="div" name="class" section="p">inherit-color-parent article-content col-md-8</text>
+	<text type="div" name="class" section="p,img,ul,li">inherit-color-parent article-content col-md-8</text>
 	<image type="div" name="class" section="source" attribute="srcset">article-image-wrapper</image>
 	<filters>
 		<filter type="url">#mcal</filter>
@@ -179,7 +182,7 @@
 	<id>usine_digitale</id>
 	<url type="rss">http://www.usine-digitale.fr/rss</url>
 	<mention>#udigital</mention>
-	<text type="div" name="class" section="p">blocTexteType1</text>
+	<text type="div" name="class" section="p,img,ul,li">blocTexteType1</text>
 	<image type="meta" name="name">twitter:image</image>
 	<filters>
 		<filter type="title">quoi de neuf</filter>
@@ -195,7 +198,7 @@
 	<id>blog_moderateur</id>
 	<url type="rss">https://www.blogdumoderateur.com/feed/</url>
 	<mention>#blogmod</mention>
-	<text type="div" name="class" section="p">entry-content</text>
+	<text type="div" name="class" section="p,img,ul,li">entry-content</text>
 	<image type="meta" name="property">og:image</image>
 	<filters>
 		<filter type="title">offres</filter>
@@ -226,7 +229,7 @@
 	</get>
 	<!-- Get article content -->
 	<page_url type="div" name="class" section="a">main-content content-ssrub</page_url>
-	<text type="div" name="class" section="p">main-content content-article</text>
+	<text type="div" name="class" section="p,img,ul,li">main-content content-article</text>
 	<image type="div" name="id" section="img" attribute="srcset">ultimedia_switch</image>
 	<selection>
 		<select type="url">hightech</select>
@@ -237,7 +240,7 @@
 	<id>frenchweb</id>
 	<url type="rss">https://www.frenchweb.fr/feed</url>
 	<mention>#frenchweb</mention>
-	<text type="div" name="class" section="p">entry-content entry clearfix</text>
+	<text type="div" name="class" section="p,img,ul,li">entry-content entry clearfix</text>
 	<image type="meta" name="property">og:image</image>
 	<!-- add tag support -->
 	<tags type="div" name="class" section="a">categories</tags>
@@ -264,7 +267,7 @@
 	<id>numerama</id>
 	<url type="rss">http://www.numerama.com/feed/</url>
 	<mention>#numerama</mention>
-	<text type="div" name="class" section="p">wrap post</text>
+	<text type="div" name="class" section="p,img,ul,li">wrap post</text>
 	<image type="meta" name="property">og:image</image>
 	<selection>
 		<select type="url">/tech/</select>
@@ -282,7 +285,7 @@
 	<id>fred_cavazza</id>
 	<mention>#fcavazza</mention>
 	<url type="rss">https://fredcavazza.net/feed/</url>
-	<text type="div" name="class" section="p">entry-content</text>
+	<text type="div" name="class" section="p,img,ul,li">entry-content</text>
 	<image type="div" name="class" section="img" attribute="src">entry-content</image>
 	<tags type="span" name="class" section="a">tags-links</tags>
 </service>
@@ -291,7 +294,7 @@
 	<id>petit_web</id>
 	<url type="rss">http://www.petitweb.fr/feed/</url>
 	<mention>#petitweb</mention>
-	<text type="div" name="class" section="p">entry-content</text>
+	<text type="div" name="class" section="p,img,ul,li">entry-content</text>
 	<image type="div" name="class" section="img" attribute="data-lazy-src">wp-caption alignleft</image>
 	<filters>
 		<filter type="url">edito</filter>
@@ -305,7 +308,7 @@
 	<id>motherboard_vice_fr</id>
 	<url type="rss">https://motherboard.vice.com/fr/rss</url>
 	<mention>#mboard</mention>
-	<text type="div" name="class" section="p">article__body</text>
+	<text type="div" name="class" section="p,img,ul,li">article__body</text>
 	<image type="meta" name="property">og:image</image>
 	<tags type="div" name="class" section="a">topics topic-list</tags>
 	<selection>
@@ -321,7 +324,7 @@
 	<id>zdnet</id>
 	<url type="rss">http://www.zdnet.fr/feeds/rss/actualites/</url>
 	<mention>#zdnet</mention>
-	<text type="div" name="class" section="p">storyBody</text>
+	<text type="div" name="class" section="p,img,ul,li">storyBody</text>
 	<image type="div" name="class" section="img" attribute="src">storyBody</image>
 	<filters>
 		<filter type="url">zapping-decrypte</filter>
@@ -334,7 +337,7 @@
 	<id>silicon</id>
 	<url type="rss">http://www.silicon.fr/feed</url>
 	<mention>#silicon</mention>
-	<text type="section" name="class" section="p">article-content</text>
+	<text type="section" name="class" section="p,img,ul,li">article-content</text>
 	<image type="div" name="class" section="img" attribute="src">imageTitleWrapper</image>
 	<filters>
 		<filter type="title">télégrammes</filter>
@@ -363,7 +366,7 @@
 	<id>the_verge</id>
 	<url type="rss">http://www.theverge.com/rss/index.xml</url>
 	<mention>#theverge</mention>
-	<text type="div" name="class" section="p">c-entry-content</text>
+	<text type="div" name="class" section="p,img,ul,li">c-entry-content</text>
 	<image type="meta" name="property">og:image</image>
 	<selection>
 		<select type="div" value="c-entry-group-labels c-entry-group-labels--article" section="span">Apps</select>
@@ -379,7 +382,7 @@
 	<id>googleBlog</id>
 	<mention>#google</mention>
 	<url type="rss">https://www.blog.google/rss/</url>
-	<text type="div" name="class" section="p">uni-content uni-blog-article-container</text>
+	<text type="div" name="class" section="p,img,ul,li">uni-content uni-blog-article-container</text>
 	<image type="meta" name="property">og:image</image>
 	<sanitize>
 			<remove type="image">7714256da16f.png</remove>
@@ -390,7 +393,7 @@
 	<id>googleX</id>
 	<mention>#googleX</mention>
 	<url type="rss">https://blog.x.company/feed</url>
-	<text type="div" name="class" section="p">section-content</text>
+	<text type="div" name="class" section="p,img,ul,li">section-content</text>
 	<image type="meta" name="property">og:image</image>
 </service>
 
@@ -409,7 +412,7 @@
 	<id>wired_com</id>
 	<mention>#wired</mention>
 	<url type="rss">https://www.wired.com/feed</url>
-	<text type="main" name="class" section="p">article-main-component__content</text>
+	<text type="main" name="class" section="p,img,ul,li">article-main-component__content</text>
 	<image type="meta" name="property">og:image</image>
 	<selection>
 		<select type="div" value="tags-component " section="li">internet</select>
@@ -426,7 +429,7 @@
 	<id>nyt_techno</id>
 	<mention>#nyt</mention>
 	<url type="rss">http://rss.nytimes.com/services/xml/rss/nyt/Technology.xml</url>
-	<text type="article" name="id" section="p">story</text>
+	<text type="article" name="id" section="p,img,ul,li">story</text>
 	<image type="meta" name="property">og:image</image>
 	<filters>
 		<filter type="url">politics</filter>
@@ -447,7 +450,7 @@
 	<id>wired_co_uk</id>
 	<mention>#wired</mention>
 	<url type="rss">http://www.wired.co.uk/rss/article</url>
-	<text type="div" name="class" section="p">a-body__content</text>
+	<text type="div" name="class" section="p,img,ul,li">a-body__content</text>
 	<image type="meta" name="property">og:image</image>
 	<selection>
 		<select type="div" value="a-related-tags " section="li">artificial intelligence</select>
@@ -461,7 +464,7 @@
 	<id>motherboard_vice_en</id>
 	<url type="rss">https://motherboard.vice.com/en_us/rss</url>
 	<mention>#mboard</mention>
-	<text type="div" name="class" section="p">article__body</text>
+	<text type="div" name="class" section="p,img,ul,li">article__body</text>
 	<image type="meta" name="property">og:image</image>
 	<tags type="div" name="class" section="a">topics topic-list</tags>
 </service>
@@ -470,7 +473,7 @@
 	<id>next_web</id>
 	<url type="rss">https://thenextweb.com/feed/</url>
 	<mention>#tnw</mention>
-	<text type="div" name="class" section="p">post-body fb-quotable u-m-3</text>
+	<text type="div" name="class" section="p,img,ul,li">post-body fb-quotable u-m-3</text>
 	<image type="meta" name="property">og:image</image>
 	<filters>
 		<filter type="title">5 key</filter>
@@ -494,7 +497,7 @@
 		<link type="h4" name="class" section="a" attribute="href">h6 infographicTitle</link>
 	</get>
 
-	<text type="div" name="class" section="p">article__contentText</text>
+	<text type="div" name="class" section="p,img,ul,li">article__contentText</text>
 	<image type="div" name="class" section="img" attribute="src">article__graphic</image>
 
 	<selection>
@@ -509,15 +512,18 @@
 	</hashtags>
 </service>
 
+<!-- The download formatting is realy weird -->
+
 <service name="MIT Techno Review" lang="en">
 	<id>mit_technology_review</id>
 	<mention>#mit</mention>
 	<url type="rss">https://www.technologyreview.com/stories.rss</url>
 	<!--text type="div" name="class" section="p">article-body__content</text-->
-	<text type="div" name="class" section="p">article-body</text>
+	<text type="div" name="class" section="p,img,ul,li">article-body</text>
 	<image type="meta" name="property">og:image</image>
 	<filters>
 		<filter type="title">The Best of</filter>
+		<filter type="url">the-download</filter>
 	</filters>
 </service>
 
@@ -526,7 +532,7 @@
 	<id>dataScienceCentral</id>
 	<mention>#dsc</mention>
 	<url type="rss">http://feeds.feedburner.com/FeaturedBlogPosts-DataScienceCentral</url>
-	<text type="div" name="class" section="p">xg_user_generated</text>
+	<text type="div" name="class" section="p,img,ul,li">xg_user_generated</text>
 	<image type="meta" name="property">og:image</image>
 </service-->
 
@@ -534,7 +540,7 @@
 	<id>trendintech</id>
 	<mention>#trendintech</mention>
 	<url type="rss">http://trendintech.com/feed/</url>
-	<text type="div" name="class" section="p">td-post-content</text>
+	<text type="div" name="class" section="p,img,ul,li">td-post-content</text>
 	<image type="meta" name="property">og:image</image>
 </service>
 
@@ -542,7 +548,7 @@
 	<id>digitaltrends</id>
 	<mention>#digitaltrends</mention>
 	<url type="rss">https://www.digitaltrends.com/feed/</url>
-	<text type="article" name="itemprop" section="p">articleBody</text>
+	<text type="article" name="itemprop" section="p,img,ul,li">articleBody</text>
 	<image type="meta" name="property">og:image</image>
 	<selection>
 		<select type="url">cool-tech</select>
@@ -553,7 +559,7 @@
 	<id>futurism</id>
 	<mention>#futurism</mention>
 	<url type="rss">https://futurism.com/feed/</url>
-	<text type="div" name="class" section="p">summary module</text>
+	<text type="div" name="class" section="p,img,ul,li">summary module</text>
 	<image type="meta" name="property">og:image</image>
 	<filters>
 		<filter type="url">videos</filter>
@@ -574,7 +580,7 @@
 	<id>forbes_fr</id>
 	<mention>#forbes</mention>
 	<url type="rss">https://www.forbes.fr/feed/</url>
-	<text type="div" name="class" section="p">entry-content post-content</text>
+	<text type="div" name="class" section="p,img,ul,li">entry-content post-content</text>
 	<image type="div" name="class" section="img" attribute="src">panel-body</image>
 	<selection>
 		<select type="url">technologie</select>
@@ -587,7 +593,7 @@
 	<id>waitbutwhy</id>
 	<mention>#wbw</mention>
 	<url type="rss">https://waitbutwhy.com/feed</url>
-	<text type="div" name="class" section="p">entry-content</text>
+	<text type="div" name="class" section="p,img,ul,li">entry-content</text>
 	<image type="meta" name="property">og:image</image>
 </service-->
 
@@ -617,7 +623,7 @@
 	<id>science_etonnante</id>
 	<mention>#scienceEtonnante</mention>
 	<url type="rss">https://sciencetonnante.wordpress.com/feed/</url>
-	<text type="div" name="class" section="p">entry-content</text>
+	<text type="div" name="class" section="p,img,ul,li">entry-content</text>
 	<image type="meta" name="property">og:image</image>
 </service>
 
@@ -648,7 +654,7 @@ http://thelongandshort.org/spaces/hot-desks-design-thinking-ideo
 	<!-- Too much crap -->
 	<!--service name="Presse Citron" lang="fr">
 	<url type="rss">http://www.presse-citron.net/feed/</url>
-	<text type="div" name="class" section="p">post-content description</text>
+	<text type="div" name="class" section="p,img,ul,li">post-content description</text>
 	<image type="div" name="class" section="img" attribute="src">post-content description</image>
 	<image_alt type="div" name="class" section="a" attribute="href">post-content description</image_alt>
 	<tags type="div" name="class" section="a">tagcloud</tags>
@@ -660,7 +666,7 @@ http://thelongandshort.org/spaces/hot-desks-design-thinking-ideo
 
 <!--service name="Piwee" lang="fr">
 <url type="rss">http://piwee.net/feed/</url>
-<text type="div" name="class" section="p">post</text>
+<text type="div" name="class" section="p,img,ul,li">post</text>
 <image type="div" name="class" section="img" attribute="src">post</image>
 </service-->
 
