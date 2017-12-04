@@ -183,6 +183,7 @@
 	<image type="meta" name="name">twitter:image</image>
 	<filters>
 		<filter type="title">quoi de neuf</filter>
+		<filter type="title">agenda numérique de la semaine</filter>
 	</filters>
 	<sanitize>
 		<remove type="title"> \[.*?\]</remove>
@@ -427,6 +428,9 @@
 	<url type="rss">http://rss.nytimes.com/services/xml/rss/nyt/Technology.xml</url>
 	<text type="article" name="id" section="p">story</text>
 	<image type="meta" name="property">og:image</image>
+	<filters>
+		<filter type="url">politics</filter>
+	</filters>
 </service>
 
 <service name="Wired co uk" lang="en">

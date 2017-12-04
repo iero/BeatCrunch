@@ -507,3 +507,11 @@ def addTagsToTitle(article,max) :
 			nb += 1
 
 		return text
+
+def detectSimilar(model, article, last) :
+	vect, maxsim, title = utils.model_sim.test_news(model,article,None)
+	if 1 > maxsim > 0.6 :
+		print("+---[ModSim] [{0:.2f}] with {1}".format(maxsim, title))
+		return True
+	else
+		return False

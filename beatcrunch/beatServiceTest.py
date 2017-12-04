@@ -1,5 +1,7 @@
-import sys
+import sys, os
 import traceback
+import gensim
+import pickle
 
 import utils
 import Statistics
@@ -31,6 +33,13 @@ if __name__ == "__main__":
 	rss_url = service.find('url').text
 	url_type = service.find('url').get('type')
 
+	# For debug :
+	# get last vectors
+	if os.path.exists(out_dir+'/lastvectors'):
+		lastvectors = pickle.load(out_dir+'/lastvectors')
+	else :
+		lastvectors = {}
+
 	# Parse rss feed
 	articles = []
 	feedlist = []
@@ -45,11 +54,18 @@ if __name__ == "__main__":
 		print(u"Unexpected error")
 		traceback.print_exc()
 
+	# Load models
+	dir = os.path.dirname(__file__)
+	d2v_model = {}
+	d2v_model['fr'] = gensim.models.doc2vec.Doc2Vec.load(os.path.join(dir, '../trained/doc2vec_fr.w2v'))
+	d2v_model['en'] = gensim.models.doc2vec.Doc2Vec.load(os.path.join(dir, '../trained/doc2vec_en.w2v'))
+
 	for a in articles :
 		a.show()
 		print(a.title)
 		utils.services.detectAdArticle(service,a)
 		utils.services.rateArticle(service,a)
+		utils.services.detectSimilar(d2v_model[a.lang],a,None)
 
 		if len(sys.argv) == 5 :
 			utils.share.publishWordPress(settings, service, a)

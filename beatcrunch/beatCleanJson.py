@@ -16,25 +16,29 @@ import gensim.models.word2vec as w2v
 
 import sklearn.manifold #dimensionality reduction
 import pandas as pd #parse dataset
+# import numpy as np #math
+# import matplotlib #plotting
+# import matplotlib.pyplot as plt
+# import seaborn as sns #visualization
 
 import utils
 
 # problem : need to break sentences in words
 
-def clean_stopwords(sentence) :
-	stopwords_french_3 = set(line.strip() for line in open('../dictionaries/stopwords_fr3'))
-	for w in stopwords_french_3 :
-		sentence = sentence.replace(w,"")
+# def clean_stopwords(sentence) :
+# 	stopwords_french_3 = set(line.strip() for line in open('../dictionaries/stopwords_fr3'))
+# 	for w in stopwords_french_3 :
+# 		sentence = sentence.replace(w,"")
 
-	stopwords_french_2 = set(line.strip() for line in open('../dictionaries/stopwords_fr2'))
-	for w in stopwords_french_2 :
-		sentence = sentence.replace(w,"")
+# 	stopwords_french_2 = set(line.strip() for line in open('../dictionaries/stopwords_fr2'))
+# 	for w in stopwords_french_2 :
+# 		sentence = sentence.replace(w,"")
 
-	stopwords_french_1 = set(line.strip() for line in open('../dictionaries/stopwords_fr1'))
-	for w in stopwords_french_1 :
-		sentence = sentence.replace(w,"")
+# 	stopwords_french_1 = set(line.strip() for line in open('../dictionaries/stopwords_fr1'))
+# 	for w in stopwords_french_1 :
+# 		sentence = sentence.replace(w,"")
 
-	return sentence
+# 	return sentence
 
 def sentence_to_wordlist(sentence):
 	clean = re.sub(r'\W+', ' ', sentence)
@@ -99,7 +103,7 @@ def load_json_files(json_files) :
 							# Remove ponctiation
 							# translator = str.maketrans('', '', string.punctuation)
 							# sentence = sentence.translate(translator)
-							sentence = clean_stopwords(sentence)
+							# sentence = clean_stopwords(sentence)
 
 							# for w in sentence_to_ngrams(sentence,1) :
 							# 	words.append(w)
@@ -270,7 +274,7 @@ def create_2d_matrix(vec,name):
 if __name__ == "__main__":
 
 	if len(sys.argv) < 3 :
-		print(u"Please use # python beatstats.py settings.xml services.xml")
+		print(u"Please use # python xx.py personal_settings.xml services.xml")
 		sys.exit(1)
 	else :
 		settings = utils.utils.loadxml(sys.argv[1])
