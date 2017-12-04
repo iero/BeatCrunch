@@ -72,7 +72,7 @@ def sanitizeTitle(service, title) :
 				title = re.sub(removedField.text,'',title)
 
 	# Remove non alphanumeric
-	title = utils.utils.sanitizeText(title)
+	title = utils.textutils.sanitizeText(service,title)
 
 	#TODO : Remove emojis
 	# remoji = re.compile(u'['

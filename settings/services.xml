@@ -61,7 +61,7 @@
 	<id>macg</id>
 	<url type="rss">https://megaflux.macg.co/</url>
 	<mention>#macg</mention>
-	<text type="div" name="class" section="p">field-item even</text>
+	<text type="div" name="class" section="p,img">field-item even</text>
 	<image type="div" name="class" section="img" attribute="src">field-item even</image>
 	<!--image_alt type="div" name="class" section="img" attribute="src">field-item even</image_alt-->
 	<filters>
@@ -431,6 +431,16 @@
 	<filters>
 		<filter type="url">politics</filter>
 	</filters>
+	<sanitize>
+		<remove type="text">Advertisement</remove>
+		<remove type="text">Please verify you're not a robot</remove>
+		<remove type="text">Invalid email address</remove>
+		<remove type="text">You must select a newsletter</remove>
+		<remove type="text">View all New York Times newsletters</remove>
+		<remove type="text">A version of this article appears</remove>
+		<remove type="text">interested in your feedback</remove>
+		<remove type="text">^By [A-Z]</remove>
+	</sanitize>
 </service>
 
 <service name="Wired co uk" lang="en">

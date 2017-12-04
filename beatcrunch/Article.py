@@ -128,10 +128,12 @@ class Article:
 			text_sec=self.soup.find(type, {name: value})
 
 		if text_sec is not None :
+			if ',' in section :
+				section = section.split(',')[0]
 			for t in text_sec.find_all(section):
 				if len(out_text)>1 and out_text.strip()[-1] == '.' :
 					out_text = out_text + " "
-				out_text=out_text+utils.utils.sanitizeText(t.get_text())
+				out_text=out_text+utils.textutils.sanitizeText(self.service, t.get_text())
 
 		return out_text
 
@@ -156,13 +158,18 @@ class Article:
 
 		if text_sec is not None :
 			firstParag = False
+			if ',' in section :
+				section = section.split(',')
 			for t in text_sec.find_all(section):
-				sText=utils.utils.sanitizeText(t.get_text())
+				# print(t)
+				sText=utils.textutils.sanitizeText(self.service,str(t))
+				# print(sText)
 				if sText :
 					if len(out_text)>1 and out_text.strip()[-1] == '.' :
 						out_text = out_text + " "
-					out_text=out_text+"<p>"+sText+"</p>"
-					if not firstParag :
+					# out_text=out_text+"<p>"+sText+"</p>"
+					out_text=out_text+sText
+					if not firstParag and len(out_text)>=100 :
 						out_text += "<!--more-->"
 						firstParag = True
 		return out_text

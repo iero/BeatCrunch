@@ -34,7 +34,7 @@ def loadjson(json_file) :
             return {}
     except :
             return {}
-        
+
 def loadSetting(s,name) :
     if s.find('settings').find(name).text == "True" :
         print(u"+-[{}] ON".format(name.encode('utf8')))
@@ -63,19 +63,19 @@ def shortenLink(s,url) :
 # Sanitize text to remove crapy thing and make it readable
 #TODO : Maybe a library will do it ?
 
-def sanitizeText(text) :
-    # Remove first and last spaces
-    text = text.strip()
+# def sanitizeTitleText(text) :
+#     # Remove first and last spaces
+#     text = text.strip()
 
-    # print(u"input [{}]".format(text))
-    text = text.replace("\n", "")
-    text = text.replace("\r", "")
-    text = text.replace("\t", "")
-    text = re.sub(r' {2,}',' ',text)
-    # print(u"output [{}]".format(text))
+#     # print(u"input [{}]".format(text))
+#     text = text.replace("\n", "")
+#     text = text.replace("\r", "")
+#     text = text.replace("\t", "")
+#     text = re.sub(r' {2,}',' ',text)
+#     # print(u"output [{}]".format(text))
 
-    if len(text)==1 : return ""
-    else : return text
+#     if len(text)==1 : return ""
+#     else : return text
 
 def getLastDaysTitles(settings,nbdays) :
     title_dict = []

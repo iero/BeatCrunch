@@ -33,12 +33,14 @@ if __name__ == "__main__":
 	rss_url = service.find('url').text
 	url_type = service.find('url').get('type')
 
-	# For debug :
-	# get last vectors
-	if os.path.exists(out_dir+'/lastvectors'):
-		lastvectors = pickle.load(out_dir+'/lastvectors')
-	else :
-		lastvectors = {}
+	# out_dir = settings.find('settings').find('output').text
+
+	# # For debug :
+	# # get last vectors
+	# if os.path.exists(out_dir+'/lastvectors'):
+	# 	lastvectors = pickle.load(out_dir+'/lastvectors')
+	# else :
+	# 	lastvectors = {}
 
 	# Parse rss feed
 	articles = []
@@ -62,7 +64,7 @@ if __name__ == "__main__":
 
 	for a in articles :
 		a.show()
-		print(a.title)
+		print(a.formatedtext.replace('<p>','').replace('</p>','\n'))
 		utils.services.detectAdArticle(service,a)
 		utils.services.rateArticle(service,a)
 		utils.services.detectSimilar(d2v_model[a.lang],a,None)

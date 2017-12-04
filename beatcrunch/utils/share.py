@@ -130,10 +130,20 @@ def publishWordPress(settings,article) :
 			requests.get(url+'/add.php?category='+k)
 			print("Added catedory {}".format(k))
 
+		# Length and time to read
+		length = len(article.text.split())
+		if length < 300 :
+			tpslect = "< 1"
+		else :
+			t = int(length/300)
+			tpslect = str(t)
 
 		post = WordPressPost()
 		post.title = article.title
-		post.content = '<img src="'+article.image+'"/>'+article.formatedtext
+		content = '<img src="'+article.image+'"/>'+article.formatedtext
+		content	+= '<p><a href src="'+article.url+'">Source</a></p>'
+		content += '<p>'+length+' words ('+ tpslect+' min)</p>'
+		post.content = content
 		post.post_status = 'publish'
 		post.terms_names = {
 	        'post_tag': article.tags,
