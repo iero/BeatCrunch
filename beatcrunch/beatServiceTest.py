@@ -64,10 +64,10 @@ if __name__ == "__main__":
 
 	for a in articles :
 		a.show()
-		print(a.formatedtext.replace('<p>','').replace('</p>','\n'))
-		utils.services.detectAdArticle(service,a)
-		utils.services.rateArticle(service,a)
-		utils.services.detectSimilar(d2v_model[a.lang],a,None)
+		print(a.formatedtext.replace('</p>','</p>\n'))
+		# utils.services.detectAdArticle(service,a)
+		# utils.services.rateArticle(service,a)
+		# utils.services.detectSimilar(d2v_model[a.lang],a,None)
 
 		if len(sys.argv) == 5 :
-			utils.share.publishWordPress(settings, service, a)
+			utils.share.publishWordPress(settings, a)

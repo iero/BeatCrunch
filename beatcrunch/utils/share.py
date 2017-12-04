@@ -113,7 +113,8 @@ def publishWordPress(settings,article) :
 				addedTags.append(k)
 				# print("Add tag {}".format(k))
 				# print(url+'/add.php?tag='+k)
-		print("Added tag {}".format(','.join(addedTags)))
+		if len(addedTags) > 0 :
+			print("Added tag {}".format(','.join(addedTags)))
 
 		# Load existing categories
 		aCat=[]
@@ -128,7 +129,7 @@ def publishWordPress(settings,article) :
 		if sName not in aCat :
 			k = sName.replace(" ", "%20")
 			requests.get(url+'/add.php?category='+k)
-			print("Added catedory {}".format(k))
+			print("Added category {}".format(k))
 
 		# Length and time to read
 		length = len(article.text.split())
@@ -141,8 +142,8 @@ def publishWordPress(settings,article) :
 		post = WordPressPost()
 		post.title = article.title
 		content = '<img src="'+article.image+'"/>'+article.formatedtext
-		content	+= '<p><a href src="'+article.url+'">Source</a></p>'
-		content += '<p>'+length+' words ('+ tpslect+' min)</p>'
+		content	+= '<p><a href="'+article.url+'">Source</a></p>'
+		content += '<p>'+str(length)+' words ('+ tpslect+' min)</p>'
 		post.content = content
 		post.post_status = 'publish'
 		post.terms_names = {
