@@ -164,6 +164,9 @@
 	<mention>#lesechos</mention>
 	<text type="div" name="class" section="p,img,ul,li">main-content content-article</text>
 	<image type="meta" name="property">og:image</image>
+	<sanitize>
+		<remove type="class" section="div">block-surlemmsujet</remove>
+	</sanitize>
 </service>
 
 <service name="Maddyness" lang="fr">

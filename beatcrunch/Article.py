@@ -167,6 +167,12 @@ class Article:
 				for div in text_sec.find_all(san.get('section'), {san.get('type'):san.text}):
 					div.decompose()
 
+		# Remove style
+		# for tag in text_sec :
+		# 	for attribute in ["class", "id", "name", "style", "itemprop"]:
+		# 		print(tag)
+		# tag.replace(attribute,"")
+
 		if text_sec is not None :
 			firstParag = True
 			if ',' in section :
