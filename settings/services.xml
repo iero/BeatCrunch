@@ -264,6 +264,8 @@
 	<sanitize>
 		<remove type="title">\[.*?\] </remove>
 		<remove type="title">\[.*?\]</remove>
+		<remove type="class" section="div">et_social_inline et_social_mobile_on et_social_inline_top</remove>
+		<remove type="class" section="div">et_social_inline et_social_mobile_on et_social_inline_bottom</remove>
 	</sanitize>
 </service>
 
