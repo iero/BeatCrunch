@@ -139,7 +139,11 @@
 		<filter type="url">kbn</filter>
 	</filters>
 	<sanitize>
+		<remove type="style" section="p">margin-top: 10px;</remove>
+		<remove type="style" section="p">margin-top: 5px;</remove>
 		<remove type="text">margin-top</remove>
+		<remove type="text">DIY et idées folles</remove>
+		<remove type="text">Voir l'historique de toutes les promos</remove>
 	</sanitize>
 </service>
 
@@ -279,6 +283,12 @@
 		<filter type="class" name="tags-list" section="ul">bons plans</filter>
 		<filter type="class" name="sponsoring-branding-top" section="div">article</filter>
 	</filters>
+	<sanitize>
+		<remove type="class" section="div">num-linked-startup clearfix</remove>
+		<remove type="class" section="footer">clearfix</remove>
+		<remove type="class" section="div">post-share</remove>
+		<remove type="id" section="div">embedded-tag-</remove>
+	</sanitize>
 </service>
 
 <service name="Fred Cavazza" lang="fr">

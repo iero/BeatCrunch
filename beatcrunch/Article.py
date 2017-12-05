@@ -127,6 +127,12 @@ class Article:
 		else :
 			text_sec=self.soup.find(type, {name: value})
 
+		# Filter ads
+		if self.service.find('sanitize') is not None :
+			for san in self.service.find('sanitize').findall("remove") :
+				for div in text_sec.find_all(san.get('section'), {san.get('type'):san.text}):
+					div.decompose()
+
 		if text_sec is not None :
 			if ',' in section :
 				section = section.split(',')[0]
@@ -137,8 +143,7 @@ class Article:
 
 		return out_text
 
-	# TODO: Get images and not only text.
-
+	# Get images, lists, italics.. and not only text.
 	def getFormatedText(self) :
 		out_text=""
 		if self.service.find('text') is not None :
@@ -155,6 +160,12 @@ class Article:
 			text_sec=self.soup
 		else :
 			text_sec=self.soup.find(type, {name: value})
+
+		# Filter ads
+		if self.service.find('sanitize') is not None :
+			for san in self.service.find('sanitize').findall("remove") :
+				for div in text_sec.find_all(san.get('section'), {san.get('type'):san.text}):
+					div.decompose()
 
 		if text_sec is not None :
 			firstParag = True

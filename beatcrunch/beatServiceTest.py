@@ -64,7 +64,11 @@ if __name__ == "__main__":
 
 	for a in articles :
 		a.show()
+		print("+---[Formated text] ")
 		print(a.formatedtext.replace('</p>','</p>\n'))
+		print("+---[Raw text] ")
+		print(a.text)
+
 		# utils.services.detectAdArticle(service,a)
 		# utils.services.rateArticle(service,a)
 		# utils.services.detectSimilar(d2v_model[a.lang],a,None)
