@@ -127,13 +127,13 @@ class Article:
 		else :
 			text_sec=self.soup.find(type, {name: value})
 
-		# Filter ads
-		if self.service.find('sanitize') is not None :
-			for san in self.service.find('sanitize').findall("remove") :
-				for div in text_sec.find_all(san.get('section'), {san.get('type'):san.text}):
-					div.decompose()
-
 		if text_sec is not None :
+			# Filter ads
+			if self.service.find('sanitize') is not None :
+				for san in self.service.find('sanitize').findall("remove") :
+					for div in text_sec.find_all(san.get('section'), {san.get('type'):san.text}):
+						div.decompose()
+
 			if ',' in section :
 				section = section.split(',')[0]
 			for t in text_sec.find_all(section):
@@ -161,11 +161,6 @@ class Article:
 		else :
 			text_sec=self.soup.find(type, {name: value})
 
-		# Filter ads
-		if self.service.find('sanitize') is not None :
-			for san in self.service.find('sanitize').findall("remove") :
-				for div in text_sec.find_all(san.get('section'), {san.get('type'):san.text}):
-					div.decompose()
 
 		# Remove style
 		# for tag in text_sec :
@@ -174,6 +169,12 @@ class Article:
 		# tag.replace(attribute,"")
 
 		if text_sec is not None :
+			# Filter ads
+			if self.service.find('sanitize') is not None :
+				for san in self.service.find('sanitize').findall("remove") :
+					for div in text_sec.find_all(san.get('section'), {san.get('type'):san.text}):
+						div.decompose()
+
 			firstParag = True
 			if ',' in section :
 				section = section.split(',')
