@@ -179,15 +179,23 @@ class Article:
 			if ',' in section :
 				section = section.split(',')
 			for t in text_sec.find_all(section):
+				print("[{}]".format(t))
 				sText=utils.textutils.sanitizeText(self.service,str(t))
 				sText_noImg=utils.textutils.sanitizeText(self.service,t.get_text())
 
-				if sText_noImg or 'img' in sText :
-					if len(out_text)>1 and out_text.strip()[-1] == '.' :
-						out_text = out_text + " "
+				# Img or text :
+				if '<img' in sText and '<p>' in sText :
+					continue ;
+				elif not sText_noImg and '<img' in sText :
+					out_text += sText
+				else :
+					# Add space at the end of sentence
+					if len(sText_noImg)>1 and sText_noImg.strip()[-1] == '.' :
+						sText_noImg += " "
 
+					# No image in first paragraph, and put more tag if more than X chars.
 					if firstParag :
-						out_text = out_text+"<p>"+sText_noImg+"</p>"
+						out_text += "<p>"+sText_noImg+"</p>"
 						if len(out_text) >= 100 :
 							out_text += "<!--more-->"
 							firstParag = False
