@@ -26,6 +26,7 @@
 	<sanitize>
 		<remove type="image">10503850.jpg</remove>
 		<remove type="title">\[.*?\] </remove>
+		<remove type="class" section="aside">app_share_mod</remove>
 	</sanitize>
 </service>
 
