@@ -171,16 +171,17 @@ class Article:
 						div.decompose()
 
 			# Detect and remove unnecessary tags
-			tags_to_keep = ['a','p','img','ul','li']
-			tags_to_remove = []
-			for tag in self.soup.find_all(True):
-				if tag.name not in tags_to_keep and tag.name not in tags_to_remove :
-					tags_to_remove.append(tag.name)
+			# tags_to_keep = ['a','p','img','ul','li']
+			# tags_to_remove = []
+			# for tag in self.soup.find_all(True):
+			# 	if tag.name not in tags_to_keep and tag.name not in tags_to_remove :
+			# 		tags_to_remove.append(tag.name)
 
-			for tag in tags_to_remove :
-				for t in text_sec.find_all(tag) :
-					t.replace_with(t.text)
+			# for tag in tags_to_remove :
+			# 	for t in text_sec.find_all(tag) :
+			# 		t.replace_with(t.text)
 
+			# print(text_sec)
 
 			# Detect crappy attributes in original soup and remove them in selected text
 			attribute_list = ['src','href']
@@ -194,6 +195,7 @@ class Article:
 				for tag in text_sec.findAll():
 					del(tag[attribute])
 
+			# print(text_sec)
 
 			firstParag = True
 			if ',' in section :
