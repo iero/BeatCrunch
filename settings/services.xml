@@ -398,12 +398,21 @@
 	<id>googleBlog</id>
 	<mention>#google</mention>
 	<url type="rss">https://www.blog.google/rss/</url>
+	<text type="div" name="class" section="p,img,ul,li">post-body entry-content post-original</text>
+	<image type="meta" name="property">og:image</image>
+</service>
+
+<service name="Google Opensource blog" lang="en">
+	<id>googleOpenBlog</id>
+	<mention>#google</mention>
+	<url type="rss">https://opensource.googleblog.com/feeds/posts/default</url>
 	<text type="div" name="class" section="p,img,ul,li">uni-content uni-blog-article-container</text>
 	<image type="meta" name="property">og:image</image>
 	<sanitize>
 			<remove type="image">7714256da16f.png</remove>
 	</sanitize>
 </service>
+
 
 <service name="Google X" lang="en">
 	<id>googleX</id>
@@ -459,6 +468,17 @@
 		<remove type="text">A version of this article appears</remove>
 		<remove type="text">interested in your feedback</remove>
 		<remove type="text">^By [A-Z]</remove>
+		<remove type="class" section="header">styles-headerBasic--3czk2</remove>
+		<remove type="class" section="p">summary</remove>
+		<remove type="class" section="p">footer</remove>
+		<remove type="class" section="p">sample</remove>
+		<remove type="class" section="p">manage-email</remove>
+		<remove type="class" section="p">logout hidden</remove>
+		<remove type="class" section="p">privacy</remove>
+		<remove type="class" section="p">contact</remove>
+		<remove type="class" section="time">dateline</remove>
+		<remove type="class" section="a">styles-link--1Tap3</remove>
+		<remove type="class" section="div">styles-bylineTimestamp--2J2fe styles-toneNews--29Vp_</remove>
 	</sanitize>
 </service>
 

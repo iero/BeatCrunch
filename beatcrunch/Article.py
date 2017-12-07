@@ -3,6 +3,7 @@ import re
 import pytz
 
 from datetime import datetime
+from bs4 import NavigableString
 
 import utils
 
@@ -162,12 +163,6 @@ class Article:
 			text_sec=self.soup.find(type, {name: value})
 
 
-		# Remove style
-		# for tag in text_sec :
-		# 	for attribute in ["class", "id", "name", "style", "itemprop"]:
-		# 		print(tag)
-		# tag.replace(attribute,"")
-
 		if text_sec is not None :
 			# Filter ads
 			if self.service.find('sanitize') is not None :
@@ -175,11 +170,36 @@ class Article:
 					for div in text_sec.find_all(san.get('section'), {san.get('type'):san.text}):
 						div.decompose()
 
+			# Detect and remove unnecessary tags
+			tags_to_keep = ['a','p','img','ul','li']
+			tags_to_remove = []
+			for tag in self.soup.find_all(True):
+				if tag.name not in tags_to_keep and tag.name not in tags_to_remove :
+					tags_to_remove.append(tag.name)
+
+			for tag in tags_to_remove :
+				for t in text_sec.find_all(tag) :
+					t.replace_with(t.text)
+
+
+			# Detect crappy attributes in original soup and remove them in selected text
+			attribute_list = ['src','href']
+			attrs = []
+			for tag in self.soup.find_all(True):
+				for attr in tag.attrs :
+					if attr not in attribute_list and attr not in attrs :
+						attrs.append(attr)
+
+			for attribute in attrs :
+				for tag in text_sec.findAll():
+					del(tag[attribute])
+
+
 			firstParag = True
 			if ',' in section :
 				section = section.split(',')
 			for t in text_sec.find_all(section):
-				print("[{}]".format(t))
+				# print("[{}]".format(t))
 				sText=utils.textutils.sanitizeText(self.service,str(t))
 				sText_noImg=utils.textutils.sanitizeText(self.service,t.get_text())
 
