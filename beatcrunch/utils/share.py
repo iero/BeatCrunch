@@ -70,7 +70,11 @@ def toot(s,article) :
 				media_id = m.media_post(img_local)
 				# print(media_id)
 
-				m.status_post(text,in_reply_to_id=None,media_ids=[media_id])
+				if media_id :
+					m.status_post(text,in_reply_to_id=None,media_ids=[media_id])
+				else :
+					m.toot(text)
+
 				if os.path.exists(img_local) :
 					os.remove(img_local)
 				return True
