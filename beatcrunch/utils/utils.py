@@ -60,23 +60,6 @@ def shortenLink(s,url) :
     except :
             return url
 
-# Sanitize text to remove crapy thing and make it readable
-#TODO : Maybe a library will do it ?
-
-# def sanitizeTitleText(text) :
-#     # Remove first and last spaces
-#     text = text.strip()
-
-#     # print(u"input [{}]".format(text))
-#     text = text.replace("\n", "")
-#     text = text.replace("\r", "")
-#     text = text.replace("\t", "")
-#     text = re.sub(r' {2,}',' ',text)
-#     # print(u"output [{}]".format(text))
-
-#     if len(text)==1 : return ""
-#     else : return text
-
 def getLastDaysTitles(settings,nbdays) :
     title_dict = []
     out_dir = settings.find('settings').find('output').text

@@ -8,7 +8,6 @@ def parseURLName(url) :
 	return entry
 
 def sanitizeText(service, text) :
-
 	if text is None : return ''
 
 	# Remove first and last spaces

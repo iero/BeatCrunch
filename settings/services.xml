@@ -22,6 +22,7 @@
 		<filter type="url">management</filter>
 		<filter type="url">economie</filter>
 		<filter type="url">magazine</filter>
+		<filter type="url">solutions/expert</filter>
 	</filters>
 	<sanitize>
 		<remove type="image">10503850.jpg</remove>
@@ -347,6 +348,9 @@
 		<filter type="url">marketing</filter>
 		<filter type="title">boite à liens</filter>filter>
 	</filters>
+	<sanitize>
+		<remove type="image">Logo-smc-1-150x150.png</remove>
+	</sanitize>
 </service>
 
 <service name="Silicon.fr" lang="fr">
@@ -589,6 +593,10 @@
 	<selection>
 		<select type="url">cool-tech</select>
 	</selection>
+	<sanitize>
+			<remove type="class" section="div">after-content</remove>
+			<remove type="itemprop" section="span">publisher</remove>
+	</sanitize>
 </service>
 
 <service name="Futurism" lang="en">
@@ -711,6 +719,7 @@ http://thelongandshort.org/spaces/hot-desks-design-thinking-ideo
 nextimpact
 wall street journal
 http://www.lemondeinformatique.fr/actualites/lire-hackerone-un-service-de-bug-bounty-gratuit-pour-les-projets-open-source-67547.html
+http://www.futura-sciences.com/rss/high-tech/actualites.xml
 -->
 
 </data>

@@ -53,12 +53,13 @@ class Article:
 
 		self.shorturl = self.url
 		self.text=self.getText()
-		self.formatedtext=self.getFormatedText()
 		self.raw=""
 
 		# Look for 10 most common tags in title+text
 		self.tags = utils.similarity.findTags(self.title+". "+self.text,self.lang,10)
 		# print(uself.tags)
+
+		self.formatedtext=self.getFormatedText()
 
 		self.rate=0
 		self.similarity=0
@@ -205,15 +206,27 @@ class Article:
 				sText=utils.textutils.sanitizeText(self.service,str(t))
 				sText_noImg=utils.textutils.sanitizeText(self.service,t.get_text())
 
+				# Add tags in formated text
+				if self.tags :
+					for w in self.tags :
+
+						if w in sText.lower() :
+							for v in re.split(' |; |, |\'',sText) :
+								if w == v.lower() :
+									sText = re.sub(v,'<span class="tag">'+w+'</span>',sText)
+
+				# Add space at the end of sentence
+				if len(sText_noImg)>1 and sText_noImg.strip()[-1] == '.' :
+					sText_noImg += " "
+				if len(sText)>1 and sText.strip()[-1] == '.' :
+					sText += " "
+
 				# Img or text :
 				if '<img' in sText and '<p>' in sText :
 					continue ;
 				elif not sText_noImg and '<img' in sText :
 					out_text += sText
 				else :
-					# Add space at the end of sentence
-					if len(sText_noImg)>1 and sText_noImg.strip()[-1] == '.' :
-						sText_noImg += " "
 
 					# No image in first paragraph, and put more tag if more than X chars.
 					if firstParag :
