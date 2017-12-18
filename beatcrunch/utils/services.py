@@ -184,9 +184,11 @@ def getRSSArticles(service, rss_url, oldlist, max) :
 		if post.link not in oldlist :
 			title = sanitizeTitle(service, post.title)
 			link = sanitizeUrl(rss_url,post.link)
+
 			try :
-				a = Article.Article(service=service,title=title,url=link,lang=rss_lang)
-				articles.append(a)
+				if (title != '') :
+					a = Article.Article(service=service,title=title,url=link,lang=rss_lang)
+					articles.append(a)
 			except :
 				print(u"+--[Error {}] {} {} ".format(service.name,title,link))
 				print(u"Unexpected error parsing RSS feed")
