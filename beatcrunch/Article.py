@@ -33,6 +33,7 @@ class Article:
 		if kwargs.get('lang') :
 			self.lang = kwargs.get('lang')
 
+		# try :
 		print(u"+--[Parsing] {}".format(self.title))
 
 		# From service
@@ -243,7 +244,7 @@ class Article:
 						out_text += s_text
 
 				# link with content (image or text)
-				elif s.name == 'a' :
+				elif s.name == 'a' and len(s.content) > 0 :
 					s_content = str(s.contents[0])
 					# get urls
 					if self.domain not in s['href'] and s['href'] not in link_list :
