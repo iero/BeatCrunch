@@ -33,7 +33,6 @@ class Article:
 		if kwargs.get('lang') :
 			self.lang = kwargs.get('lang')
 
-		# try :
 		print(u"+--[Parsing] {}".format(self.title))
 
 		# From service
