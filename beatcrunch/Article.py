@@ -305,6 +305,8 @@ class Article:
 
 		if occ_to_replace > 0 :
 			out_text = out_text[:occ_to_replace] + '<!--more-->' + out_text[occ_to_replace:]
+		else :
+			out_text = out_text[:200] + '<!--more-->' + out_text[200:]
 
 		return out_text
 
