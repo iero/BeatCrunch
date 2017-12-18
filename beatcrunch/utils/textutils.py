@@ -20,18 +20,17 @@ def sanitizeText(service, text) :
 	text = re.sub(r' {2,}',' ',text)
 	# print(u"output [{}]".format(text))
 
-	if len(text)==1 : return ''
+	if len(text) <=1 : return ''
 
 	# General
-	filtered_words=["adsbygoogle"]
-	if any(x in text for x in filtered_words):
-		text = ""
+	# filtered_words=["adsbygoogle"]
+	# if any(x in text for x in filtered_words):
+	# 	text = ""
 
-	# specific
+	# Remove text content defined in services file
 	if service.find('sanitize') is not None :
 		for removedField in service.find('sanitize').findall("remove") :
 			if removedField.get('type') == "text" :
 				if removedField.text.lower() in text.lower() :
 					text = ""
 	return text
-

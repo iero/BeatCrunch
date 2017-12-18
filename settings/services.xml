@@ -22,7 +22,7 @@
 		<filter type="url">management</filter>
 		<filter type="url">economie</filter>
 		<filter type="url">magazine</filter>
-		<filter type="url">solutions/expert</filter>
+		<filter type="url">/expert/</filter>
 	</filters>
 	<sanitize>
 		<remove type="image">10503850.jpg</remove>
@@ -402,8 +402,16 @@
 	<id>googleBlog</id>
 	<mention>#google</mention>
 	<url type="rss">https://www.blog.google/rss/</url>
-	<text type="div" name="class" section="p,img,ul,li">post-body entry-content post-original</text>
+	<!-- <text type="div" name="class" section="p,img,ul,li">post-body entry-content post-original</text> -->
+	<text type="div" name="class" section="p,img,ul,li">uni-wrapper</text>
 	<image type="meta" name="property">og:image</image>
+	<sanitize>
+			<remove type="image">7714256da16f.png</remove>
+			<remove type="class" section="div">more-drawer-nest tall</remove>
+			<remove type="class" section="div">related-articles outside-drawer</remove>
+			<remove type="class" section="div">uni-blog-article-tags</remove>
+			<remove type="class" section="span">h-u-visually-hidden</remove>
+	</sanitize>
 </service>
 
 <service name="Google Opensource blog" lang="en">

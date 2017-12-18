@@ -157,13 +157,10 @@ def getRSSArticles(service, rss_url, oldlist, max) :
 			content = web_page.content.strip()  # drop the first newline (if any)
 			feed = feedparser.parse(content)
 	except requests.exceptions.Timeout:
-		# Timeout problem
 		print(u"+--[Warning] Timeout getting feed !")
 	except requests.exceptions.TooManyRedirects:
-		# Bad URL
 		print(u"+--[Warning] Too many redirect getting feed !")
 	except requests.exceptions.RequestException as e:
-		# Not working
 		print(u"+--[Warning] Problem getting feed !")
 
 	#print(u"+--[Got] {} rss articles to parse".format(len(feed.entries)))

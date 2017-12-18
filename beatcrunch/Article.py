@@ -2,8 +2,9 @@ import time
 import re
 import pytz
 
+from urllib.parse import urlparse # parse url
 from datetime import datetime
-from bs4 import NavigableString
+from bs4 import NavigableString, Comment
 
 import utils
 
@@ -37,6 +38,10 @@ class Article:
 		# From service
 		self.service_name = self.service.find('id').text
 		self.service_mention = self.service.find('mention').text
+
+		# Get domain
+		entry_parsed = urlparse(self.url)
+		self.domain = '{uri.netloc}'.format(uri=entry_parsed)
 
 		# print(u"+--[{}] {} {} {}".format(self.service_name, self.lang,self.title,self.url))
 
@@ -136,8 +141,12 @@ class Article:
 					for div in text_sec.find_all(san.get('section'), {san.get('type'):san.text}):
 						div.decompose()
 
+			for s in text_sec.find_all('script') :
+				s.extract()
+
 			if ',' in section :
 				section = section.split(',')[0]
+
 			for t in text_sec.find_all(section):
 				if len(out_text)>1 and out_text.strip()[-1] == '.' :
 					out_text = out_text + " "
@@ -147,6 +156,12 @@ class Article:
 
 	# Get images, lists, italics.. and not only text.
 	def getFormatedText(self) :
+		# nb characters before <!-- more -->
+		max_preview_size : 100
+
+		img_list=[]
+		link_list=[]
+
 		out_text=""
 		if self.service.find('text') is not None :
 			type = self.service.find('text').get('type')
@@ -163,79 +178,116 @@ class Article:
 		else :
 			text_sec=self.soup.find(type, {name: value})
 
-
 		if text_sec is not None :
-			# Filter ads
+
+			# Remove ads defined in services file (<sanitize><remove/></sanitize>)
 			if self.service.find('sanitize') is not None :
 				for san in self.service.find('sanitize').findall("remove") :
 					for div in text_sec.find_all(san.get('section'), {san.get('type'):san.text}):
 						div.decompose()
 
-			# Detect and remove unnecessary tags
-			# tags_to_keep = ['a','p','img','ul','li']
-			# tags_to_remove = []
-			# for tag in self.soup.find_all(True):
-			# 	if tag.name not in tags_to_keep and tag.name not in tags_to_remove :
-			# 		tags_to_remove.append(tag.name)
+			# Remove scripts
+			for s in self.soup('script') :
+				s.extract()
 
-			# for tag in tags_to_remove :
-			# 	for t in text_sec.find_all(tag) :
-			# 		t.replace_with(t.text)
+			# Detect unnecessary tags and crappy attributes in original soup
+			tags_to_keep = ['div','a','p','img','ul','li','i']
+			tags_to_remove = []
 
-			# print(text_sec)
+			attributes_to_keep = ['src','href']
+			attributes_to_remove = []
 
-			# Detect crappy attributes in original soup and remove them in selected text
-			attribute_list = ['src','href']
-			attrs = []
 			for tag in self.soup.find_all(True):
-				for attr in tag.attrs :
-					if attr not in attribute_list and attr not in attrs :
-						attrs.append(attr)
+				# Tag
+				if tag.name not in tags_to_keep and tag.name not in tags_to_remove :
+					tags_to_remove.append(tag.name)
 
-			for attribute in attrs :
+				# Attribute
+				for attr in tag.attrs :
+					if attr not in attributes_to_keep and attr not in attributes_to_remove :
+						attributes_to_remove.append(attr)
+
+			# Remove unnecessary tags but keep content
+			# print("+---[Remove tags] {}".format(','.join(tags_to_remove)))
+			for tag in tags_to_remove :
+				for t in text_sec.find_all(tag) :
+					t.replaceWithChildren()
+
+			# Remove attributes
+			# print("+---[Remove attributes] {}".format(','.join(attributes_to_remove)))
+			for attribute in attributes_to_remove :
 				for tag in text_sec.findAll():
 					del(tag[attribute])
 
+			# Remove empty tags (TO TEST)
+			for tag in tags_to_keep :
+				for t in text_sec.find_all(tag) :
+					# Test if no children or no content
+					if len(t.contents) == 0 and len(t.attrs) == 0 :
+						t.decompose()
+
+			# Debug
 			# print(text_sec)
 
-			firstParag = True
-			if ',' in section :
-				section = section.split(',')
-			for t in text_sec.find_all(section):
-				# print("[{}]".format(t))
-				sText=utils.textutils.sanitizeText(self.service,str(t))
-				sText_noImg=utils.textutils.sanitizeText(self.service,t.get_text())
+			# Keep usefull stuff (text, images, links..)
+			for s in text_sec.descendants :
+				# Contains text (not comment) and parent is not a link
+				# Normaly get <p>text</p> and text<br/> stuff
+				if s.name == None and s.parent.name != 'a' and not isinstance(s, Comment):
+					s_content = str(s).strip()
+					if len(s_content) > 0 :
+						s_text = self.internal_addText(s_content)
+						# if starts with letter, add space before.
+						if len(s_text) > 0 and s_text[0].islower() :
+							s_text = ' '+s_text
+						out_text += s_text
 
-				# Add tags in formated text
-				if self.tags :
-					for w in self.tags :
+				# link with content (image or text)
+				elif s.name == 'a' :
+					s_content = str(s.contents[0])
+					# get urls
+					if self.domain not in s['href'] and s['href'] not in link_list :
+						link_list.append(s['href'])
 
-						if w in sText.lower() :
-							for v in re.split(' |; |, |\'',sText) :
-								if w == v.lower() :
-									sText = re.sub(v,'<span class="tag">'+w+'</span>',sText)
+					# image in link
+					if s.contents[0].name != None and 'img' in s.contents[0].name :
+						s_image = s.contents[0]['src']
+						if s_image not in img_list and not s_image in self.image :
+							img_list.append(s_image)
+							# print("[a {0}]\n {1}\n[/a] ".format(s['href'],s_image))
+							out_text += '<a href="'+s['href']+'">'+s_content+'</a>'
 
-				# Add space at the end of sentence
-				if len(sText_noImg)>1 and sText_noImg.strip()[-1] == '.' :
-					sText_noImg += " "
-				if len(sText)>1 and sText.strip()[-1] == '.' :
-					sText += " "
-
-				# Img or text :
-				if '<img' in sText and '<p>' in sText :
-					continue ;
-				elif not sText_noImg and '<img' in sText :
-					out_text += sText
-				else :
-
-					# No image in first paragraph, and put more tag if more than X chars.
-					if firstParag :
-						out_text += "<p>"+sText_noImg+"</p>"
-						if len(out_text) >= 100 :
-							out_text += "<!--more-->"
-							firstParag = False
+					# text in link
 					else :
-						out_text += sText
+						# print("[a {0}] {1} [/a] ".format(s['href'],s_content))
+						out_text += '<a href="'+s['href']+'">'+s_content+'</a>'
+
+				# img without associated link
+				elif s.name == 'img' and s.parent.name != 'a' :
+					# print("[img] {0} [/img] ".format(s['src']))
+					s_image = s['src']
+					if s_image not in img_list and not s_image in self.image :
+						img_list.append(s_image)
+						out_text += '<img src="'+s['src']+'"/>'
+				elif s.name == 'p' :
+					out_text += '<br/>'
+				# elif s.name == 'ul' :
+				# 	print("[{}]".format(s.name))
+				# 	out_text += str(s)
+				# elif s.name == 'i' :
+				# 	print("[{}]".format(s.name))
+				# 	out_text += str(s)
+				# debug
+				# elif s.name != None :
+					# print("[others] {}".format(s.name))
+					# print(s)
+
+		self.nb_images = len(img_list)
+		self.nb_links = len(link_list)
+
+		#Remove first <br/>
+		if out_text.startswith('<br/>') :
+			out_text = out_text.replace('<br/>','',1)
 
 		return out_text
 
@@ -325,3 +377,22 @@ class Article:
 		if (len(self.tags) > 0 ) :
 			tags = ','.join(self.tags)
 			print(u"+---[tags] [{}]".format(tags.encode('utf8')))
+
+		if self.nb_images > 0 :
+			print(u'+---[{} images]'.format(self.nb_images))
+
+		if self.nb_links > 0 :
+			print(u'+---[{} links]'.format(self.nb_links))
+
+	def internal_addText(self,text) :
+		if text[-1:] != ' ' :
+			text += ' '
+		# if not text.startswith('<p>') and not text.endswith('</p>') :
+		# 	text = '<p>'+text+'</p>'
+
+		# Add spaces near ponctuation and remove extra spaces :
+		text = re.sub('([!?(])', r' \1', text)
+		text = re.sub('([.,!?)])', r'\1 ', text)
+		text = re.sub('\s{2,}', ' ', text)
+
+		return text

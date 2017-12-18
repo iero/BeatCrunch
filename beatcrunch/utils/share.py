@@ -149,6 +149,7 @@ def publishWordPress(settings,article) :
 		content += article.formatedtext
 		content	+= '<p><a href="'+article.url+'">Source : '+sName+'</a></p>'
 		content += '<p>'+str(length)+' words ('+ tpslect+' min)</p>'
+		content += '<div class="article_raw">'+article.text+'</div>'
 		post.content = content
 		post.post_status = 'publish'
 		post.terms_names = {

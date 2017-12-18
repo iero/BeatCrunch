@@ -123,8 +123,8 @@ if __name__ == "__main__":
 
                 # Verify that we will not flood (more than 3 articles)
                 if len(articles) > 3 :
-                    print(u"+--[ALERT] {} articles to push.. STOP".format(len(articles)))
-                    break
+                    print(u"+--[ALERT] {} articles to push. I will not do that dude.".format(len(articles)))
+                    continue
 
                 # shorten url
                 if shorten:

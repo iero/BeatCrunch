@@ -75,3 +75,12 @@ if __name__ == "__main__":
 
 		if len(sys.argv) == 5 :
 			utils.share.publishWordPress(settings, a)
+
+
+	# user = "Username"
+	# prefix = user + ": "
+	# preferredWidth = 70
+	# wrapper = textwrap.TextWrapper(initial_indent=prefix, width=preferredWidth,
+ #                               subsequent_indent=' '*len(prefix))
+	# message = "LEFTLEFTLEFTLEFTLEFTLEFTLEFT RIGHTRIGHTRIGHT " * 3
+	# print(wrapper.fill(message))
