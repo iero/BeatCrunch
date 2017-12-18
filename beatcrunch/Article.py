@@ -243,7 +243,7 @@ class Article:
 						out_text += s_text
 
 				# link with content (image or text)
-				elif s.name == 'a' and s.content != None > 0 :
+				elif s.name == 'a' and s.content != None :
 					s_content = str(s.contents[0])
 					# get urls
 					if self.domain not in s['href'] and s['href'] not in link_list :
@@ -262,6 +262,13 @@ class Article:
 						# print("[a {0}] {1} [/a] ".format(s['href'],s_content))
 						out_text += '<a href="'+s['href']+'">'+s_content+'</a>'
 
+				# don't understand why
+				elif s.name == 'a' :
+					# get urls
+					if self.domain not in s['href'] and s['href'] not in link_list :
+						link_list.append(s['href'])
+					out_text += str(s)
+
 				# img without associated link
 				elif s.name == 'img' and s.parent.name != 'a' :
 					# print("[img] {0} [/img] ".format(s['src']))
@@ -272,15 +279,15 @@ class Article:
 				elif s.name == 'p' :
 					out_text += '<br/>'
 				# elif s.name == 'ul' :
-				# 	print("[{}]".format(s.name))
-				# 	out_text += str(s)
+				#   print("[{}]".format(s.name))
+				#   out_text += str(s)
 				# elif s.name == 'i' :
-				# 	print("[{}]".format(s.name))
-				# 	out_text += str(s)
+				#   print("[{}]".format(s.name))
+				#   out_text += str(s)
 				# debug
 				# elif s.name != None :
-					# print("[others] {}".format(s.name))
-					# print(s)
+				#   print("[others] {}".format(s.name))
+				#   print(s)
 
 		self.nb_images = len(img_list)
 		self.nb_links = len(link_list)
@@ -288,6 +295,16 @@ class Article:
 		#Remove first <br/>
 		if out_text.startswith('<br/>') :
 			out_text = out_text.replace('<br/>','',1)
+
+		# Add more for preview
+		end_sentences = [m.start() for m in re.finditer('[.!?;] ', out_text)]
+		occ_to_replace = 0
+		for end in end_sentences :
+			if end <= 200 :
+				occ_to_replace = end+1
+
+		if occ_to_replace > 0 :
+			out_text = out_text[:occ_to_replace] + '<!--more-->' + out_text[occ_to_replace:]
 
 		return out_text
 
@@ -388,7 +405,7 @@ class Article:
 		if text[-1:] != ' ' :
 			text += ' '
 		# if not text.startswith('<p>') and not text.endswith('</p>') :
-		# 	text = '<p>'+text+'</p>'
+		#   text = '<p>'+text+'</p>'
 
 		# Add spaces near ponctuation and remove extra spaces :
 		text = re.sub('([!?(])', r' \1', text)
