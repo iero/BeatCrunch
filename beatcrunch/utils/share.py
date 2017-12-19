@@ -145,13 +145,23 @@ def publishWordPress(settings,article) :
 
 		post = WordPressPost()
 		post.title = article.title
-		if image.article :
+
+		if article.image :
 			content = '<p class="article_image"><img src="'+article.image+'"/></p>'
+		else :
+			content = ''
 
 		content += article.formatedtext
-		content	+= '<p><a href="'+article.url+'">Source : '+sName+'</a></p>'
-		content += '<p>'+str(length)+' words ('+ tpslect+' min)</p>'
+		content += '<p class="article_nbwords">'+str(length)+' words ('+ tpslect+' min)</p>'
+		content	+= '<p class="article_source"><a href="'+article.url+'">Source : '+sName+'</a></p>'
+
+		if len(article.link_list) > 0 :
+			content += '<div class="article_params">'
+			content += '<p>{} links</p>'.format(len(article.link_list))
+			content += '</div>'
+
 		content += '<div class="article_raw">'+article.text+'</div>'
+
 		post.content = content
 		post.post_status = 'publish'
 		post.terms_names = {

@@ -43,6 +43,10 @@ class Article:
 		entry_parsed = urlparse(self.url)
 		self.domain = '{uri.netloc}'.format(uri=entry_parsed)
 
+		# Sources
+		self.img_list=[]
+		self.link_list=[]
+
 		# print(u"+--[{}] {} {} {}".format(self.service_name, self.lang,self.title,self.url))
 
 		if kwargs.get('content') :
@@ -159,9 +163,6 @@ class Article:
 		# nb characters before <!-- more -->
 		max_preview_size : 100
 
-		img_list=[]
-		link_list=[]
-
 		out_text=""
 		if self.service.find('text') is not None :
 			type = self.service.find('text').get('type')
@@ -246,14 +247,14 @@ class Article:
 				elif s.name == 'a' and s.content != None :
 					s_content = str(s.contents[0])
 					# get urls
-					if self.domain not in s['href'] and s['href'] not in link_list :
-						link_list.append(s['href'])
+					if self.domain not in s['href'] and s['href'] not in self.link_list :
+						self.link_list.append(s['href'])
 
 					# image in link
 					if s.contents[0].name != None and 'img' in s.contents[0].name :
 						s_image = s.contents[0]['src']
-						if s_image not in img_list and not s_image in self.image :
-							img_list.append(s_image)
+						if s_image not in self.img_list and not s_image in self.image :
+							self.img_list.append(s_image)
 							# print("[a {0}]\n {1}\n[/a] ".format(s['href'],s_image))
 							out_text += '<a href="'+s['href']+'">'+s_content+'</a>'
 
@@ -265,16 +266,16 @@ class Article:
 				# don't understand why
 				elif s.name == 'a' :
 					# get urls
-					if self.domain not in s['href'] and s['href'] not in link_list :
-						link_list.append(s['href'])
+					if self.domain not in s['href'] and s['href'] not in self.link_list :
+						self.link_list.append(s['href'])
 					out_text += str(s)
 
 				# img without associated link
 				elif s.name == 'img' and s.parent.name != 'a' :
 					# print("[img] {0} [/img] ".format(s['src']))
 					s_image = s['src']
-					if s_image not in img_list and not s_image in self.image :
-						img_list.append(s_image)
+					if s_image not in self.img_list and not s_image in self.image :
+						self.img_list.append(s_image)
 						out_text += '<img src="'+s['src']+'"/>'
 				elif s.name == 'p' :
 					out_text += '<br/>'
@@ -288,9 +289,6 @@ class Article:
 				# elif s.name != None :
 				#   print("[others] {}".format(s.name))
 				#   print(s)
-
-		self.nb_images = len(img_list)
-		self.nb_links = len(link_list)
 
 		#Remove first <br/>
 		if out_text.startswith('<br/>') :
@@ -326,6 +324,8 @@ class Article:
 			'text' : self.text,
 			'text_size' : str(len(self.text.split())),
 			'text_formated' : self.formatedtext,
+			'list_images' : self.img_list,
+			'list_links' : self.link_list,
 			'liked' : self.liked
 		}
 
@@ -397,11 +397,11 @@ class Article:
 			tags = ','.join(self.tags)
 			print(u"+---[tags] [{}]".format(tags.encode('utf8')))
 
-		if self.nb_images > 0 :
-			print(u'+---[{} images]'.format(self.nb_images))
+		if len(self.img_list) > 0 :
+			print(u'+---[{} images]'.format(len(self.img_list)))
 
-		if self.nb_links > 0 :
-			print(u'+---[{} links]'.format(self.nb_links))
+		if len(self.link_list) > 0 :
+			print(u'+---[{} links]'.format(len(self.link_list)))
 
 	def internal_addText(self,text) :
 		if text[-1:] != ' ' :
