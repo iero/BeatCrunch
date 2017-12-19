@@ -160,8 +160,9 @@ class Article:
 
 	# Get images, lists, italics.. and not only text.
 	def getFormatedText(self) :
-		# nb characters before <!-- more -->
-		max_preview_size : 100
+		# nb of characters before <!-- more -->
+		more_size = 200
+		added_more = False
 
 		out_text=""
 		if self.service.find('text') is not None :
@@ -290,21 +291,28 @@ class Article:
 				#   print("[others] {}".format(s.name))
 				#   print(s)
 
+				if not added_more and len(out_text) >= more_size :
+					out_text += '<!--more-->'
+					added_more = True
+
 		#Remove first <br/>
 		if out_text.startswith('<br/>') :
 			out_text = out_text.replace('<br/>','',1)
 
 		# Add more for preview
-		end_sentences = [m.start() for m in re.finditer('[.!?;] ', out_text)]
-		occ_to_replace = 0
-		for end in end_sentences :
-			if end <= 200 :
-				occ_to_replace = end+1
+		# end_sentences = [m.start() for m in re.finditer('[.!?;] ', out_text)]
+		# occ_to_replace = 0
+		# for end in end_sentences :
+		# 	if end <= 200 :
+		# 		occ_to_replace = end+1
 
-		if occ_to_replace > 0 :
-			out_text = out_text[:occ_to_replace] + '<!--more-->' + out_text[occ_to_replace:]
-		else :
-			out_text = out_text[:200] + '<!--more-->' + out_text[200:]
+		# if occ_to_replace > 0 :
+		# 	out_text = out_text[:occ_to_replace] + '<!--more-->' + out_text[occ_to_replace:]
+		# else :
+		# 	out_text = out_text[:200] + '<!--more-->' + out_text[200:]
+
+		# remove multiple spaces :
+		out_text = re.sub(' +',' ',out_text)
 
 		return out_text
 
