@@ -267,7 +267,7 @@ class Article:
 				# don't understand why
 				elif s.name == 'a' :
 					# get urls
-					if self.domain not in s['href'] and s['href'] not in self.link_list :
+					if 'href' in s and self.domain not in s['href'] and s['href'] not in self.link_list :
 						self.link_list.append(s['href'])
 					out_text += str(s)
 
