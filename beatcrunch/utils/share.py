@@ -145,7 +145,9 @@ def publishWordPress(settings,article) :
 
 		post = WordPressPost()
 		post.title = article.title
-		content = '<p class="article_image"><img src="'+article.image+'"/></p>'
+		if image.article :
+			content = '<p class="article_image"><img src="'+article.image+'"/></p>'
+
 		content += article.formatedtext
 		content	+= '<p><a href="'+article.url+'">Source : '+sName+'</a></p>'
 		content += '<p>'+str(length)+' words ('+ tpslect+' min)</p>'
