@@ -60,6 +60,10 @@ class Article:
 		else :
 			self.image = self.getMainImage()
 
+		# Main image found : add to image list
+		if self.image :
+			self.img_list.append(self.image)
+
 		self.shorturl = self.url
 		self.text=self.getText()
 		self.raw=""
@@ -69,6 +73,10 @@ class Article:
 		# print(uself.tags)
 
 		self.formatedtext=self.getFormatedText()
+
+		# No main image : try to add the first from the article
+		if not self.image and len(self.img_list) > 0 :
+			self.image = self.img_list[0]
 
 		self.rate=0
 		self.similarity=0
@@ -133,7 +141,7 @@ class Article:
 		if (name == "class") :
 			text_sec=self.soup.find(type, class_=value)
 			# print(text_sec)
-		elif name == "None" :
+		elif name== "rss" or name == "None" :
 			text_sec=self.soup
 		else :
 			text_sec=self.soup.find(type, {name: value})
@@ -164,6 +172,9 @@ class Article:
 		more_size = 200
 		added_more = False
 
+		# Debug
+		# print(self.soup.prettify())
+
 		out_text=""
 		if self.service.find('text') is not None :
 			type = self.service.find('text').get('type')
@@ -171,16 +182,17 @@ class Article:
 			value = self.service.find('text').text
 			section = self.service.find('text').get('section')
 		else :
-			return out_text
+			return ""
 
 		if name == "class" :
 			text_sec=self.soup.find(type, class_=value)
-		elif name == "None" :
+		elif name== "rss" or name == "None" :
 			text_sec=self.soup
 		else :
 			text_sec=self.soup.find(type, {name: value})
 
 		if text_sec is not None :
+
 
 			# Remove ads defined in services file (<sanitize><remove/></sanitize>)
 			if self.service.find('sanitize') is not None :
@@ -256,6 +268,31 @@ class Article:
 					out_text += '<p>'
 					in_p = True
 
+				# link with content (image or text)
+				elif s.name == 'a' and s.contents != None :
+
+					# Get url from link
+					if self.domain not in s['href'] and s['href'] not in self.link_list :
+						self.link_list.append(s['href'])
+
+					# Explore content of <a/>
+					global_s_content=''
+					for s_content in s.contents :
+						# image in link
+						if s_content.name != None and 'img' in s_content.name :
+							s_image = s_content['src']
+							if s_image not in self.img_list and not s_image in self.image :
+								self.img_list.append(s_image)
+								global_s_content += str(s_content)
+
+						# text in link
+						elif s_content.name != None :
+							s_text = utils.textutils.sanitizeText(self.service, str(s_content))
+							global_s_content += self.internal_addTag(s_text)
+
+					if global_s_content :
+						out_text += '<a href="'+s['href']+'">'+global_s_content+'</a>'
+
 				# Contains text (not comment) and parent is not a link
 				# Normaly get <p>text</p> and text<br/> stuff
 				elif s.name == None and s.parent.name != 'a' and not isinstance(s, Comment):
@@ -265,41 +302,16 @@ class Article:
 						# if starts with letter, add space before.
 						if len(s_text) > 0 and s_text[0].islower() :
 							s_text = ' '+s_text
+
+						s_text = utils.textutils.sanitizeText(self.service, s_text)
 						out_text += self.internal_addTag(s_text)
-
-				# link with content (image or text)
-				elif s.name == 'a' and s.content != None :
-					s_content = str(s.contents[0])
-					# get urls
-					if self.domain not in s['href'] and s['href'] not in self.link_list :
-						self.link_list.append(s['href'])
-
-					# image in link
-					if s.contents[0].name != None and 'img' in s.contents[0].name :
-						s_image = s.contents[0]['src']
-						if s_image not in self.img_list and not s_image in self.image and s_image.startswith('http'):
-							self.img_list.append(s_image)
-							# print("[a {0}]\n {1}\n[/a] ".format(s['href'],s_image))
-							out_text += '<a href="'+s['href']+'">'+s_content+'</a>'
-
-					# text in link
-					else :
-						s_content = self.internal_addTag(s_content)
-						# print("[a {0}] {1} [/a] ".format(s['href'],s_content))
-						out_text += '<a href="'+s['href']+'">'+s_content+'</a>'
-
-				# still don't understand why I need that
-				elif s.name == 'a' :
-					# get urls
-					if 'href' in s and self.domain not in s['href'] and s['href'] not in self.link_list :
-						self.link_list.append(s['href'])
-					out_text += str(s)
 
 				# img without associated link
 				elif s.name == 'img' and s.parent.name != 'a' :
-					# print("[img] {0} [/img] ".format(s['src']))
 					s_image = s['src']
-					if s_image not in self.img_list and not s_image in self.image and s_image.startswith('http'):
+					#print("[img] {0} [/img] ".format(s_image))
+					# if s_image not in self.img_list and not s_image in self.image and s_image.startswith('http'):
+					if s_image not in self.img_list and not s_image in self.image :
 						self.img_list.append(s_image)
 						out_text += '<img src="'+s_image+'"/>'
 
@@ -317,11 +329,6 @@ class Article:
 				if not added_more and len(out_text) >= more_size :
 					out_text += '<!--more-->'
 					added_more = True
-
-		#Remove first <br/>
-		# if out_text.startswith('<br/>') :
-		# 	out_text = out_text.replace('<br/>','',1)
-
 
 		# remove multiple spaces :
 		out_text = re.sub(' +',' ',out_text)

@@ -173,7 +173,7 @@ def getRSSArticles(service, rss_url, oldlist, max) :
 
 		return articles, feedlist
 
-	# Normal mode
+	# For each item in feed
 	for post in feed.entries:
 		if max != 0 and len(feedlist) >= max : break
 
@@ -187,7 +187,14 @@ def getRSSArticles(service, rss_url, oldlist, max) :
 
 			try :
 				if (title != '') :
-					a = Article.Article(service=service,title=title,url=link,lang=rss_lang)
+					# For article protected by javascript
+					# Get content in rss if I can
+					if service.find('text') is not None and service.find('text').get('name') == 'rss' :
+						content = post.content[0]['value']
+						a = Article.Article(service=service,title=title,url=link,lang=rss_lang,content=content)
+					else :
+						a = Article.Article(service=service,title=title,url=link,lang=rss_lang)
+
 					articles.append(a)
 			except :
 				print(u"+--[Error {}] {} {} ".format(service.name,title,link))

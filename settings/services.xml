@@ -132,9 +132,10 @@
 	<id>korben</id>
 	<url type="rss">http://korben.info/feed</url>
 	<mention>#korben</mention>
-	<text type="div" name="class" section="p,img,ul,li">post-content</text>
+	<text name="rss" section="p,img,ul,li">description</text>
+<!-- 	<text type="div" name="class" section="p,img,ul,li">post-content</text>
 	<image type="meta" name="property">og:image</image>
-	<!--image type="div" name="class" section="img" attribute="src">post-thumbnail</image-->
+ -->	<!--image type="div" name="class" section="img" attribute="src">post-thumbnail</image-->
 	<filters>
 		<filter type="title">edito</filter>
 		<filter type="title">promo</filter>
@@ -146,6 +147,9 @@
 		<remove type="text">margin-top</remove>
 		<remove type="text">DIY et idées folles</remove>
 		<remove type="text">Voir l'historique de toutes les promos</remove>
+		<remove type="text">Cet article merveilleux et sans aucun égal</remove>
+		<remove type="text">; a été publié sur</remove>
+		<remove type="text">le seul site qui t'aime plus fort</remove>
 	</sanitize>
 </service>
 
