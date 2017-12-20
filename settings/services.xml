@@ -364,6 +364,9 @@
 		<filter type="title">télégrammes</filter>
 		<filter type="title">silicon.fr</filter>
 	</filters>
+	<sanitize>
+		<remove type="text">Crédit photo</remove>
+	</sanitize>
 </service>
 
 <!-- French Others -->
@@ -528,9 +531,10 @@
 		<filter type="title">5 key</filter>
 		<filter type="title">5 ways</filter>
 		<filter type="url">offers</filter>
-		<filter type="class" name="post-in-content-tags" section="div">TNW NYC</filter>
 	</filters>
-
+	<sanitize>
+			<remove type="class" section="div">post-in-content-tags</remove>
+	</sanitize>
 </service>
 
 <service name="Statista" lang="fr">

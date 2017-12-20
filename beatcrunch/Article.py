@@ -199,7 +199,9 @@ class Article:
 			attributes_to_keep = ['src','href']
 			attributes_to_remove = []
 
+			# Clean input
 			for tag in self.soup.find_all(True):
+
 				# Tag
 				if tag.name not in tags_to_keep and tag.name not in tags_to_remove :
 					tags_to_remove.append(tag.name)
@@ -221,7 +223,7 @@ class Article:
 				for tag in text_sec.findAll():
 					del(tag[attribute])
 
-			# Remove empty tags (TO TEST)
+			# Remove empty tags
 			for tag in tags_to_keep :
 				for t in text_sec.find_all(tag) :
 					# Test if no children or no content
@@ -229,13 +231,34 @@ class Article:
 						t.decompose()
 
 			# Debug
-			# print(text_sec)
+			# print(text_sec.prettify())
 
 			# Keep usefull stuff (text, images, links..)
+			in_p = False
 			for s in text_sec.descendants :
+				# Doctype
+				if str(s).startswith('html PUBLIC') : continue
+
+				# debug
+				# print("[{0}] {1}".format(s.name,str(s)))
+
+				# Find if still in <p/>
+				found_p = False
+				for parent in s.parents :
+					if parent is not None and parent.name == 'p' :
+						found_p = True
+
+				if in_p and not found_p :
+					out_text += '</p>'
+					in_p = False
+
+				if s.name == 'p' :
+					out_text += '<p>'
+					in_p = True
+
 				# Contains text (not comment) and parent is not a link
 				# Normaly get <p>text</p> and text<br/> stuff
-				if s.name == None and s.parent.name != 'a' and not isinstance(s, Comment):
+				elif s.name == None and s.parent.name != 'a' and not isinstance(s, Comment):
 					s_content = str(s).strip()
 					if len(s_content) > 0 :
 						s_text = self.internal_addText(s_content)
@@ -254,7 +277,7 @@ class Article:
 					# image in link
 					if s.contents[0].name != None and 'img' in s.contents[0].name :
 						s_image = s.contents[0]['src']
-						if s_image not in self.img_list and not s_image in self.image :
+						if s_image not in self.img_list and not s_image in self.image and s_image.startswith('http'):
 							self.img_list.append(s_image)
 							# print("[a {0}]\n {1}\n[/a] ".format(s['href'],s_image))
 							out_text += '<a href="'+s['href']+'">'+s_content+'</a>'
@@ -264,7 +287,7 @@ class Article:
 						# print("[a {0}] {1} [/a] ".format(s['href'],s_content))
 						out_text += '<a href="'+s['href']+'">'+s_content+'</a>'
 
-				# don't understand why
+				# still don't understand why I need that
 				elif s.name == 'a' :
 					# get urls
 					if 'href' in s and self.domain not in s['href'] and s['href'] not in self.link_list :
@@ -275,11 +298,10 @@ class Article:
 				elif s.name == 'img' and s.parent.name != 'a' :
 					# print("[img] {0} [/img] ".format(s['src']))
 					s_image = s['src']
-					if s_image not in self.img_list and not s_image in self.image :
+					if s_image not in self.img_list and not s_image in self.image and s_image.startswith('http'):
 						self.img_list.append(s_image)
-						out_text += '<img src="'+s['src']+'"/>'
-				elif s.name == 'p' :
-					out_text += '<br/>'
+						out_text += '<img src="'+s_image+'"/>'
+
 				# elif s.name == 'ul' :
 				#   print("[{}]".format(s.name))
 				#   out_text += str(s)
@@ -296,20 +318,13 @@ class Article:
 					added_more = True
 
 		#Remove first <br/>
-		if out_text.startswith('<br/>') :
-			out_text = out_text.replace('<br/>','',1)
+		# if out_text.startswith('<br/>') :
+		# 	out_text = out_text.replace('<br/>','',1)
 
-		# Add more for preview
-		# end_sentences = [m.start() for m in re.finditer('[.!?;] ', out_text)]
-		# occ_to_replace = 0
-		# for end in end_sentences :
-		# 	if end <= 200 :
-		# 		occ_to_replace = end+1
-
-		# if occ_to_replace > 0 :
-		# 	out_text = out_text[:occ_to_replace] + '<!--more-->' + out_text[occ_to_replace:]
-		# else :
-		# 	out_text = out_text[:200] + '<!--more-->' + out_text[200:]
+		# add tags
+		for tag in self.tags :
+			word_re = re.compile(r'\b{}\b'.format(tag))
+			out_text = word_re.sub('<b>'+tag+'</b>',out_text)
 
 		# remove multiple spaces :
 		out_text = re.sub(' +',' ',out_text)
