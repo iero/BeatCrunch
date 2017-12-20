@@ -265,7 +265,7 @@ class Article:
 						# if starts with letter, add space before.
 						if len(s_text) > 0 and s_text[0].islower() :
 							s_text = ' '+s_text
-						out_text += s_text
+						out_text += self.internal_addTag(s_text)
 
 				# link with content (image or text)
 				elif s.name == 'a' and s.content != None :
@@ -284,6 +284,7 @@ class Article:
 
 					# text in link
 					else :
+						s_content = self.internal_addTag(s_content)
 						# print("[a {0}] {1} [/a] ".format(s['href'],s_content))
 						out_text += '<a href="'+s['href']+'">'+s_content+'</a>'
 
@@ -321,10 +322,6 @@ class Article:
 		# if out_text.startswith('<br/>') :
 		# 	out_text = out_text.replace('<br/>','',1)
 
-		# add tags
-		for tag in self.tags :
-			word_re = re.compile(r'\b{}\b'.format(tag))
-			out_text = word_re.sub('<b>'+tag+'</b>',out_text)
 
 		# remove multiple spaces :
 		out_text = re.sub(' +',' ',out_text)
@@ -437,4 +434,11 @@ class Article:
 		text = re.sub('([.,!?)])', r'\1 ', text)
 		text = re.sub('\s{2,}', ' ', text)
 
+		return text
+
+	# add tags
+	def internal_addTag(self,text) :
+		for tag in self.tags :
+			word_re = re.compile(r'\b{}\b'.format(tag), re.IGNORECASE)
+			text = word_re.sub('<b>'+tag+'</b>',text)
 		return text
