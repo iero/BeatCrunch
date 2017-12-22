@@ -272,7 +272,7 @@ class Article:
 				elif s.name == 'a' and s.contents != None :
 
 					# Get url from link
-					if self.domain not in s['href'] and s['href'] not in self.link_list :
+					if 'href' in s and self.domain not in s['href'] and s['href'] not in self.link_list :
 						self.link_list.append(s['href'])
 
 					# Explore content of <a/>
