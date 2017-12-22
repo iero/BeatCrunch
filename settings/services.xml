@@ -352,6 +352,8 @@
 		<filter type="url">zapping-decrypte</filter>
 		<filter type="url">marketing</filter>
 		<filter type="title">boite à liens</filter>filter>
+		<!-- <filter type="title">/testeurs</filter>filter> -->
+		<filter type="class" name="bkgDarker" section="div">partenariat</filter>
 	</filters>
 	<sanitize>
 		<remove type="image">Logo-smc-1-150x150.png</remove>

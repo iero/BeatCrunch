@@ -55,6 +55,10 @@ class Article:
 			self.soup = utils.services.getArticleContentFromUrl(self.url)
 			# print(uself.soup)
 
+		# Detect Adverts
+		self.rate = utils.services.rateArticle(self.service,self)
+		# print(self.rate)
+
 		if kwargs.get('image') :
 			self.image = kwargs.get('image')
 		else :
@@ -193,7 +197,6 @@ class Article:
 
 		if text_sec is not None :
 
-
 			# Remove ads defined in services file (<sanitize><remove/></sanitize>)
 			if self.service.find('sanitize') is not None :
 				for san in self.service.find('sanitize').findall("remove") :
@@ -211,7 +214,7 @@ class Article:
 			attributes_to_keep = ['src','href']
 			attributes_to_remove = []
 
-			# Clean input
+			# Get tags and attribute lists from soup
 			for tag in self.soup.find_all(True):
 
 				# Tag

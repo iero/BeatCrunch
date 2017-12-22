@@ -84,9 +84,6 @@ if __name__ == "__main__":
             statistics.total += 1
             article.show()
 
-            # Test if article is interesting
-            article.rate  = utils.services.rateArticle(service,article)
-
             # Detect if already published based on tags
             tags_sim, tags_sim_with = utils.services.detectSimArticle(service,article,sim_dict)
 

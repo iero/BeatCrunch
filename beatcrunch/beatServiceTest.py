@@ -69,18 +69,7 @@ if __name__ == "__main__":
 		print("+---[Raw text] ")
 		print(a.text)
 
-		# utils.services.detectAdArticle(service,a)
-		# utils.services.rateArticle(service,a)
 		# utils.services.detectSimilar(d2v_model[a.lang],a,None)
 
 		if len(sys.argv) == 5 :
 			utils.share.publishWordPress(settings, a)
-
-
-	# user = "Username"
-	# prefix = user + ": "
-	# preferredWidth = 70
-	# wrapper = textwrap.TextWrapper(initial_indent=prefix, width=preferredWidth,
- #                               subsequent_indent=' '*len(prefix))
-	# message = "LEFTLEFTLEFTLEFTLEFTLEFTLEFT RIGHTRIGHTRIGHT " * 3
-	# print(wrapper.fill(message))

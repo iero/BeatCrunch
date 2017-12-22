@@ -380,8 +380,7 @@ def detectAdArticle(service,article) :
 			elif filter_type == "class" :
 				filter_name = filter.get('name')
 				filter_section = filter.get('section')
-				# print(filter_section)
-				# print(filter_name)
+				# print("Looking for {0} class={1}".format(filter_section,filter_name))
 
 				f=article.soup.find(filter_section, class_=filter_name)
 				# print(f)
