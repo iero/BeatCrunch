@@ -477,7 +477,7 @@
 	<mention>#nyt</mention>
 	<url type="rss">http://rss.nytimes.com/services/xml/rss/nyt/Technology.xml</url>
 	<text type="article" name="id" section="p,img,ul,li">story</text>
-	<image type="meta" name="property">og:image</image>
+	<!-- <image type="meta" name="property">og:image</image> -->
 	<filters>
 		<filter type="url">politics</filter>
 	</filters>
@@ -503,6 +503,10 @@
 		<remove type="class" section="div">styles-bylineTimestamp--2J2fe styles-toneNews--29Vp_</remove>
 		<remove type="class" section="div">story-header</remove>
 		<remove type="class" section="div">story-meta-footer</remove>
+		<remove type="class" section="div">story-meta</remove>
+		<remove type="class" section="span">visually-hidden</remove>
+		<remove type="class" section="footer">story-footer story-content</remove>
+		<remove type="class" section="div">hidden</remove>
 	</sanitize>
 </service>
 
