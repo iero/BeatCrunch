@@ -501,6 +501,8 @@
 		<remove type="class" section="time">dateline</remove>
 		<remove type="class" section="a">styles-link--1Tap3</remove>
 		<remove type="class" section="div">styles-bylineTimestamp--2J2fe styles-toneNews--29Vp_</remove>
+		<remove type="class" section="div">story-header</remove>
+		<remove type="class" section="div">story-meta-footer</remove>
 	</sanitize>
 </service>
 

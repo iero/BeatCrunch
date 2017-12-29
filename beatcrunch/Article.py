@@ -82,7 +82,6 @@ class Article:
 		if not self.image and len(self.img_list) > 0 :
 			self.image = self.img_list[0]
 
-		self.rate=0
 		self.similarity=0
 		self.similarity_with=""
 
@@ -432,6 +431,9 @@ class Article:
 
 		if len(self.link_list) > 0 :
 			print(u'+---[{} links]'.format(len(self.link_list)))
+
+		if self.rate :
+			print(u'+---[Filtered] {}'.format(self.rate))
 
 	def internal_addText(self,text) :
 		if text[-1:] != ' ' :

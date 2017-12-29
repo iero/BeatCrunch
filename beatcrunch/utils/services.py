@@ -476,13 +476,13 @@ def rateArticle(service,article) :
 
 	# Check <selection/>
 	if not allowArticleCategory(service,article) :
-		print(u"+---[Rate] Category not allowed")
+		# print(u"+---[Rate] Category not allowed")
 		return "category"
 
 	# Check <filters/>
 	ad=detectAdArticle(service,article)
 	if len(ad) != 0 :
-		print(u"+---[Rate] Advert found")
+		# print(u"+---[Rate] Advert found")
 		return "advert:"+ad
 
 	return "ok"
