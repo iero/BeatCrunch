@@ -537,6 +537,7 @@
 		<filter type="title">5 key</filter>
 		<filter type="title">5 ways</filter>
 		<filter type="url">offers</filter>
+		<filter type="class" name="post-authorName" section="a">TNW Deals</filter>
 	</filters>
 	<sanitize>
 			<remove type="class" section="div">post-in-content-tags</remove>
