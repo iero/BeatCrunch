@@ -63,9 +63,9 @@ def toot(s,article) :
 				request.urlretrieve(article.image, img_local)
 				if "png" not in img_ext :
 					img = Image.open(img_local)
-					img_local = ("/tmp/"+img_name+".png")
 					img.save("/tmp/"+img_name+".png",'png')
 					os.remove("/tmp/"+img_name+img_ext)
+					img_local = ("/tmp/"+img_name+".png")
 
 				media_id = m.media_post(img_local)
 				# print(media_id)
