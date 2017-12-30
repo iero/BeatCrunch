@@ -381,7 +381,10 @@
 	<mention>journalducoin</mention>
 	<text type="div" name="class" section="p,img,ul,li">post-content-right</text>
 	<image type="meta" name="property">og:image</image>
-	</service>
+	<filters>
+		<filter type="url">24h-crypto</filter>
+	</filters>
+</service>
 
 <!-- French Others -->
 
