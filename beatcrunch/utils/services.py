@@ -333,7 +333,7 @@ def allowArticleCategory(service,article) :
 			# print(sel_filter)
 
 			if (sel_type == "url") and (sel_filter in article.url) :
-				return True
+				return "url:"+sel_filter
 
 			elif (sel_type == "div") :
 				sel_value = sel.get('value')
@@ -344,7 +344,8 @@ def allowArticleCategory(service,article) :
 				if f is not None :
 					for t in f.find_all(sel_section):
 						if t is not None and sel_filter.lower() in t.get_text().lower() :
-							return True
+							return "div:"+sel_filter
+
 
 			elif sel_type == "class" :
 				sel_name = sel.get('name')
@@ -352,12 +353,12 @@ def allowArticleCategory(service,article) :
 				f=article.soup.find(sel_section, class_=sel_name)
 				# print(f)
 				if f is not None and sel_filter.lower() in f.get_text().lower() :
-					return True
+					return "class:"+sel_filter
 		# No match, no game.
-		return False
+		return "nofilter"
 	else :
 		# No selection category for this source
-		return True
+		return "ok"
 
 # Remove pages based on filters
 def detectAdArticle(service,article) :
@@ -475,9 +476,10 @@ def rateArticle(service,article) :
 	# print(u"+-[Rate] {} ".format(article.title))
 
 	# Check <selection/>
-	if not allowArticleCategory(service,article) :
+	cat = allowArticleCategory(service,article)
+	if (cat == "nofilter") :
 		# print(u"+---[Rate] Category not allowed")
-		return "category"
+		return "category:"+cat
 
 	# Check <filters/>
 	ad=detectAdArticle(service,article)
