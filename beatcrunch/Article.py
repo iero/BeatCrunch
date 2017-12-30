@@ -255,6 +255,10 @@ class Article:
 
 				# debug
 				# print("[{0}] {1}".format(s.name,str(s)))
+				# if s.name == 'a' :
+				# 	print('A')
+				# 	print(s.contents)
+				# 	print(s.contents[0])
 
 				# Find if still in <p/>
 				found_p = False
@@ -272,10 +276,10 @@ class Article:
 
 				# link with content (image or text)
 				elif s.name == 'a' and s.contents != None :
-
 					# Get url from link
 					if 'href' in s and self.domain not in s['href'] and s['href'] not in self.link_list :
 						self.link_list.append(s['href'])
+						# print("[{0}] {1}".format(s.name,str(s)))
 
 					# Explore content of <a/>
 					global_s_content=''
@@ -288,7 +292,7 @@ class Article:
 								global_s_content += str(s_content)
 
 						# text in link
-						elif s_content.name != None :
+						elif s_content != None :
 							s_text = utils.textutils.sanitizeText(self.service, str(s_content))
 							global_s_content += self.internal_addTag(s_text)
 
@@ -298,7 +302,8 @@ class Article:
 				# Contains text (not comment) and parent is not a link
 				# Normaly get <p>text</p> and text<br/> stuff
 				elif s.name == None and s.parent.name != 'a' and not isinstance(s, Comment):
-					s_content = str(s).strip()
+					# s_content = str(s).strip()
+					s_content = str(s)
 					if len(s_content) > 0 :
 						s_text = self.internal_addText(s_content)
 						# if starts with letter, add space before.
@@ -307,6 +312,7 @@ class Article:
 
 						s_text = utils.textutils.sanitizeText(self.service, s_text)
 						out_text += self.internal_addTag(s_text)
+						# print("[{0}] [{1}]".format(s.name,s_text))
 
 				# img without associated link
 				elif s.name == 'img' and s.parent.name != 'a' :

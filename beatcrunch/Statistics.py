@@ -8,7 +8,7 @@ class Statistics:
         self.duplicates = 0
         self.nbwords = 0
         self.nbtags = 0
-        
+
         if jsonfile :
             if 'statistics' in jsonfile :
                 self.total=jsonfile['statistics']['total']
@@ -38,7 +38,7 @@ class Statistics:
 
     def show(self) :
         print(u'+-[Statistics]')
-        print(u'+-- {} articles'.format(self.total))
+        print(u'+-- {} articles today'.format(self.total))
         print(u'+-- {} tags'.format(self.nbtags))
         print(u'+-- {} words'.format(self.nbwords))
         print(u'+--- {} twitted'.format(self.twitted))

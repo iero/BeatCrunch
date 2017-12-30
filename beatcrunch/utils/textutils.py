@@ -11,7 +11,7 @@ def sanitizeText(service, text) :
 	if text is None : return ''
 
 	# Remove first and last spaces
-	text = text.strip()
+	#text = text.strip()
 
 	# print(u"input [{}]".format(text))
 	text = text.replace("\n", "")
