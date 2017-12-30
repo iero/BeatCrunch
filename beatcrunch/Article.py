@@ -307,8 +307,8 @@ class Article:
 					if len(s_content) > 0 :
 						s_text = self.internal_addText(s_content)
 						# if starts with letter, add space before.
-						if len(s_text) > 0 and s_text[0].islower() :
-							s_text = ' '+s_text
+						# if len(s_text) > 0 and s_text[0].islower() :
+						# 	s_text = ' '+s_text
 
 						s_text = utils.textutils.sanitizeText(self.service, s_text)
 						out_text += self.internal_addTag(s_text)
@@ -442,8 +442,8 @@ class Article:
 			print(u'+---[Filtered] {}'.format(self.rate))
 
 	def internal_addText(self,text) :
-		if text[-1:] != ' ' :
-			text += ' '
+		# if text[-1:] != ' ' :
+		# 	text += ' '
 		# if not text.startswith('<p>') and not text.endswith('</p>') :
 		#   text = '<p>'+text+'</p>'
 
