@@ -1,4 +1,4 @@
-import os,sys
+import os,sys,re
 
 import urllib
 import urllib.request as request
@@ -168,7 +168,7 @@ def publishWordPress(settings,article) :
 
 		# Raw text
 		article_text = article.text
-		for tag in self.tags :
+		for tag in article.tags :
 			word_re = re.compile(r'\b{}\b'.format(tag), re.IGNORECASE)
 			article_text = word_re.sub('<b>'+tag+'</b>',article_text)
 
