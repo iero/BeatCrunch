@@ -276,7 +276,6 @@ class Article:
 
 				# link with content (image or text)
 				elif s.name == 'a' and s.contents != None :
-
 					# if s.has_attr('href') :
 					# 	print("[{0}] {1}".format(s.name,str(s)))
 

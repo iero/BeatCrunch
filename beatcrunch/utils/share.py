@@ -158,9 +158,21 @@ def publishWordPress(settings,article) :
 		if len(article.link_list) > 0 :
 			content += '<div class="article_params">'
 			content += '<p>{} links</p>'.format(len(article.link_list))
+			if len(article.tags) > 0 :
+				content += '<p>Tags :</p>'
+				content +='<ul>'
+				for tag in article.tags :
+					content += '<li>{}</li>'.format(tag)
+				content +='</ul>'
 			content += '</div>'
 
-		content += '<div class="article_raw">'+article.text+'</div>'
+		# Raw text
+		article_text = article.text
+		for tag in self.tags :
+			word_re = re.compile(r'\b{}\b'.format(tag), re.IGNORECASE)
+			article_text = word_re.sub('<b>'+tag+'</b>',article_text)
+
+		content += '<div class="article_raw">'+article_text+'</div>'
 
 		post.content = content
 		post.post_status = 'publish'
