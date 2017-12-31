@@ -45,7 +45,7 @@ def get_stopwords(lang) :
 	if lang == "en" or lang == "all":
 		stopwords_base = ['a','about','above','above','across','after','afterwards','again','against','all','almost','alone','along','already','also','although','always','among','amongst','amoungst','amount','and','another','any','anyhow','anyone','anything','anyway','anywhere','are','around','as','at','back','because','before','beforehand','behind','below','beside','besides','between','beyond','bill','both','bottom','but','by','co','con','de','describe','detail','do','done','down','due','during','each','eg','eight','either','else','elsewhere','empty','enough','etc','even','ever','every','everyone','everything','everywhere','except','few','fire','for','former','formerly','from','front','full','further','he','hence','her','here','hereafter','hereby','herein','hereupon','hers','herself','him','himself','his','how','however','hundred','i','if','in','inc','indeed','interest','into','it','its','itself','last','latter','latterly','least','less','ltd','many','me','meanwhile','mill','mine','more','moreover','most','mostly','much','must','my','myself','name','namely','neither','never','nevertheless','next','no','nobody','none','nor','not','nothing','now','nowhere','of','off','often','on','once','only','onto','or','other','others','otherwise','our','ours','ourselves','out','over','own','part','per','perhaps','please','rather','re','same','serious','several','she','side','since','sincere','so','some','somehow','someone','something','sometime','sometimes','somewhere','still','such','than','that','the','their','them','themselves','then','there','thereafter','thereby','therefore','therein','thereupon','these','they','thin','this','those','though','through','throughout','thru','thus','to','together','too','toward','towards','under','until','upon','us','very','via','we','well','were','what','whatever','when','whence','whenever','where','whereafter','whereas','whereby','wherein','whereupon','wherever','whether','which','while','whither','who','whoever','whole','whom','whose','why','with','within','without','yet','you','your','yours','yourself','yourselves','the']
 
-		stopwords_verbs = ['am','be','became','become','becomes','becoming','been','being','call','can','cannot','cant','could','couldnt','cry','fill','find','found','get','give','go','had','has','hasnt','have','is','keep','made','may','might','move','see','seem','seemed','seeming','seems','should','show','take','put','was','will','would']
+		stopwords_verbs = ['am','be','became','become','becomes','becoming','been','being','call','can','cannot','cant','could','couldnt','cry','fill','find','found','get','give','go','had','has','hasnt','have','is','keep','made','may','might','move','say','says','see','seem','seemed','seeming','seems','should','show','take','put','was','will','would']
 
 		for w in stopwords_base: stopset.append(w)
 		for w in stopwords_verbs: stopset.append(w)
@@ -272,7 +272,8 @@ def getFileLists(out_dir, testfiles) :
 if __name__ == "__main__":
 
 	# Test files
-	testfiles = ['20171122.json']
+	# testfiles = ['20171122.json']
+	testfiles = []
 
 	if len(sys.argv) < 3 :
 		print(u"Please use # python beatstats.py personal_settings.xml services.xml")
@@ -299,6 +300,7 @@ if __name__ == "__main__":
 		for l in lang :
 			d2v_model = train_model(trainList,l)
 			d2v_model.save(os.path.join('../trained/doc2vec_'+l+'.w2v'))
+
 			print("{} model saved".format(l))
 
 	# Test model

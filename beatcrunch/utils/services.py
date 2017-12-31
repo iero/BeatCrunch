@@ -482,7 +482,7 @@ def rateArticle(service,article) :
 		return "category:"+cat
 
 	# Check <filters/>
-	ad=detectAdArticle(service,article)
+	ad = detectAdArticle(service,article)
 	if len(ad) != 0 :
 		# print(u"+---[Rate] Advert found")
 		return "advert:"+ad

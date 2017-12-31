@@ -70,6 +70,8 @@ if __name__ == "__main__":
 		print(a.text)
 
 		# utils.services.detectSimilar(d2v_model[a.lang],a,None)
-
 		if len(sys.argv) == 5 :
-			utils.share.publishWordPress(settings, a)
+			black = utils.utils.testBlacklist(settings, a)
+			if black :
+				print(u'+--[Blacklisted] {}'.format(black))
+		# 	utils.share.publishWordPress(settings, a)

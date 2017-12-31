@@ -185,3 +185,16 @@ def cleanClickBait(title) :
         #TODO : replace first only
         title.replace(sTitle[0],"Des")
     return title
+
+def testBlacklist(settings,article) :
+    maxTagsToCrawl = 5
+
+    if settings.find('settings').find('blacklist') is not None :
+        black = settings.find('settings').find('blacklist').text.split(',')
+    else :
+        return ""
+
+    for tag in article.tags[:maxTagsToCrawl] :
+        if tag in black :
+            return tag
+    return ""
