@@ -202,8 +202,8 @@ class Article:
 					for div in text_sec.find_all(san.get('section'), {san.get('type'):san.text}):
 						div.decompose()
 
-			# Remove scripts
-			for s in self.soup('script') :
+			# Remove scripts && style from soup
+			for s in self.soup(['script','style']) :
 				s.extract()
 
 			# Detect unnecessary tags and crappy attributes in original soup
@@ -276,14 +276,18 @@ class Article:
 
 				# link with content (image or text)
 				elif s.name == 'a' and s.contents != None :
+
+					# if s.has_attr('href') :
+					# 	print("[{0}] {1}".format(s.name,str(s)))
+
 					# Get url from link
-					if 'href' in s and self.domain not in s['href'] and s['href'] not in self.link_list :
+					if s.has_attr('href') and self.domain not in s['href'] and s['href'] not in self.link_list :
 						self.link_list.append(s['href'])
-						# print("[{0}] {1}".format(s.name,str(s)))
 
 					# Explore content of <a/>
 					global_s_content=''
 					for s_content in s.contents :
+
 						# image in link
 						if s_content.name != None and 'img' in s_content.name :
 							s_image = s_content['src']
