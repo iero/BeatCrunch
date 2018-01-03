@@ -85,6 +85,7 @@ def load_json_files(json_files) :
 	trigrams=[]
 
 	for jfile in json_files:
+		print("Processing {}".format(jfile))
 		j = utils.utils.loadjson(jfile)
 		for news in j :
 			if news != "statistics" :

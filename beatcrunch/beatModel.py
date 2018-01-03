@@ -22,32 +22,6 @@ class LabeledLineSentence(object):
 		for idx, doc in enumerate(self.doc_list):
 			yield gensim.models.doc2vec.LabeledSentence(doc,[self.labels_list[idx]])
 
-def get_stopwords() :
-	stopwords_base = ['là','si','ça','aussi','au','aux','avec','ce','ces','dans','de','des','du','elle','en','et','eux','il','je','la','le','leur','leurs','lui','ma','mais','me','même','mes','moi','mon','ne','nos','notre','nous','on','ou','où','par','pas','pour','qu','que','qui','sa','se','ses','son','sur','ta','te','tes','toi','ton','tu','un','une','vos','votre','vous','ceci','cela','celà','cet','cette','ici','ils','les','leurs','quel','quels','quelle','quelles','sans','soi', 'tout', 'toutes', 'toute', 'tous']
-	stopwords_ponctuation = [',','"',';',':','.','?','!','*','—']
-	stopwords_lettres_seules = ['c','d','j','l','à','m','n','s','t','y',"c’","d’","j’","l’","m’","n’","s’","t’","qu’"]
-	stopwords_verbeterne_etre = ['être','été','étée','étées','étés','étant','suis','es','est','sommes','êtes','sont','serai','seras','sera','serons','serez','seront','serais','serait','serions','seriez','seraient','étais','était','étions','étiez','étaient','fus','fut','fûmes','fûtes','furent','sois','soit','soyons','soyez','soient','fusse','fusses','fût','fussions','fussiez','fussent']
-	stopwords_verbeterne_avoir = ['a','avoir','ayant','eu','eue','eues','eus','ai','as','avons','avez','ont','aurai','auras','aura','aurons','aurez','auront','aurais','aurait','aurions','auriez','auraient','avais','avait','avions','aviez','avaient','eut','eûmes','eûtes','eurent','aie','aies','ait','ayons','ayez','aient','eusse','eusses','eût','eussions','eussiez','eussent']
-
-	#création du stopset
-	stopset = stopwords_base
-	for w in stopwords_ponctuation: stopset.append(w)
-	for w in stopwords_lettres_seules: stopset.append(w)
-	for w in stopwords_verbeterne_avoir: stopset.append(w)
-	for w in stopwords_verbeterne_etre: stopset.append(w)
-
-	return stopset
-
-def nlp_clean(data,stopwords):
-	new_str = data.lower()
-	tokenizer = RegexpTokenizer(r'\w+')
-	dlist = tokenizer.tokenize(new_str)
-	for a in dlist :
-		if len(a) < 2 :
-			dlist.remove(a)
-	cleanList = [word for word in dlist if word not in stopwords]
-	return cleanList
-
 def build_dataset(json_files, stopwords):
 	docLabels = []
 	data = []

@@ -3,9 +3,6 @@ import re
 import json
 import glob
 
-from nltk import RegexpTokenizer
-from nltk.corpus import stopwords
-
 import gensim
 from gensim.models.doc2vec import LabeledSentence
 from sklearn.metrics.pairwise import cosine_similarity
@@ -22,51 +19,11 @@ class LabeledLineSentence(object):
 		for idx, doc in enumerate(self.doc_list):
 			yield gensim.models.doc2vec.LabeledSentence(doc,[self.labels_list[idx]])
 
-def get_stopwords(lang) :
-
-	stopset = []
-
-	stopwords_ponctuation = [',','"',';',':','.','?','!','*','—']
-	for w in stopwords_ponctuation: stopset.append(w)
-
-	if lang == "fr" or lang == "all":
-		stopwords_base = ['là','si','ça','aussi','au','aux','avec','ce','ces','dans','de','des','du','elle','en','et','eux','il','je','la','le','leur','leurs','lui','ma','mais','me','même','mes','moi','mon','ne','nos','notre','nous','on','ou','où','par','pas','pour','qu','que','qui','sa','se','ses','son','sur','ta','te','tes','toi','ton','tu','un','une','vos','votre','vous','ceci','cela','celà','cet','cette','ici','ils','les','leurs','quel','quels','quelle','quelles','sans','soi','tout','toutes','toute','tous']
-
-		stopwords_lettres_seules = ['c','d','j','l','à','m','n','s','t','y',"c’","d’","j’","l’","m’","n’","s’","t’","qu’"]
-
-		stopwords_verbeterne_etre = ['être','été','étée','étées','étés','étant','suis','es','est','sommes','êtes','sont','serai','seras','sera','serons','serez','seront','serais','serait','serions','seriez','seraient','étais','était','étions','étiez','étaient','fus','fut','fûmes','fûtes','furent','sois','soit','soyons','soyez','soient','fusse','fusses','fût','fussions','fussiez','fussent']
-		stopwords_verbeterne_avoir = ['a','avoir','ayant','eu','eue','eues','eus','ai','as','avons','avez','ont','aurai','auras','aura','aurons','aurez','auront','aurais','aurait','aurions','auriez','auraient','avais','avait','avions','aviez','avaient','eut','eûmes','eûtes','eurent','aie','aies','ait','ayons','ayez','aient','eusse','eusses','eût','eussions','eussiez','eussent']
-
-		for w in stopwords_base: stopset.append(w)
-		for w in stopwords_lettres_seules: stopset.append(w)
-		for w in stopwords_verbeterne_avoir: stopset.append(w)
-		for w in stopwords_verbeterne_etre: stopset.append(w)
-
-	if lang == "en" or lang == "all":
-		stopwords_base = ['a','about','above','above','across','after','afterwards','again','against','all','almost','alone','along','already','also','although','always','among','amongst','amoungst','amount','and','another','any','anyhow','anyone','anything','anyway','anywhere','are','around','as','at','back','because','before','beforehand','behind','below','beside','besides','between','beyond','bill','both','bottom','but','by','co','con','de','describe','detail','do','done','down','due','during','each','eg','eight','either','else','elsewhere','empty','enough','etc','even','ever','every','everyone','everything','everywhere','except','few','fire','for','former','formerly','from','front','full','further','he','hence','her','here','hereafter','hereby','herein','hereupon','hers','herself','him','himself','his','how','however','hundred','i','if','in','inc','indeed','interest','into','it','its','itself','last','latter','latterly','least','less','ltd','many','me','meanwhile','mill','mine','more','moreover','most','mostly','much','must','my','myself','name','namely','neither','never','nevertheless','next','no','nobody','none','nor','not','nothing','now','nowhere','of','off','often','on','once','only','onto','or','other','others','otherwise','our','ours','ourselves','out','over','own','part','per','perhaps','please','rather','re','same','serious','several','she','side','since','sincere','so','some','somehow','someone','something','sometime','sometimes','somewhere','still','such','than','that','the','their','them','themselves','then','there','thereafter','thereby','therefore','therein','thereupon','these','they','thin','this','those','though','through','throughout','thru','thus','to','together','too','toward','towards','under','until','upon','us','very','via','we','well','were','what','whatever','when','whence','whenever','where','whereafter','whereas','whereby','wherein','whereupon','wherever','whether','which','while','whither','who','whoever','whole','whom','whose','why','with','within','without','yet','you','your','yours','yourself','yourselves','the']
-
-		stopwords_verbs = ['am','be','became','become','becomes','becoming','been','being','call','can','cannot','cant','could','couldnt','cry','fill','find','found','get','give','go','had','has','hasnt','have','is','keep','made','may','might','move','say','says','see','seem','seemed','seeming','seems','should','show','take','put','was','will','would']
-
-		for w in stopwords_base: stopset.append(w)
-		for w in stopwords_verbs: stopset.append(w)
-
-	return stopset
-
-def nlp_clean(data,stopwords):
-	new_str = data.lower()
-	tokenizer = RegexpTokenizer(r'\w+')
-	dlist = tokenizer.tokenize(new_str)
-	for a in dlist :
-		if len(a) < 2 :
-			dlist.remove(a)
-	cleanList = [word for word in dlist if word not in stopwords]
-	return cleanList
-
 def build_dataset(json_files, lang):
 	docLabels = []
 	data = []
 
-	stopwords = get_stopwords(lang)
+	stopwords = model_common.get_stopwords(lang)
 
 	for jfile in json_files:
 		j = utils.utils.loadjson(jfile)
@@ -77,7 +34,7 @@ def build_dataset(json_files, lang):
 					if t['lang'] == lang or lang == 'all':
 						# Create uniq title label
 						docLabels.append(news+" - "+t['title'])
-						data.append(nlp_clean(t['text'],stopwords))
+						data.append(model_common.nlp_clean(t['text'],stopwords))
 	return data, docLabels
 
 def train_model(json_files,lang) :
@@ -297,9 +254,16 @@ if __name__ == "__main__":
 		else :
 			lang = ['fr','en']
 
+		params = {
+			'model': 'doc2vec',
+			'date': datetime.datetime(int(d[0:4]),int(d[4:6]),int(d[6:8]),00,00,00)
+		}
+
 		for l in lang :
 			d2v_model = train_model(trainList,l)
 			d2v_model.save(os.path.join('../trained/doc2vec_'+l+'.w2v'))
+			with open('../trained/doc2vec_'+l+'.json', 'w') as jsonfile:
+				json.dump(params, jsonfile)
 
 			print("{} model saved".format(l))
 

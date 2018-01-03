@@ -21,20 +21,20 @@ import utils
 
 # problem : need to break sentences in words
 
-def clean_stopwords(sentence) :
-	stopwords_french_3 = set(line.strip() for line in open('../dictionaries/stopwords_fr3'))
-	for w in stopwords_french_3 :
-		sentence = sentence.replace(w,"")
+# def clean_stopwords(sentence) :
+# 	stopwords_french_3 = set(line.strip() for line in open('../dictionaries/stopwords_fr3'))
+# 	for w in stopwords_french_3 :
+# 		sentence = sentence.replace(w,"")
 
-	stopwords_french_2 = set(line.strip() for line in open('../dictionaries/stopwords_fr2'))
-	for w in stopwords_french_2 :
-		sentence = sentence.replace(w,"")
+# 	stopwords_french_2 = set(line.strip() for line in open('../dictionaries/stopwords_fr2'))
+# 	for w in stopwords_french_2 :
+# 		sentence = sentence.replace(w,"")
 
-	stopwords_french_1 = set(line.strip() for line in open('../dictionaries/stopwords_fr1'))
-	for w in stopwords_french_1 :
-		sentence = sentence.replace(w,"")
+# 	stopwords_french_1 = set(line.strip() for line in open('../dictionaries/stopwords_fr1'))
+# 	for w in stopwords_french_1 :
+# 		sentence = sentence.replace(w,"")
 
-	return sentence
+# 	return sentence
 
 def sentence_to_wordlist(sentence):
 	clean = re.sub(r'\W+', ' ', sentence)
@@ -70,22 +70,27 @@ def freqDist(tokens):
 
 	return out
 
-def load_json_files(json_files) :
+def load_json_files(json_files,lang) :
 	startime = time.time()
 
 	corpus_raw_french = u""
 	# corpus_raw_english = u""
 
+	sentences = []
 	words=[]
 	bigrams=[]
 	trigrams=[]
+
+	stopwords = utils.model_common.get_stopwords('fr')
+
+	print("Processing {} files".format(len(json_files)))
 
 	for jfile in json_files:
 		j = utils.utils.loadjson(jfile)
 		for news in j :
 			if news != "statistics" :
 				for t in j[news] :
-					if t['lang'] == 'fr' :
+					if t['lang'] == lang :
 						raw_text = t['title']+". "+t['text']
 
 						# Add space after end of sentence, followed by Capital letter.
@@ -93,61 +98,64 @@ def load_json_files(json_files) :
 						raw_text= re.sub(r'\!([a-zA-Z])', r'. \1', raw_text)
 						raw_text= re.sub(r'\?([a-zA-Z])', r'. \1', raw_text)
 
-						raw_sentences=raw_text.split('. ')
+						# Break text in sentences
+						raw_sentences = re.split('\. |\! |\?',raw_text)
+
+						# raw_sentences=raw_text.split('. |! |? ')
+						# raw_sentences=raw_text.split('. ')
 
 						for sentence in raw_sentences :
-							# Remove ponctiation
-							# translator = str.maketrans('', '', string.punctuation)
-							# sentence = sentence.translate(translator)
-							sentence = clean_stopwords(sentence)
+							# Remove ponctuation
+							translator = str.maketrans('', '', string.punctuation)
+							sentence = sentence.translate(translator)
+							# Remove stopwords
+							cleanList = utils.model_common.nlp_clean(sentence,stopwords)
+							sentence = ' '.join(cleanList)
 
-							# for w in sentence_to_ngrams(sentence,1) :
-							# 	words.append(w)
+							sentences.append(cleanList)
+
 							for w in sentence_to_ngrams(sentence.lower(),1) :
 								words.append(w)
-							# for w in sentence_to_ngrams(sentence,2) :
+							# for w in sentence_to_ngrams(sentence.lower(),2) :
 							# 	bigrams.append(w)
-							for w in sentence_to_ngrams(sentence.lower(),2) :
-								bigrams.append(w)
-							# for w in sentence_to_ngrams(sentence,3) :
+							# for w in sentence_to_ngrams(sentence.lower(),3) :
 							# 	trigrams.append(w)
-							for w in sentence_to_ngrams(sentence.lower(),3) :
-								trigrams.append(w)
+
+		# print("Adding '{0}' : Corpus is now {1:,} sentences long".format(jfile,len(sentences)))
+
+	print("Corpus is {0:,} sentences long".format(len(sentences)))
+	print('Random sentences :')
+	print(sentences[randint(0, len(sentences)-1)])
+	print(sentences[randint(0, len(sentences)-1)])
+	print(sentences[randint(0, len(sentences)-1)])
 
 	print("{0:,} words detected, with most frequents :".format(len(words)))
 	dist = freqDist(words)
-	print(dist[1:100])
+	print(dist[1:10])
 	# with open("../dictionaries/stopwords_fr1", "a") as myfile:
 	# 	for i in range(0, 200) :
 	# 	    myfile.write(dist[i]+'\n')
 
-	print("{0:,} bigrams detected, with most frequents :".format(len(bigrams)))
-	dist = freqDist(bigrams)
-	print(dist[1:100])
-	# with open("../dictionaries/stopwords_fr2", "a") as myfile:
-	# 	for i in range(0, 200) :
-	# 	    myfile.write(dist[i]+'\n')
+	# print("{0:,} bigrams detected, with most frequents :".format(len(bigrams)))
+	# dist = freqDist(bigrams)
+	# print(dist[1:10])
+	# # with open("../dictionaries/stopwords_fr2", "a") as myfile:
+	# # 	for i in range(0, 200) :
+	# # 	    myfile.write(dist[i]+'\n')
 
-	print("{0:,} trigrams detected, with most frequents :".format(len(bigrams)))
-	dist = freqDist(trigrams)
-	print(dist[1:100])
-	# with open("../dictionaries/stopwords_fr3", "a") as myfile:
-	# 	for i in range(0, 200) :
-	# 	    myfile.write(dist[i]+'\n')
+	# print("{0:,} trigrams detected, with most frequents :".format(len(bigrams)))
+	# dist = freqDist(trigrams)
+	# print(dist[1:10])
+	# # with open("../dictionaries/stopwords_fr3", "a") as myfile:
+	# # 	for i in range(0, 200) :
+	# # 	    myfile.write(dist[i]+'\n')
 
-					# else :
-						# corpus_raw_english += t['text']
-		# print("Adding '{0}' : English corpus is now {1:,} characters long".format(jfile,len(corpus_raw_english)))
-		# print("Adding '{0}' : French corpus is now {1:,} characters long".format(jfile,len(corpus_raw_french)))
+	token_count = sum([len(sentence) for sentence in sentences])
+	print("The raw corpus contains {0:,} tokens".format(token_count))
 
-	# print("English corpus is {0:,} characters long".format(len(corpus_raw_english)))
-	# print("French corpus is {0:,} characters long".format(len(corpus_raw_french)))
+	print(u"Corpus built in {} s".format(int(time.time()-startime)))
 
-	# #tokenize corpus into sentences
-	# tokenizer_english = nltk.data.load('tokenizers/punkt/english.pickle')
-	# tokenizer_french = nltk.data.load('tokenizers/punkt/french.pickle')
-	# raw_sentences_english = tokenizer_english.tokenize(corpus_raw_english)
-	# raw_sentences_french = tokenizer_french.tokenize(corpus_raw_french)
+	return sentences
 
 	# print ("{0:,} raw english sentences".format(len(raw_sentences_english)))
 	# print ("{0:,} raw french sentences".format(len(raw_sentences_french)))
@@ -180,17 +188,11 @@ def load_json_files(json_files) :
 
 	# #count tokens, each one being a sentence
 	# token_count_english = sum([len(sentence) for sentence in sentences_english])
-	# token_count_french = sum([len(sentence) for sentence in sentences_french])
-	# print("The raw english book corpus contains {0:,} tokens".format(token_count_english))
-	# print("The raw french book corpus contains {0:,} tokens".format(token_count_french))
-
-	# print(u"Corpus built in {} s".format(int(time.time()-startime)))
 
 	# return sentences_english, sentences_french
 
 def build_model(sentences):
 	startime = time.time()
-
 	#define hyperparameters
 
 	# Dimensionality of the resulting word vectors.
@@ -228,7 +230,6 @@ def build_model(sentences):
 	print("Word2Vec vocabulary length:", len(vec.wv.vocab))
 
 	# Train model on sentences
-
 	token_count = sum([len(sentence) for sentence in sentences])
 	vec.train(sentences,total_examples=token_count, epochs=vec.iter)
 
@@ -265,16 +266,25 @@ def create_2d_matrix(vec,name):
 	)
 
 	# Save 2D rep
-	df.to_pickle("trained/"+mane+".pkl")
+	df.to_pickle("trained/"+name+".pkl")
+
+def nearest_similarity_cosmul(model,start1, end1, end2):
+    similarities = model.most_similar_cosmul(
+        positive=[end2, start1],
+        negative=[end1]
+    )
+    start2 = similarities[0][0]
+    print("{start1} is related to {end1}, as {start2} is related to {end2}".format(**locals()))
+    return start2
 
 if __name__ == "__main__":
 
 	if len(sys.argv) < 3 :
-		print(u"Please use # python beatstats.py settings.xml services.xml")
+		print(u"Please use # python X.py services.xml params.xml")
 		sys.exit(1)
 	else :
-		settings = utils.utils.loadxml(sys.argv[1])
-		services = utils.utils.loadxml(sys.argv[2])
+		services = utils.utils.loadxml(sys.argv[1])
+		settings = utils.utils.loadxml(sys.argv[2])
 
 		out_dir = settings.find('settings').find('output').text
 		if not os.path.exists(out_dir+'/json'):
@@ -282,26 +292,24 @@ if __name__ == "__main__":
 			exit()
 
 	# # Load JSON raw and build corpus
+	lang='fr'
 	json_files = sorted(glob.glob(out_dir+'/json/*.json'))
-	load_json_files(json_files)
-	# sentences_english, sentences_french = load_json_files(json_files)
 
-	# # train and save modens
-	# vec_eng = build_model(sentences_english)
-	# vec_fr = build_model(sentences_french)
-
-	# save_model(vec_eng,"vec_english")
-	# save_model(vec_fr,"vec_french")
+	# Train and save model
+	# sentences = load_json_files(json_files,lang)
+	# model = build_model(sentences)
+	# save_model(model,'classif_'+lang)
 
 	# Load models
-	# vec_eng = w2v.Word2Vec.load(os.path.join("../trained", "vec_english.w2v"))
-	# vec_fr = w2v.Word2Vec.load(os.path.join("../trained", "vec_french.w2v"))
+	model = w2v.Word2Vec.load(os.path.join("../trained", 'classif_'+lang+'.w2v'))
 
 	# Save 2D rep
-	# create_2d_matrix(vec_eng,"vec_english")
-	# create_2d_matrix(vec_fr,"vec_french")
+	# create_2d_matrix(model,"vec")
 
-	# print(vec_eng.wv.most_similar(positive="Apple"))
-	# print(vec_eng.wv.most_similar(positive="apple"))
-	# print(vec_fr.wv.most_similar(positive="Apple"))
-	# print(vec_fr.wv.most_similar(positive="apple"))
+	# print(model.wv.most_similar(positive="Apple"))
+	print(model.wv.most_similar(positive="iphone"))
+	print(model.wv.most_similar(positive="google"))
+	print(model.wv.most_similar(positive="bitcoin"))
+	print(model.wv.most_similar(positive="marketing"))
+
+	nearest_similarity_cosmul(model,"iphone", "apple", "samsung")

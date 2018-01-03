@@ -94,7 +94,7 @@
 	<id>siecle_digital</id>
 	<url type="rss">https://siecledigital.fr/feed/</url>
 	<mention>#digital</mention>
-	<text type="div" name="class" section="p,img,ul,li">post-content description </text>
+	<text type="div" name="class" section="p,img,ul,li">post-content description cf</text>
 	<image type="meta" name="property">og:image</image>
 	<sanitize>
 		<remove type="title">\[One.*?\]</remove>

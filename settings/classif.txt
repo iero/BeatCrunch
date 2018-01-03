@@ -1,0 +1,2 @@
+crypto,cryptocurrency,cryptomonnaie,blockchain,bitcoin,bitcoins,btc,ethereum,eth,token,ico,altcoin,steem,coin,litecoin,ltc
+ai,ml,artificialintelligence,machinelearning,deeplearning,
