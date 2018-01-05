@@ -267,6 +267,8 @@ class Article:
 						found_p = True
 
 				if in_p and not found_p :
+					if out_text.endswith(' ') :
+						out_text = out_text[:-1]
 					out_text += '</p>'
 					in_p = False
 

@@ -107,6 +107,9 @@
 	<mention>#science</mention>
 	<text type="div" name="class" section="p,img,ul,li">corps article-sea-home-a article-sea-hightech-a</text>
 	<image type="div" name="class" section="img" attribute="data-src">article-image</image>
+	<filters>
+		<filter type="title">/transports/</filter>
+	</filters>
 </service>
 
 <service name="Itespresso" lang="fr">
@@ -385,6 +388,20 @@
 		<filter type="url">24h-crypto</filter>
 	</filters>
 </service>
+
+<service name="Coin Telegraph" lang="en">
+	<id>coin-telegraph</id>
+	<url type="rss">https://cointelegraph.com/rss</url>
+	<mention>#cointelegraph</mention>
+	<text type="div" name="class" section="p,img,ul,li">post-full-text contents</text>
+	<image type="meta" name="property">og:image</image>
+	<filters>
+		<filter type="class" name="partnership" section="div">Partnership</filter>
+	</filters>
+</service>
+
+
+
 
 <!-- French Others -->
 
