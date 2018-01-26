@@ -4,8 +4,10 @@ import traceback
 
 import requests
 import feedparser # read rss feed
+import ssl
 import pickle # saving rss as links
 
+import urllib3
 from bs4 import BeautifulSoup # parse page
 from urllib.parse import urlparse # parse url
 import urllib.request
@@ -42,7 +44,8 @@ def sanitizeUrl(base,url) :
 
 	# find if this url is the final one
 	try :
-		r = requests.get(url)
+		urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+		r = requests.get(url, verify=False)
 		link = r.url
 	except :
 		print(u"+--[Error] Sanitize URL {}".format(url))
@@ -146,6 +149,9 @@ def getRSSArticles(service, rss_url, oldlist, max) :
 	feedlist = []
 
 	rss_lang = service.get('lang')
+	if hasattr(ssl, '_create_unverified_context'):
+	    ssl._create_default_https_context = ssl._create_unverified_context
+
 	feed = feedparser.parse(rss_url)
 
 	# Empty feed
@@ -153,7 +159,8 @@ def getRSSArticles(service, rss_url, oldlist, max) :
 		if len(feed.entries) == 0 :
 			print(u"+--[Warning] Empty list !")
 			# Try to remove first line
-			web_page = requests.get(rss_url, headers=headers, allow_redirects=True)
+			urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+			web_page = requests.get(rss_url, headers=headers, allow_redirects=True, verify=False)
 			content = web_page.content.strip()  # drop the first newline (if any)
 			feed = feedparser.parse(content)
 	except requests.exceptions.Timeout:
@@ -312,7 +319,10 @@ def getNewArticles(service,settings,max) :
 
 # Get Page content and return parsed page.
 def getArticleContentFromUrl(url) :
-	web_page = requests.get(url, headers=headers, allow_redirects=True)
+	# if hasattr(ssl, '_create_unverified_context'):
+	# 	    ssl._create_default_https_context = ssl._create_unverified_context
+	urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+	web_page = requests.get(url, headers=headers, allow_redirects=True, verify=False)
 	return BeautifulSoup(web_page.content, "html.parser")
 
 def getArticleContentFromText(text) :
@@ -320,7 +330,8 @@ def getArticleContentFromText(text) :
 
 # For twitter
 def getImageData(url) :
-	response = requests.get(url, headers=headers, allow_redirects=True)
+	urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+	response = requests.get(url, headers=headers, allow_redirects=True, verify=False)
 	return response.content
 
 # Allow pages from selected category

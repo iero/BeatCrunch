@@ -2,6 +2,8 @@ import time
 import re
 import pytz
 
+import ssl
+
 from urllib.parse import urlparse # parse url
 from datetime import datetime
 from bs4 import NavigableString, Comment
