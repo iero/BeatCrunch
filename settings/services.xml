@@ -272,6 +272,8 @@
 		<filter type="title">ne fallait pas manquer</filter>
 		<filter type="title">recrutent</filter>
 		<filter type="title">livre blanc</filter>
+		<filter type="title">livre blanc</filter>
+		<filter type="title">confidentiel</filter>
 	</filters>
 	<sanitize>
 		<remove type="title">\[.*?\] </remove>
@@ -572,6 +574,7 @@
 		<filter type="title">5 ways</filter>
 		<filter type="url">offers</filter>
 		<filter type="class" name="post-authorName" section="a">TNW Deals</filter>
+		<filter type="class" name="post-paidNoticeText" section="div">This post is brought</filter>
 	</filters>
 	<sanitize>
 			<remove type="class" section="div">post-in-content-tags</remove>
