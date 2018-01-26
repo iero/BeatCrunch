@@ -510,6 +510,7 @@
 	<!-- <image type="meta" name="property">og:image</image> -->
 	<filters>
 		<filter type="url">politics</filter>
+		<filter type="title">Tech Tip:</filter>
 	</filters>
 	<sanitize>
 		<remove type="text">Advertisement</remove>
