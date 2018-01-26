@@ -382,7 +382,7 @@
 
 <service name="Journal du Coin" lang="fr">
 	<id>journal-du-coin</id>
-	<url type="rss">https://journalducoin.com/feed</url>url>
+	<url type="rss">https://journalducoin.com/feed</url>
 	<mention>#journalducoin</mention>
 	<text type="div" name="class" section="p,img,ul,li">post-content-right</text>
 	<image type="meta" name="property">og:image</image>
