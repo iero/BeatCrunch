@@ -8,3 +8,5 @@ Mastodon.py
 Flask
 python-wordpress-xmlrpc
 gensim
+
+pip install -U requests[security]

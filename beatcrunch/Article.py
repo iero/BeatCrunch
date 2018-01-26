@@ -303,7 +303,7 @@ class Article:
 							s_text = utils.textutils.sanitizeText(self.service, str(s_content))
 							global_s_content += self.internal_addTag(s_text)
 
-					if global_s_content :
+					if global_s_content and s.has_attr('href') :
 						out_text += '<a href="'+s['href']+'">'+global_s_content+'</a>'
 
 				# Contains text (not comment) and parent is not a link
