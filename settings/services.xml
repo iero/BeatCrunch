@@ -402,6 +402,18 @@
 	</filters>
 </service>
 
+<service name="Crypto actu" lang="fr">
+	<id>cryptoactu</id>
+	<url type="rss">https://cryptoactu.com/feed/</url>
+	<mention>#cryptoactu</mention>
+	<text type="div" name="class" section="p,img,ul,li">entry-content</text>
+	<image type="meta" name="property">og:image</image>
+	<sanitize>
+		<remove type="class" section="div">ABD_display ABD_display_adblock</remove>
+	</sanitize>
+
+</service>
+
 
 
 

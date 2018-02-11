@@ -3,3 +3,4 @@ trained
 settings/digital.xml
 settings/tests.xml
 .DS_Store
+*.pyc
