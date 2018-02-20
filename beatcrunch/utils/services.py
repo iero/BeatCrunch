@@ -152,17 +152,17 @@ def getRSSArticles(service, rss_url, oldlist, max) :
 	if hasattr(ssl, '_create_unverified_context'):
 	    ssl._create_default_https_context = ssl._create_unverified_context
 
-	feed = feedparser.parse(rss_url)
+	# feed = feedparser.parse(rss_url)
 
 	# Empty feed
 	try:
-		if len(feed.entries) == 0 :
-			print(u"+--[Warning] Empty list !")
+		# if len(feed.entries) == 0 :
+			# print(u"+--[Warning] Empty list !")
 			# Try to remove first line
-			urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-			web_page = requests.get(rss_url, headers=headers, allow_redirects=True, verify=False)
-			content = web_page.content.strip()  # drop the first newline (if any)
-			feed = feedparser.parse(content)
+		urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+		web_page = requests.get(rss_url, headers=headers, allow_redirects=True, verify=False)
+		content = web_page.content.strip()  # drop the first newline (if any)
+		feed = feedparser.parse(content)
 	except requests.exceptions.Timeout:
 		print(u"+--[Warning] Timeout getting feed !")
 	except requests.exceptions.TooManyRedirects:
@@ -170,7 +170,10 @@ def getRSSArticles(service, rss_url, oldlist, max) :
 	except requests.exceptions.RequestException as e:
 		print(u"+--[Warning] Problem getting feed !")
 
-	#print(u"+--[Got] {} rss articles to parse".format(len(feed.entries)))
+	# print(u"+--[Got] {} rss articles to parse".format(len(feed.entries)))
+	# print(content)
+	# for f in feed.entries :
+	# 	print(f['link'])
 
 	# New feed - don't try to analyse everything
 	# except if max is set (test mode)

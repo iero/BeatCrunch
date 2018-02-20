@@ -274,6 +274,7 @@
 		<filter type="title">livre blanc</filter>
 		<filter type="title">livre blanc</filter>
 		<filter type="title">confidentiel</filter>
+		<filter type="url">confidentiel</filter>
 	</filters>
 	<sanitize>
 		<remove type="title">\[.*?\] </remove>
