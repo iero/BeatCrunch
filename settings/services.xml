@@ -183,7 +183,7 @@
 	<url type="rss">https://www.maddyness.com/feed/</url>
 	<mention>#maddyness</mention>
 	<text type="div" name="class" section="p,img,ul,li">inherit-color-parent article-content col-md-8</text>
-	<image type="div" name="class" section="source" attribute="srcset">article-image-wrapper</image>
+	<image type="meta" name="property">og:image</image>
 	<filters>
 		<filter type="url">#mcal</filter>
 		<filter type="title">offres</filter>
