@@ -3,6 +3,8 @@ import traceback
 import gensim
 import pickle
 
+import argparse
+
 import utils
 import Statistics
 import Article
@@ -12,17 +14,30 @@ import Article
 
 if __name__ == "__main__":
 
-	if len(sys.argv) < 4 :
-		print("Please use # python beattest.py services.xml service nb [settings]")
-		sys.exit(1)
-	else :
-		services = utils.utils.loadxml(sys.argv[1])
-		service = utils.services.getRelatedService(services,sys.argv[2])
-		nb = int(sys.argv[3])
+	parser = argparse.ArgumentParser()
+	parser.add_argument("--services", type=str, help="services xml file", required=True)
+	parser.add_argument("--service", type=str, help="service name", required=True)
+	parser.add_argument("--nb", type=int, help="Nb of articles to load. 0 for all)", default=0)
+
+	parser.add_argument("--params", type=str, help="parameters file")
+	option = parser.parse_args()
+
+	# settings = crypto.utils.get_clients(option.params)
+	services = utils.utils.loadxml(option.services)
+	service = utils.services.getRelatedService(services,option.service)
+	nb = option.nb
+
+	# if len(sys.argv) < 4 :
+	# 	print("Please use # python beattest.py services.xml service nb [settings]")
+	# 	sys.exit(1)
+	# else :
+	# 	services = utils.utils.loadxml(sys.argv[1])
+	# 	service = utils.services.getRelatedService(services,sys.argv[2])
+	# 	nb = int(sys.argv[3])
 
 
-	if len(sys.argv) == 5 :
-		settings = utils.utils.loadxml(sys.argv[4])
+	# if len(sys.argv) == 5 :
+	# 	settings = utils.utils.loadxml(sys.argv[4])
 
 	if service is not None :
 		print(u"+-[Service] [{}]".format(service.find('id').text.encode('utf-8')))
@@ -33,6 +48,7 @@ if __name__ == "__main__":
 	rss_url = service.find('url').text
 	url_type = service.find('url').get('type')
 
+	print(rss_url)
 	# out_dir = settings.find('settings').find('output').text
 
 	# # For debug :
@@ -52,6 +68,8 @@ if __name__ == "__main__":
 			articles, feedlist =  utils.services.getWebArticles(service,rss_url,[],nb)
 		elif url_type == "json" :
 			articles, feedlist =  utils.services.getJSONArticles(service,rss_url,[],nb)
+		elif url_type == "wp-json" :
+			articles, feedlist =  utils.services.getWPJSONArticles(service,rss_url,[],nb)
 	except :
 		print(u"Unexpected error")
 		traceback.print_exc()
